@@ -17,6 +17,7 @@ class Angka: public Kartu{
     public:
         int getAngka();
         string getWarna();
+        int value();
 };
 
 class Ability: public Kartu{
@@ -26,4 +27,5 @@ class Ability: public Kartu{
     public:
         int getIdAbility();
         string getNamaAbility();
+        int value();
 };
