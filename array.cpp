@@ -17,7 +17,7 @@ void Array<T>::addfirst(const T &el){
 }
 
 template <class T>
-const T& Array<T>::get(int i){
+T Array<T>::get(int i){
     return data[i];
 }
 

@@ -24,6 +24,28 @@ class AngkaCard: public Kartu{
         bool operator== (const Kartu&);
         bool operator< (const Kartu&);
         bool operator> (const Kartu&);
+        float priorityCardWarna(){
+            if(this->warna == "Merah"){
+                return 0.19;
+            }
+            else if(this->warna == "Kuning"){
+                return 0.16;
+            }
+            else if(this->warna == "Biru"){
+                return 0.13;
+            }
+            else{
+                return 0.1;
+            }
+        }
+
+        float priorityCardAngka(){
+            return this->angka*0.1;
+        }
+
+        float valuecard(){
+            return priorityCardAngka()+priorityCardWarna();
+        }
 };
 
 class AbilityCard: public Kartu{

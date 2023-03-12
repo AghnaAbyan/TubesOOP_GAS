@@ -27,7 +27,8 @@ class Player: public InventoryHolder{
     protected:
         int id;
         int poin;
-        Array<Kartu> card; /* Kartu card (pakai array jumlahnya 2)*/
+        Array<AngkaCard> card; /* Kartu card (pakai array jumlahnya 2)*/
+        int ncard;
     public:
         Player(int);
         int playerSum();
@@ -39,7 +40,7 @@ class Player: public InventoryHolder{
 
 class TableCard: public InventoryHolder{
     protected:
-        Array<Kartu> mainDeck; /* Kartu mainDeck (pakai array, isinya bakal 5, dibuka per ronde)*/ 
+        Array<AngkaCard> mainDeck; /* Kartu mainDeck (pakai array, isinya bakal 5, dibuka per ronde)*/ 
     public:
         TableCard();
         const Kartu& infoTableCard(int);
@@ -75,28 +76,4 @@ class PlayerAction: public Ability{
         void switchCard();
         void abilityless();
 };
-
-class Kombo: public Player, TableCard{
-    private:
-        string namaKombo;
-        Array<Kartu> combo;
-
-    public:
-        bool highCard();
-        bool pair();
-        bool twoPair();
-        bool threeOfAKind();
-        bool straight();
-        bool flush();
-        bool fullHouse();
-        bool fourOfAKind();
-        bool straightFlush();
-        int value();
-        /* bool Kartu operator<(Kartu) */
-        /* bool Kartu operator>(Kartu) */
-        /* bool operator==(Kombo) */ 
-};
-
-
-
 #endif
