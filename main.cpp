@@ -11,7 +11,7 @@ int main(){
     for(int i = 0; i < a->size(); i++){
         cout << a->get(i) << endl;
     }
-    *a-2;
+    *a-1;
     cout << "size: " << a->size() << endl;
     for(int i = 0; i < a->size(); i++){
         cout << a->get(i) << endl;

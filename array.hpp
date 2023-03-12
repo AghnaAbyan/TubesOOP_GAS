@@ -9,7 +9,7 @@ class Array{
         ~Array();
 
         void addfirst(const T&);
-        T get(int);
+        const T& get(int);
         int size();
         void operator+ (const T&);
         void operator- (const T&);
