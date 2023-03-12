@@ -1,14 +1,19 @@
 #include "Game.hpp"
 
 template <class T>
-array<T>::array(int n){
-    N = n;
-    data = new T[n];
+array<T>::array(){
+    N = 1;
+    data = new T[1];
 }
 
 template <class T>
 array<T>::~array(){
 
+}
+
+template <class T>
+void array<T>::addfirst(T el){
+    data[0] = el;
 }
 
 template <class T>
@@ -18,14 +23,19 @@ int array<T>::size(){
 
 template <class T>
 void array<T>::operator+ (T el){
-    buff = new T[N+1];
-    for(int i = 0; i < N; i++){
-        buff[i] = data[i];
+    if (N = 1){
+        addfirst(el);
     }
-    buff[N] = el;
-    delete data;
-    data = buff;
-    N++;
+    else{
+        buff = new T[N+1];
+        for(int i = 0; i < N; i++){
+            buff[i] = data[i];
+        }
+        buff[N] = el;
+        delete data;
+        data = buff;
+        N++;
+    }
 }
 
 template <class T>
