@@ -50,7 +50,7 @@ class TableCard: public InventoryHolder{
 
 class Ability: public Player{
     private:
-        Array<Kartu> infoCardAbility; /* Kartu infoCardAbility */
+        
     public:
         virtual void reroll() = 0;
         virtual void quadruple() = 0;
@@ -63,7 +63,7 @@ class Ability: public Player{
 
 class PlayerAction: public Ability{
     private:
-        
+        AbilityCard infoCardAbility; /* Kartu infoCardAbility */
     public:
         void next();
         void reroll();
