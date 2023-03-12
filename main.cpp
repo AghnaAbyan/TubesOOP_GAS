@@ -4,14 +4,35 @@
 // ngetes dulu gan
 
 int main(){
-    array<int> *a = new array<int>();
+    Array<int> *a = new Array<int>();
     *a+3;
     *a+1;
     cout << "size: " << a->size() << endl;
-    cout << a->get(0) << endl;
-    cout << a->get(1) << endl;
+    for(int i = 0; i < a->size(); i++){
+        cout << a->get(i) << endl;
+    }
+    *a-2;
+    cout << "size: " << a->size() << endl;
+    for(int i = 0; i < a->size(); i++){
+        cout << a->get(i) << endl;
+    }
 
     delete a;
 
     return 0;
+
+    /* Kira" main nya
+    InventoryHolder *inv = new InventoryHolder();
+    
+    while(InventoryHolder::game <= 6){
+        inv->newGame();
+        while(InventoryHolder::round <= 5){
+            inv->newround();
+
+        }
+    }
+    
+    
+    
+    */
 }

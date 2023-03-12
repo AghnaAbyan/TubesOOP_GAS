@@ -8,9 +8,11 @@ using namespace std;
 class Kartu{
     public:
         virtual int value() = 0;
+        virtual bool operator= (const Kartu&);
+        virtual bool operator== (const Kartu&);
 };
 
-class Angka: public Kartu{
+class AngkaCard: public Kartu{
     private:
         int angka;
         string warna;
@@ -18,9 +20,13 @@ class Angka: public Kartu{
         int getAngka();
         string getWarna();
         int value();
+        bool operator= (const Kartu&);
+        bool operator== (const Kartu&);
+        bool operator< (const Kartu&);
+        bool operator> (const Kartu&);
 };
 
-class Ability: public Kartu{
+class AbilityCard: public Kartu{
     private:
         int idAbility;
         string namaAbility;
