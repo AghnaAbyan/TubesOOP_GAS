@@ -75,5 +75,6 @@ class PlayerAction: public Ability{
         void swapCard();
         void switchCard();
         void abilityless();
+        
 };
 #endif

@@ -1,14 +1,15 @@
+#ifndef KARTU_H
+#define KARTU_H
 /* Nanti kalo kartu dah diimplementasiin ini hapus aja */
 /* Ini buat implementasi sementara game aja ehehe */
 /* Etapi kalo mau jadiin template hpp sabi */
 #include <iostream>
 #include <string>
+#include <fstream>
 using namespace std;
 
 class Kartu{
     public:
-        virtual int value() = 0;
-        virtual bool operator= (const Kartu&);
         virtual bool operator== (const Kartu&);
 };
 
@@ -17,35 +18,36 @@ class AngkaCard: public Kartu{
         int angka;
         string warna;
     public:
-        int getAngka();
-        string getWarna();
-        int value();
-        bool operator= (const Kartu&);
-        bool operator== (const Kartu&);
-        bool operator< (const Kartu&);
-        bool operator> (const Kartu&);
-        float priorityCardWarna(){
+        int getAngka() const;
+        string getWarna() const;
+        AngkaCard& operator=(const AngkaCard& );
+        bool operator==(const AngkaCard&);
+        bool operator<(const AngkaCard&);
+        bool operator>(const AngkaCard&);
+        friend std::ostream& operator<<(ostream& os,const AngkaCard&);
+        friend std::ifstream& operator>>(ifstream& os, AngkaCard& inputan);
+        double priorityCardWarna() const{
             if(this->warna == "Merah"){
-                return 0.19;
+                return 0.09;
             }
             else if(this->warna == "Kuning"){
-                return 0.16;
+                return 0.06;
             }
             else if(this->warna == "Biru"){
-                return 0.13;
+                return 0.03;
             }
             else{
-                return 0.1;
+                return 0;
             }
         }
 
-        float priorityCardAngka(){
+        double priorityCardAngka() const{
             return this->angka*0.1;
         }
 
-        float valuecard(){
-            return priorityCardAngka()+priorityCardWarna();
-        }
+        double valuecard() const;        
+
+        
 };
 
 class AbilityCard: public Kartu{
@@ -55,5 +57,8 @@ class AbilityCard: public Kartu{
     public:
         int getIdAbility();
         string getNamaAbility();
-        int value();
+        void virtual action();
 };
+
+#endif
+

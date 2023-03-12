@@ -1,0 +1,62 @@
+#include "Kartu.hpp"
+
+/***********/
+/*AngkaCard*/
+/***********/
+
+/*Get*/
+int AngkaCard::getAngka() const{
+    return this->angka;
+}
+
+string AngkaCard::getWarna() const{
+    return this->warna;
+}
+
+
+
+double AngkaCard::valuecard() const{
+    return this->priorityCardAngka()+this->priorityCardWarna();
+}
+
+/*Assignment Operator*/
+AngkaCard& AngkaCard::operator=(const AngkaCard& other){
+    angka = other.angka;
+    warna = other.warna;
+    return *this;
+}
+
+/*Comparison operator*/
+/*Dibasikan valuecard sendiri*/
+bool AngkaCard::operator==(const AngkaCard& other){
+    return (this->angka == other.angka) && (this->warna == other.warna);
+}
+bool AngkaCard::operator<(const AngkaCard& other){
+    return this->valuecard() < other.valuecard();
+}
+bool AngkaCard::operator>(const AngkaCard& other){
+    return this->valuecard() < other.valuecard();
+}
+
+/*Output Operator*/
+std::ostream& operator<<(ostream& os,const AngkaCard& kartu);
+//Not yet, need to discuss output format first
+
+/*Input Operator*/
+/*  (For File)  */
+std::ifstream& operator>>(ifstream& os, AngkaCard& inputan){
+    os >> inputan.warna >> inputan.angka;
+    return os;
+}
+/*************/
+/*AbilityCard*/
+/*************/
+
+int AbilityCard::getIdAbility(){
+    return this->idAbility;
+}
+
+string AbilityCard::getNamaAbility(){
+    return this->namaAbility;
+}
+
