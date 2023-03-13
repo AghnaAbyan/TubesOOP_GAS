@@ -34,10 +34,12 @@ class Player: public InventoryHolder{
         Player(int);
         int playerSum();
         void newGame();
-        void newRound();
+        void newRound(Player,Player,Player,Player,Player,Player,Player);
+        void Player::newRoundFile(Player A, Player B, Player C, Player D, Player E, Player F, Player G);
         bool operator==(const Player&);
         void newCard(AngkaCard, AngkaCard);
         int getPoin();
+        void display();
 
         /* PlayerAction */
         void next();

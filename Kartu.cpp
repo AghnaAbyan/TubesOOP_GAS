@@ -66,7 +66,21 @@ string AbilityCard::getNamaAbility(){
     return this->namaAbility;
 }
 
+
 AbilityCard :: AbilityCard(int id, string name){
     this->idAbility = id; 
     this->namaAbility = name;
+}
+
+AbilityCard :: AbilityCard(){
+    this->idAbility = 0;
+    this->namaAbility = "none";
+}
+
+void AbilityCard::setAbility(int a){
+    this->idAbility = a;
+}
+
+void AbilityCard::SetNamaAbility(string b){
+    this->namaAbility = b;
 }

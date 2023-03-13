@@ -57,24 +57,22 @@ AngkaCard TableCard::Randomize(){
     return val;
 }
 
-Array<AngkaCard> TableCard::readFileTumpukan(string namaFile){
+/*Array<AngkaCard> TableCard::readFileTumpukan(string namaFile){
     ifstream file("namafile.txt");
     if(file.is_open()){
         Array<AngkaCard> a;
         AngkaCard b;
         string line;
         while(getline(file,line)){
+
             size_t pos = line.find(",");
             b.setAngka(stoi(line.substr(0, pos)));
             line.erase(0, pos + 1);
-            b.setWarna(line);
+            b.setWarna(line.substr(1,pos+2));
             a.addfirst(b);    
         }
         return a;
     }
-}
+}*/
 
-AngkaCard TableCard::getTumpukan(){
-    return this->tumpukan.Randomize();
-}
 
