@@ -68,7 +68,7 @@ void Player::newRound(Player A, Player B, Player C, Player D, Player E, Player F
     }
 }
 
-/*void Player::newRoundFile(Player A, Player B, Player C, Player D, Player E, Player F, Player G){
+void Player::newRoundFile(Player A, Player B, Player C, Player D, Player E, Player F, Player G){
     ifstream file("namafile.txt");
     if(file.is_open()){
         Array<AbilityCard> a;
@@ -83,7 +83,7 @@ void Player::newRound(Player A, Player B, Player C, Player D, Player E, Player F
         }
         newRound(A,B,C,D,E,F,G);
     }
-}*/
+}
 
 
 bool Player::operator==(const Player &p){
