@@ -37,6 +37,12 @@ bool AngkaCard::operator<(const AngkaCard& other){
 bool AngkaCard::operator>(const AngkaCard& other){
     return this->valuecard() < other.valuecard();
 }
+void AngkaCard::setAngka(int a){
+    this->angka = a;
+}
+void AngkaCard::setWarna(string b){
+    this->warna = b;
+}
 
 /*Output Operator*/
 std::ostream& operator<<(ostream& os,const AngkaCard& kartu);
@@ -60,3 +66,7 @@ string AbilityCard::getNamaAbility(){
     return this->namaAbility;
 }
 
+AbilityCard :: AbilityCard(int id, string name){
+    this->idAbility = id; 
+    this->namaAbility = name;
+}

@@ -21,6 +21,8 @@ class AngkaCard: public Kartu{
         int getAngka() const;
         string getWarna() const;
         AngkaCard& operator=(const AngkaCard& );
+        void setAngka(int a);
+        void setWarna(string b);
         bool operator==(const AngkaCard&);
         bool operator<(const AngkaCard&);
         bool operator>(const AngkaCard&);
@@ -55,9 +57,12 @@ class AbilityCard: public Kartu{
         int idAbility;
         string namaAbility;
     public:
+        AbilityCard();
+        AbilityCard(int id, string name);
         int getIdAbility();
         string getNamaAbility();
         void virtual action();
+        
 };
 
 #endif

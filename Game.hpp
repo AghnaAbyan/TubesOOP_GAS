@@ -61,7 +61,9 @@ class TableCard: public InventoryHolder, AngkaCard{
         TableCard();
         const AngkaCard& infoTableCard(int);
         AngkaCard takeCard();
-
+        AngkaCard Randomize();
+        Array<AngkaCard> readFileTumpukan(string namaFile);
+        Array<AngkaCard> getTumpukan();
         /* void Kartu[] operator+(const Kartu&) (kayaknya ini mending diimplementasi di kartu) */
 };
 
