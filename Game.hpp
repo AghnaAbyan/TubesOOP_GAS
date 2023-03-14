@@ -99,7 +99,7 @@ class TableCard: public InventoryHolder, AngkaCard{
 // };
 
 class Game: public InventoryHolder{
-    private:
+    protected:
         Array<Player> players;
         TableCard table;
         int currentPlayerId;
