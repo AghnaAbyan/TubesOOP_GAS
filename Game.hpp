@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Kartu.hpp"
+#include "src\Kartu\Kartu.hpp"
 #include "array.hpp"
 using namespace std;
 

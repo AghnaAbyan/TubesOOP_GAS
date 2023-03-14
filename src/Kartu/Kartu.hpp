@@ -3,6 +3,7 @@
 /* Nanti kalo kartu dah diimplementasiin ini hapus aja */
 /* Ini buat implementasi sementara game aja ehehe */
 /* Etapi kalo mau jadiin template hpp sabi */
+#include "../../Game.hpp"
 #include <iostream>
 #include <string>
 #include <fstream>
