@@ -22,6 +22,21 @@ class InventoryHolder{
         void changeDirection();
 };
 
+class TableCard: public InventoryHolder, AngkaCard{
+    protected:
+        Array<AngkaCard> mainDeck; /* Kartu mainDeck (pakai array, isinya bakal 5, dibuka per ronde)*/ 
+        Array<AngkaCard> tumpukan;
+
+    public:
+        TableCard();
+        AngkaCard infoTableCard(int);
+        AngkaCard takeCard();
+        AngkaCard Randomize();
+        Array<AngkaCard> readFileTumpukan(string namaFile);
+        Array<AngkaCard> getTumpukan();
+        /* void Kartu[] operator+(const Kartu&) (kayaknya ini mending diimplementasi di kartu) */
+};
+
 class Player: public InventoryHolder{
     friend class Game;
     friend class TableCard;
@@ -33,6 +48,7 @@ class Player: public InventoryHolder{
         Array<AngkaCard> card; /* Kartu card (pakai array jumlahnya 2)*/
         AbilityCard infoCardAbility;
         int ncard;
+        bool usedAbility;
     public:
         Player(int);
         int playerSum();
@@ -46,30 +62,15 @@ class Player: public InventoryHolder{
 
         /* PlayerAction */
         void next();
-        void reroll();
+        void reroll(TableCard*);
         void doublePoin();
         void quadruple();
         void half();
         void quarter();
         void reverse();
-        void swapCard();
-        void switchCard();
+        void swapCard(Array<Player>*);
+        void switchCard(Array<Player>*);
         void abilityless();
-};
-
-class TableCard: public InventoryHolder, AngkaCard{
-    protected:
-        Array<AngkaCard> mainDeck; /* Kartu mainDeck (pakai array, isinya bakal 5, dibuka per ronde)*/ 
-        Array<AngkaCard> tumpukan;
-
-    public:
-        TableCard();
-        const AngkaCard& infoTableCard(int);
-        AngkaCard takeCard();
-        AngkaCard Randomize();
-        Array<AngkaCard> readFileTumpukan(string namaFile);
-        Array<AngkaCard> getTumpukan();
-        /* void Kartu[] operator+(const Kartu&) (kayaknya ini mending diimplementasi di kartu) */
 };
 
 class Game: public InventoryHolder{
@@ -89,46 +90,5 @@ class Game: public InventoryHolder{
         void start();
         void showUrutan();
 };
-
-
-
-
-
-// class Ability: public Player{
-//     private:
-        
-//     public:
-//         virtual void reroll() = 0;
-//         virtual void quadruple() = 0;
-//         virtual void quarter() = 0;
-//         virtual void reverse() = 0;
-//         virtual void swapCard() = 0;
-//         virtual void switchCard() = 0;
-//         virtual void abilityless() = 0;
-// };
-
-// class PlayerAction: public Ability{
-//     private:
-//         AbilityCard infoCardAbility; /* Kartu infoCardAbility */
-//     public:
-//         void next();
-//         void reroll();
-//         void doublePoin();
-//         void quadruple();
-//         void half();
-//         void quarter();
-//         void reverse();
-//         void swapCard();
-//         void switchCard();
-//         void abilityless();
-        
-// };
-
-class Game: public InventoryHolder{
-    private:
-        Array<Player> players;
-        TableCard table;
-        int currentPlayerId;
-
 
 #endif

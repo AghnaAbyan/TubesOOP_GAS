@@ -85,7 +85,7 @@ void Game::commandParser(int i, string command){
         players.get(i).next();
     }
     else if(command == "reroll"){
-        players.get(i).reroll();
+        players.get(i).reroll(&table);
     }
     else if(command == "double"){
         players.get(i).doublePoin();
@@ -103,10 +103,10 @@ void Game::commandParser(int i, string command){
         players.get(i).reverse();
     }
     else if(command == "swap"){
-        players.get(i).swapCard();
+        players.get(i).swapCard(&players);
     }
     else if (command == "switch"){
-        players.get(i).swapCard();
+        players.get(i).swapCard(&players);
     }
     else if(command == "abilityless"){
         players.get(i).abilityless();

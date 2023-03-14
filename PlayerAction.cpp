@@ -5,7 +5,7 @@ void Player::next()
     //Nothing
 }
 
-void Player::reroll()
+void Player::reroll(TableCard *table)
 {
     /* Buang 2 kartu dari tangan */
     /* Ambil 2 kartu baru dari deck*/
@@ -14,13 +14,13 @@ void Player::reroll()
 
     card.operator--();
     card.operator--();
-    // AngkaCard c1 = Game::table.takeCard();
-    // AngkaCard c2 = Game::table.takeCard();
-    // card+c1;
-    // card+c2;
+    AngkaCard c1 = table->takeCard();
+    AngkaCard c2 = table->takeCard();
+    card+c1;
+    card+c2;
 
-    // cout << "1. " << c1.getAngka() << " " << c1.getWarna() << endl;
-    // cout << "2. " << c2.getAngka() << " " << c2.getWarna() << endl;
+    cout << "1. " << c1.getAngka() << " " << c1.getWarna() << endl;
+    cout << "2. " << c2.getAngka() << " " << c2.getWarna() << endl;
 }
 
 void Player::doublePoin()
@@ -88,7 +88,7 @@ void Player::reverse()
     }
 }
 
-void Player::swapCard()
+void Player::swapCard(Array<Player> *players)
 {
    /* Menukar salah satu kartu X dengan salah satu karty Y*/
     int chosenPlayer, chosenPlayer2;
@@ -114,8 +114,8 @@ void Player::swapCard()
     cout << endl;
     int input;
     AngkaCard val;
-    Player a = players.get(chosenPlayer);
-    Player b = players.get(chosenPlayer2);
+    Player a = players->get(chosenPlayer);
+    Player b = players->get(chosenPlayer2);
     cout << "Silakan pilih kartu kanan/kiri " << chosenPlayer << ":";
     cout << "   1. Kanan";
     cout << "   2. Kiri";
@@ -147,12 +147,12 @@ void Player::swapCard()
     b.card+val2;
 }
 
-void Player::switchCard()
+void Player::switchCard(Array<Player> *players)
 {
     cout << " Pilih player yang ingin kamu tukar kartunya : " << endl;
     int input; 
     cin >> input;
-    Player a = players.get(input);
+    Player a = players->get(input);
     AngkaCard val1 = card.get(0);
     AngkaCard val2 = card.get(1);
     AngkaCard val3 = a.card.get(0);
