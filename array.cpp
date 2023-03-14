@@ -27,6 +27,11 @@ int Array<T>::size(){
 }
 
 template <class T>
+void Array<T>::set(int i, T el){
+    data[i] = el;
+}
+
+template <class T>
 void Array<T>::operator+ (const T &el){
     if (N == 0){
         addfirst(el);

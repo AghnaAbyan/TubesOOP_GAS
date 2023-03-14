@@ -1,9 +1,36 @@
 #include "Game.hpp"
+#include "src\Kartu\Kartu.cpp"
 
 TableCard::TableCard(){
     Array<AngkaCard> *buff2 = new Array<AngkaCard>();
     tumpukan = *buff2;
     /* Isi tumpukan kartu */
+    for(int i = 1; i <= 13; i++){
+        AngkaCard c;
+        c.setAngka(i);
+        c.setWarna("Merah");
+        tumpukan+c;
+    }
+    for(int i = 1; i <= 13; i++){
+        AngkaCard c;
+        c.setAngka(i);
+        c.setWarna("Hijau");
+        tumpukan+c;
+    }
+    for(int i = 1; i <= 13; i++){
+        AngkaCard c;
+        c.setAngka(i);
+        c.setWarna("Kuning");
+        tumpukan+c;
+    }
+    for(int i = 1; i <= 13; i++){
+        AngkaCard c;
+        c.setAngka(i);
+        c.setWarna("Biru");
+        tumpukan+c;
+    }
+    randomizeDeck(tumpukan, 52);
+
 
     Array<AngkaCard> *buff1 = new Array<AngkaCard>();
     mainDeck = *buff1;

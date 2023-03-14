@@ -33,13 +33,12 @@ class Player: public InventoryHolder{
     public:
         Player(int);
         int playerSum();
-        void newGame();
-        void newRound(Player,Player,Player,Player,Player,Player,Player);
-        void Player::newRoundFile(Player A, Player B, Player C, Player D, Player E, Player F, Player G);
+        // void Player::newRoundFile(Player A, Player B, Player C, Player D, Player E, Player F, Player G);
         bool operator==(const Player&);
         void newCard(AngkaCard, AngkaCard);
         int getPoin();
         void display();
+        void setAbility(AbilityCard);
 
         /* PlayerAction */
         void next();
@@ -107,9 +106,12 @@ class Game: public InventoryHolder{
 
     public:
         Game();
+        void newRound();
+        void newGame();
         void showPoin();
         void commandParser(int, string);
         void start();
+        void showUrutan();
 };
 
 #endif
