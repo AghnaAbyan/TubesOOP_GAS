@@ -28,6 +28,7 @@ class Player: public InventoryHolder{
         int id;
         int poin;
         Array<AngkaCard> card; /* Kartu card (pakai array jumlahnya 2)*/
+        AbilityCard infoCardAbility;
         int ncard;
     public:
         Player(int);
@@ -37,6 +38,18 @@ class Player: public InventoryHolder{
         bool operator==(const Player&);
         void newCard(AngkaCard, AngkaCard);
         int getPoin();
+
+        /* PlayerAction */
+        void next();
+        void reroll();
+        void doublePoin();
+        void quadruple();
+        void half();
+        void quarter();
+        void reverse();
+        void swapCard();
+        void switchCard();
+        void abilityless();
 };
 
 class TableCard: public InventoryHolder, AngkaCard{
@@ -52,35 +65,35 @@ class TableCard: public InventoryHolder, AngkaCard{
         /* void Kartu[] operator+(const Kartu&) (kayaknya ini mending diimplementasi di kartu) */
 };
 
-class Ability: public Player{
-    private:
+// class Ability: public Player{
+//     private:
         
-    public:
-        virtual void reroll() = 0;
-        virtual void quadruple() = 0;
-        virtual void quarter() = 0;
-        virtual void reverse() = 0;
-        virtual void swapCard() = 0;
-        virtual void switchCard() = 0;
-        virtual void abilityless() = 0;
-};
+//     public:
+//         virtual void reroll() = 0;
+//         virtual void quadruple() = 0;
+//         virtual void quarter() = 0;
+//         virtual void reverse() = 0;
+//         virtual void swapCard() = 0;
+//         virtual void switchCard() = 0;
+//         virtual void abilityless() = 0;
+// };
 
-class PlayerAction: public Ability{
-    private:
-        AbilityCard infoCardAbility; /* Kartu infoCardAbility */
-    public:
-        void next();
-        void reroll();
-        void doublePoin();
-        void quadruple();
-        void half();
-        void quarter();
-        void reverse();
-        void swapCard();
-        void switchCard();
-        void abilityless();
+// class PlayerAction: public Ability{
+//     private:
+//         AbilityCard infoCardAbility; /* Kartu infoCardAbility */
+//     public:
+//         void next();
+//         void reroll();
+//         void doublePoin();
+//         void quadruple();
+//         void half();
+//         void quarter();
+//         void reverse();
+//         void swapCard();
+//         void switchCard();
+//         void abilityless();
         
-};
+// };
 
 class Game: public InventoryHolder{
     private:
@@ -91,6 +104,7 @@ class Game: public InventoryHolder{
     public:
         Game();
         void showPoin();
+        void commandParser(int, string);
         void start();
 };
 

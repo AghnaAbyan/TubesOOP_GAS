@@ -25,6 +25,12 @@ void Game::showPoin(){
     }
 }
 
+void Game::commandParser(int i, string command){
+    if (command == "next"){
+        
+    }
+}
+
 void Game::start(){
     cout << "START" << endl;
     newGame();
@@ -42,7 +48,7 @@ void Game::start(){
             for(int i = 0; i < 7; i++){
                 cout << "Giliran <p" << (i+currentPlayerId)%7 << "> masukkan command: " << endl;
                 cin >> input;
-                
+
             }
         }
     }

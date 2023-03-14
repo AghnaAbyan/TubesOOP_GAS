@@ -1,11 +1,11 @@
 #include "Game.hpp"
 
-void PlayerAction::next()
+void Player::next()
 {
 
 }
 
-void PlayerAction::reroll()
+void Player::reroll()
 {
     /* Buang 2 kartu dari tangan */
     /* Ambil 2 kartu baru dari deck*/
@@ -19,21 +19,21 @@ void PlayerAction::reroll()
 
 }
 
-void PlayerAction::doublePoin()
+void Player::doublePoin()
 {
     if (infoCardAbility.getNamaAbility() == "doublePoin")
     {
         cout << /* nama pemain*/ "melakukan DOUBLE! Poin hadiah naik dari " << Player::poin << " menjadi " << Player::poin * 2 << "!" << endl;
-        Player::poin = Player::poin * 2;
+        poin = poin * 2;
     }   
 }
 
-void PlayerAction::quadruple()
+void Player::quadruple()
 {
     if (infoCardAbility.getNamaAbility() == "quadruple")
     {
         cout << /* nama pemain*/ "melakukan QUADRUPLE! Poin hadiah naik dari " << Player::poin << " menjadi " << Player::poin * 4 << "!" << endl;
-        Player::poin = Player::poin * 4;
+        poin = poin * 4;
     }
     else
     {
@@ -42,25 +42,25 @@ void PlayerAction::quadruple()
     }
 }
 
-void PlayerAction::half()
+void Player::half()
 {
     if (infoCardAbility.getNamaAbility() == "half")
     {
         cout << /* nama pemain*/ "melakukan HALF! Poin hadiah turun dari " << Player::poin << " menjadi " << Player::poin * 0.5 << "!" << endl;
-        Player::poin = Player::poin * 0.5;
+        poin = poin * 0.5;
     }
-    if (Player::poin == 1)
+    if (poin == 1)
     {
         cout << /* nama_pemain */ "melakukan HALF! Sayangnya poin hadiah sudah bernilai 1. Poin hadiah tidak berubah.. Giliran dilanjut!" << endl;
     }
 }
 
-void PlayerAction::quarter()
+void Player::quarter()
 {
     if (infoCardAbility.getNamaAbility() == "quarter")
     {
         cout << /* nama pemain*/ "melakukan QUARTER! Poin hadiah turun dari " << Player::poin << " menjadi " << Player::poin * 0.25 << "!" << endl;
-        Player::poin = Player::poin * 0.25;
+        poin = poin * 0.25;
     }
     else
     {
@@ -69,7 +69,7 @@ void PlayerAction::quarter()
     }
 }
 
-void PlayerAction::reverse()
+void Player::reverse()
 {
     if (infoCardAbility.getNamaAbility() == "reverse")
     {
@@ -84,13 +84,13 @@ void PlayerAction::reverse()
     }
 }
 
-void PlayerAction::swapCard()
+void Player::swapCard()
 {
     /* Menukar salah satu kartu X dengan salah satu karty Y*/
     int chosenPlayer, chosenPlayer2;
     cout << /* nama pemain */ "melakukan SWAPCARD." << endl;
     cout << "Silahkan pilih pemain yang kartunya ingin anda tukar: " << endl;
-    for (int i = 0; i < Player::playerSum(); i++ )
+    for (int i = 0; i < playerSum(); i++ )
     {
         if (i != id)
         {
@@ -99,7 +99,7 @@ void PlayerAction::swapCard()
     }
     cin >> chosenPlayer;
     cout << endl;
-    for (int i = 0; i < Player::playerSum(); i++ )
+    for (int i = 0; i < playerSum(); i++ )
     {
         if (i != id && i != chosenPlayer)
         {
@@ -122,18 +122,18 @@ void PlayerAction::swapCard()
     /* If kanan/kiri ambil */
 }
 
-void PlayerAction::switchCard()
+void Player::switchCard()
 {
     /* Menukar set kartu sendiri dengan set kartu lawan */
 }
 
-void PlayerAction::abilityless()
+void Player::abilityless()
 {
     /* CASE 1 */
     int chosenPlayer;
     cout << /* nama pemain */ "akan mematikan kartu ablity lawan!" << endl;
     cout << "Silahkan pilih pemain yang kartu abilitynya ingin dimatikan:" << endl;
-    for (int i = 0; i < Player::playerSum(); i++)
+    for (int i = 0; i < playerSum(); i++)
     {
         if (i != id)
         {
