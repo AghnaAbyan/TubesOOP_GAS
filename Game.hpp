@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 #include "src\Kartu\Kartu.hpp"
 #include "array.hpp"
 
@@ -23,26 +24,26 @@ class InventoryHolder{
 };
 
 class TableCard: public InventoryHolder, AngkaCard{
-    protected:
-        Array<AngkaCard> mainDeck; /* Kartu mainDeck (pakai array, isinya bakal 5, dibuka per ronde)*/ 
-        Array<AngkaCard> tumpukan;
+    private:
+        vector<AngkaCard> mainDeck; /* Kartu mainDeck (pakai array, isinya bakal 5, dibuka per ronde)*/ 
+        vector<AngkaCard> tumpukan;
 
     public:
         TableCard();
         AngkaCard infoTableCard(int);
         AngkaCard takeCard();
-        AngkaCard Randomize();
-        Array<AngkaCard> readFileTumpukan(string namaFile);
-        Array<AngkaCard> getTumpukan();
+        // AngkaCard Randomize();
+        vector<AngkaCard> readFileTumpukan(string namaFile);
+        // vector<AngkaCard> getTumpukan();
         /* void Kartu[] operator+(const Kartu&) (kayaknya ini mending diimplementasi di kartu) */
 };
 
 class Player: public InventoryHolder{
-    friend class Game;
-    friend class TableCard;
+    // friend class Game;
+    // friend class TableCard;
     private:
         static int playerCount;
-    protected:
+    private:
         int id;
         int poin;
         Array<AngkaCard> card; /* Kartu card (pakai array jumlahnya 2)*/
@@ -73,10 +74,21 @@ class Player: public InventoryHolder{
         void abilityless();
 };
 
+class Ability{
+    public:
+        void reroll();
+        void quadruple();
+        void quarter();
+        void reverse();
+        void swapCard();
+        void switchCard();
+        void abilityless();
+};
+
 class Game: public InventoryHolder{
-    friend class Player;
-    friend class TableCard;
-    protected:
+    // friend class Player;
+    // friend class TableCard;
+    private:
         Array<Player> players;
         TableCard table;
         int currentPlayerId;
