@@ -2,6 +2,7 @@
 #define ARRAY_HPP
 
 // Kelas generik array
+#include <algorithm>
 template <class T>
 class Array{
     private:
@@ -10,7 +11,7 @@ class Array{
     public:
         Array();
         ~Array();
-
+        Array(const Array&);
         void addfirst(const T&);
         T get(int);
         int size();
@@ -19,6 +20,8 @@ class Array{
         void operator- (const T&);
         bool operator== (const Array&);
         T operator-- ();
+        void merge(const Array&);
+        void sortArray(bool asc);
 };
 
 #endif

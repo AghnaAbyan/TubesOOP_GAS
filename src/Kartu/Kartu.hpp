@@ -10,11 +10,10 @@
 using namespace std;
 
 class Kartu{
-    public:
-        virtual bool operator== (const Kartu&);
+    
 };
 
-class AngkaCard: public Kartu{
+class AngkaCard : public Kartu {
     private:
         int angka;
         string warna;
@@ -24,6 +23,10 @@ class AngkaCard: public Kartu{
         AngkaCard& operator=(const AngkaCard& );
         void setAngka(int a);
         void setWarna(string b);
+        bool sameColour(const AngkaCard&);
+        /*Hati-hati, == dan < atau > berbeda implementasinya
+        == berdasarkan angka (not affected by colour)
+        > dan < berdasarkan value (affected by colour)*/
         bool operator==(const AngkaCard&);
         bool operator<(const AngkaCard&);
         bool operator>(const AngkaCard&);

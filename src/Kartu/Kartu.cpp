@@ -13,7 +13,9 @@ string AngkaCard::getWarna() const{
     return this->warna;
 }
 
-
+bool AngkaCard::sameColour(const AngkaCard& other){
+    return this->warna == other.getWarna();
+}
 
 double AngkaCard::valuecard() const{
     return this->priorityCardAngka()+this->priorityCardWarna();
@@ -29,7 +31,7 @@ AngkaCard& AngkaCard::operator=(const AngkaCard& other){
 /*Comparison operator*/
 /*Dibasikan valuecard sendiri*/
 bool AngkaCard::operator==(const AngkaCard& other){
-    return (this->angka == other.angka) && (this->warna == other.warna);
+    return (this->angka == other.angka);
 }
 bool AngkaCard::operator<(const AngkaCard& other){
     return this->valuecard() < other.valuecard();

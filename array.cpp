@@ -12,6 +12,11 @@ Array<T>::~Array(){
 }
 
 template <class T>
+Array<T>::Array(const Array& other){
+this->merge(other);
+}
+
+template <class T>
 void Array<T>::addfirst(const T &el){
     data[0] = el;
 }
@@ -47,6 +52,12 @@ void Array<T>::operator+ (const T &el){
         data = buff;
         N++;
     }
+}
+
+template <class T> void Array<T>::merge(const Array<T> &other){
+    for(int i =0; i< other.size(); i++){
+        this += other.get(i);
+    }    
 }
 
 template <class T>
@@ -95,3 +106,12 @@ T Array<T>::operator-- (){
     N--;
     return buf;
 }
+template <class T>
+void Array<T>::sortArray(bool asc){
+    if(asc){
+    std::sort(data, data + N);
+    }else{
+        std::sort(data, data+N, greater<int>);
+    }
+}
+
