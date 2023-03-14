@@ -21,7 +21,7 @@ class InventoryHolder{
         void changeDirection();
 };
 
-class Player: public InventoryHolder{
+class Player: public Game{
     private:
         static int playerCount;
     protected:
