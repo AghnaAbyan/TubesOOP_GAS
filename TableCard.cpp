@@ -40,7 +40,15 @@ TableCard::TableCard(){
     
     /* Isi mainDeck dari tumpukan */
     for(int i = 0; i < 5; i++){
-        AngkaCard c = tumpukan[tumpukan.size()];
+        AngkaCard c = tumpukan[tumpukan.size()-1];
+        tumpukan.pop_back();
+        mainDeck.push_back(c);
+    }
+}
+
+void TableCard::setMainDeck(){
+    for(int i = 0; i < 5; i++){
+        AngkaCard c = tumpukan[tumpukan.size()-1];
         tumpukan.pop_back();
         mainDeck.push_back(c);
     }
@@ -51,9 +59,9 @@ AngkaCard TableCard::infoTableCard(int i){
 }
 
 AngkaCard TableCard::takeCard(){
-    AngkaCard c = tumpukan[tumpukan.size()];
+    AngkaCard c = tumpukan[tumpukan.size()-1];
     tumpukan.pop_back();
-    return ;
+    return c;
 }
 
 //Merandom untuk dibagikan ke pemain
@@ -64,7 +72,7 @@ AngkaCard TableCard::takeCard(){
 //     return val;
 // }
 
-vector<AngkaCard> TableCard::readFileTumpukan(string namaFile){
+void TableCard::readFileTumpukan(string namaFile){
     ifstream file("namafile.txt");
     if(file.is_open()){
         vector<AngkaCard> a;
@@ -78,7 +86,7 @@ vector<AngkaCard> TableCard::readFileTumpukan(string namaFile){
             b.setWarna(line);
             a.push_back(b);    
         }
-        return a;
+        tumpukan = a;
     }
 }
 

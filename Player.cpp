@@ -6,13 +6,9 @@ using namespace std;
 Player::Player(int _id){
     id = _id;
     poin = 0;
-    Array<AngkaCard> *buff = new Array<AngkaCard>();
-    card = *buff;
+    vector<AngkaCard> buff;
+    card = buff;
     usedAbility = false;
-}
-
-int Player::playerSum(){
-    return Player::playerCount;
 }
 
 bool Player::operator==(const Player &p){
@@ -25,10 +21,8 @@ bool Player::operator==(const Player &p){
 }
 
 void Player::newCard(AngkaCard c1, AngkaCard c2){
-    if (InventoryHolder::round == 1){
-        card+c1;
-        card+c2;
-    }
+    card.push_back(c1);
+    card.push_back(c2);
 }
 
 int Player::getPoin(){
@@ -41,4 +35,8 @@ void Player::setAbility(AbilityCard a){
 
 AbilityCard Player::getAbility(){
     return infoCardAbility;
+}
+
+void Player::useAbility(){
+    usedAbility = true;
 }

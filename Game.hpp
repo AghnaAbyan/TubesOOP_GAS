@@ -10,12 +10,6 @@
 using namespace std;
 
 class InventoryHolder{
-    protected:
-        int gameDirection; /* 0 clockwise, 1 counter clockwise */
-        int game;
-        int round;
-        int poinTotal;
-
     public:
         InventoryHolder();
         virtual void newGame(); 
@@ -30,10 +24,11 @@ class TableCard: public InventoryHolder, AngkaCard{
 
     public:
         TableCard();
+        void setMainDeck();
         AngkaCard infoTableCard(int);
         AngkaCard takeCard();
         // AngkaCard Randomize();
-        vector<AngkaCard> readFileTumpukan(string namaFile);
+        void readFileTumpukan(string namaFile);
         // vector<AngkaCard> getTumpukan();
         /* void Kartu[] operator+(const Kartu&) (kayaknya ini mending diimplementasi di kartu) */
 };
@@ -42,24 +37,20 @@ class Player: public InventoryHolder{
     // friend class Game;
     // friend class TableCard;
     private:
-        static int playerCount;
-    private:
         int id;
         int poin;
-        Array<AngkaCard> card; /* Kartu card (pakai array jumlahnya 2)*/
+        vector<AngkaCard> card; /* Kartu card (pakai array jumlahnya 2)*/
         AbilityCard infoCardAbility;
-        int ncard;
         bool usedAbility;
     public:
         Player(int);
-        int playerSum();
-        // void Player::newRoundFile(Player A, Player B, Player C, Player D, Player E, Player F, Player G);
         bool operator==(const Player&);
         void newCard(AngkaCard, AngkaCard);
         int getPoin();
         void display();
         void setAbility(AbilityCard);
         AbilityCard getAbility();
+        void useAbility();
 
         /* PlayerAction */
         void next();
@@ -89,12 +80,17 @@ class Game: public InventoryHolder{
     // friend class Player;
     // friend class TableCard;
     private:
-        Array<Player> players;
+        int gameDirection; /* 0 clockwise, 1 counter clockwise */
+        int game;
+        int round;
+        int poinTotal;
+        vector<Player> players;
         TableCard table;
         int currentPlayerId;
 
     public:
         Game();
+        AngkaCard takeCardTable();
         void newRound();
         void newGame();
         void showPoin();
