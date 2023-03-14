@@ -56,4 +56,6 @@ void Player::setAbility(AbilityCard a){
     infoCardAbility = a;
 }
 
-
+AbilityCard Player::getAbility(){
+    return infoCardAbility;
+}

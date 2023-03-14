@@ -13,7 +13,7 @@ Array<T>::~Array(){
 
 template <class T>
 void Array<T>::addfirst(const T &el){
-    data[0] = T el();
+    data[0] = el;
 }
 
 template <class T>

@@ -2,12 +2,12 @@
 #define KOMBO_HPP
 #include <iostream>
 #include "Game.hpp"
-#include "Kartu.hpp"
+#include "src/Kartu/Kartu.hpp"
 using namespace std;
 
 class Kombo: public Player, TableCard{
     public:
-        int highCard();
+        double highCard();
         bool pair();
         bool twoPair();
         bool threeOfAKind();
@@ -16,7 +16,7 @@ class Kombo: public Player, TableCard{
         bool fullHouse();
         bool fourOfAKind();
         bool straightFlush();
-        float value();
+        double value();
 };
 
 #endif

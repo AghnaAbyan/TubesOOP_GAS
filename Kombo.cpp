@@ -2,8 +2,8 @@
 #include <math.h>
 
 
-int Kombo::highCard(){
-    float hasil = card.get(0).valuecard()+card.get(1).valuecard();
+double Kombo::highCard(){
+    double hasil = card.get(0).valuecard()+card.get(1).valuecard();
     return hasil;
 }
 //Pair adalah keadaan ketika kedua kartu sama
@@ -13,7 +13,7 @@ bool Kombo::pair(){
 //Two pair kalo misal di table ada 2 nilai yang sama dan 2 lagi di pemain
 bool Kombo::twoPair(){
     bool valid = false;
-    if(pair){
+    if(pair()){
         for(int i = 0; i < ncard ; i++){
             for(int j = 0; j < ncard ; j++){
                 if(i != j){
@@ -30,7 +30,7 @@ bool Kombo::twoPair(){
 bool Kombo::threeOfAKind(){
     int count = 0;
     int val = 0;
-    if(pair){
+    if(pair()){
         val = card.get(0).getAngka();
     }
     for(int i = 0; i < ncard ; i++){
@@ -130,7 +130,7 @@ bool Kombo::fullHouse(){
 bool Kombo::fourOfAKind(){
     int count = 0;
     int val = 0;
-    if(pair){
+    if(pair()){
         val = card.get(0).getAngka();
     }
     for(int i = 0; i < ncard ; i++){
@@ -149,7 +149,7 @@ bool Kombo::straightFlush(){
     return flush() && straight();
 
 }
-float Kombo::value(){
+double Kombo::value(){
     if(straightFlush()){
         return 9+card.get(0).valuecard()+card.get(1).valuecard();
     }

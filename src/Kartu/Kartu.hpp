@@ -68,7 +68,5 @@ class AbilityCard: public Kartu{
         
 };
 
-template <typename T> void randomizeDeck(Array<T> &arr, int size);
-
 #endif
 

@@ -46,28 +46,28 @@ void Game::newRound(){
         int M = rand()%6;
         players.get(0).setAbility(L.get(M));
         L.operator-(L.get(M));
-        int M = rand()%5;
+        M = rand()%5;
 
         players.get(1).setAbility(L.get(M));
         L.operator-(L.get(M));
-        int M = rand()%4;
+        M = rand()%4;
 
         players.get(2).setAbility(L.get(M));
         L.operator-(L.get(M));
 
-        int M = rand()%3;
+        M = rand()%3;
         players.get(3).setAbility(L.get(M));
         L.operator-(L.get(M));
 
-        int M = rand()%2;
+        M = rand()%2;
         players.get(4).setAbility(L.get(M));
         L.operator-(L.get(M));
 
-        int M = rand()%1;
+        M = rand()%1;
         players.get(5).setAbility(L.get(M));
         L.operator-(L.get(M));
 
-        int M = 0;
+        M = 0;
         players.get(6).setAbility(L.get(M));
         L.operator-(L.get(M));
     }

@@ -1,5 +1,6 @@
 #include "Game.hpp"
-#include "array.cpp"
+
+// g++ -o m main.cpp Game.cpp array.cpp ../../Kartu.cpp InventoryHolder.cpp Kombo.cpp Player.cpp PlayerAction.cpp TableCard.cpp
 
 // ngetes dulu gan
 
@@ -9,6 +10,9 @@ int main(){
     *p+Player(2);
     AbilityCard a1(1,"a1");
     AbilityCard a2(2,"a2");
+    p->get(0).setAbility(a1);
+   cout <<  p->get(0).getAbility().getNamaAbility() << endl;
+
 
     delete p;
     // Array<int> *a = new Array<int>();

@@ -5,6 +5,7 @@
 #include <vector>
 #include "src\Kartu\Kartu.hpp"
 #include "array.hpp"
+
 using namespace std;
 
 class InventoryHolder{
@@ -21,7 +22,9 @@ class InventoryHolder{
         void changeDirection();
 };
 
-class Player: public Game{
+class Player: public InventoryHolder{
+    friend class Game;
+    friend class TableCard;
     private:
         static int playerCount;
     protected:
@@ -39,6 +42,7 @@ class Player: public Game{
         int getPoin();
         void display();
         void setAbility(AbilityCard);
+        AbilityCard getAbility();
 
         /* PlayerAction */
         void next();
@@ -67,6 +71,28 @@ class TableCard: public InventoryHolder, AngkaCard{
         Array<AngkaCard> getTumpukan();
         /* void Kartu[] operator+(const Kartu&) (kayaknya ini mending diimplementasi di kartu) */
 };
+
+class Game: public InventoryHolder{
+    friend class Player;
+    friend class TableCard;
+    protected:
+        Array<Player> players;
+        TableCard table;
+        int currentPlayerId;
+
+    public:
+        Game();
+        void newRound();
+        void newGame();
+        void showPoin();
+        void commandParser(int, string);
+        void start();
+        void showUrutan();
+};
+
+
+
+
 
 // class Ability: public Player{
 //     private:
@@ -99,19 +125,10 @@ class TableCard: public InventoryHolder, AngkaCard{
 // };
 
 class Game: public InventoryHolder{
-    protected:
+    private:
         Array<Player> players;
         TableCard table;
         int currentPlayerId;
 
-    public:
-        Game();
-        void newRound();
-        void newGame();
-        void showPoin();
-        void commandParser(int, string);
-        void start();
-        void showUrutan();
-};
 
 #endif

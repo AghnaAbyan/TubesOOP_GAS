@@ -84,7 +84,8 @@ void AbilityCard::setAbility(int a){
 void AbilityCard::SetNamaAbility(string b){
     this->namaAbility = b;
 }
-template <typename T> void randomizeDeck(Array<T> &arr, int size){
+template <class T>
+void randomizeDeck(Array<T> &arr, int size){
     int index, secondIndex;
     T temp;
     srand((unsigned) time(NULL));
@@ -94,4 +95,4 @@ template <typename T> void randomizeDeck(Array<T> &arr, int size){
         arr.set(index, arr.get(secondIndex));
         arr.set(secondIndex, temp);
     }
-};
+}

@@ -1,3 +1,6 @@
+#ifndef ARRAY_HPP
+#define ARRAY_HPP
+
 // Kelas generik array
 template <class T>
 class Array{
@@ -17,3 +20,5 @@ class Array{
         bool operator== (const Array&);
         T operator-- ();
 };
+
+#endif

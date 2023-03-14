@@ -12,11 +12,15 @@ void Player::reroll()
     cout << "Melakukan pembuangan kartu yang sedang dimiliki" << endl;
     cout << "Kamu mendapatkan 2 kartu baru yaitu:" << endl;
 
-    delete& card;
-    Array<Kartu> *cards = new Array<Kartu>();
+    card.operator--();
+    card.operator--();
+    // AngkaCard c1 = Game::table.takeCard();
+    // AngkaCard c2 = Game::table.takeCard();
+    // card+c1;
+    // card+c2;
 
-
-
+    // cout << "1. " << c1.getAngka() << " " << c1.getWarna() << endl;
+    // cout << "2. " << c2.getAngka() << " " << c2.getWarna() << endl;
 }
 
 void Player::doublePoin()
