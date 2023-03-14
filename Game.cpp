@@ -1,27 +1,35 @@
 #include "Game.hpp"
 
 Game::Game():InventoryHolder(){
+    // inisialissasi atribut
+    gameDirection = 0;
+    game = 1;
+    round = 1;
+    poinTotal = 0;
+
+    // inisialisasi table
+    TableCard *buf = new TableCard();
+    table = *buf;
     string filename;
     cout << "File tumpukan kartu: " << endl;
     cin >> filename;
-    
-
-    //inisialisasi table
-    TableCard *buf = new TableCard();
-    table = *buf;
+    table.readFileTumpukan(filename); // udah termasuk inisialisasi mainDeck
 
     // inisialisasi player
-    Array<Player> *buff = new Array<Player>();
-        players = *buff;
-    for(int i = 1; i <= 7; i++){
+    while(!players.empty()){
+        players.pop_back();
+    }
+    for(int i = 0; i < 7; i++){
         Player p(i);
-        AngkaCard c1 = table.takeCard();
-        AngkaCard c2 = table.takeCard();
-        // tambahin kartu dari tumpukan
+        AngkaCard c1 = takeCardTable();
+        AngkaCard c2 = takeCardTable();
         p.newCard(c1,c2);
-        players+p;
     }
     currentPlayerId = 1;
+}
+
+AngkaCard Game::takeCardTable(){
+    return table.takeCard();
 }
 
 void Game::newRound(){

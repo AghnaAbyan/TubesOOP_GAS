@@ -20,6 +20,14 @@ bool Player::operator==(const Player &p){
     }
 }
 
+Player& Player::operator=(const Player& p){
+    id = p.id;
+    poin = p.poin;
+    card = p.card;
+    infoCardAbility = p.infoCardAbility;
+    usedAbility = p.usedAbility;
+}
+
 void Player::newCard(AngkaCard c1, AngkaCard c2){
     card.push_back(c1);
     card.push_back(c2);

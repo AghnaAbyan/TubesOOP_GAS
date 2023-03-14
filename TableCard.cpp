@@ -8,6 +8,17 @@
 TableCard::TableCard(){
     vector<AngkaCard> buf;
     tumpukan = buf;
+    vector<AngkaCard> buf1;
+    mainDeck = buf1;
+}
+
+void TableCard::randomTableDeck(){
+    while(!mainDeck.empty()){
+        mainDeck.pop_back();
+    }
+    while(!tumpukan.empty()){
+        tumpukan.pop_back();
+    }
     /* Isi tumpukan kartu */
     for(int i = 1; i <= 13; i++){
         AngkaCard c;
@@ -34,16 +45,7 @@ TableCard::TableCard(){
         tumpukan.push_back(c);
     }
     randomizeDeck(tumpukan, 52);
-
-    vector<AngkaCard> buf1;
-    mainDeck = buf1;
-    
-    /* Isi mainDeck dari tumpukan */
-    for(int i = 0; i < 5; i++){
-        AngkaCard c = tumpukan[tumpukan.size()-1];
-        tumpukan.pop_back();
-        mainDeck.push_back(c);
-    }
+    setMainDeck();
 }
 
 void TableCard::setMainDeck(){
@@ -88,6 +90,7 @@ void TableCard::readFileTumpukan(string namaFile){
         }
         tumpukan = a;
     }
+    setMainDeck();
 }
 
 template <class T>

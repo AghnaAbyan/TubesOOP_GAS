@@ -24,6 +24,7 @@ class TableCard: public InventoryHolder, AngkaCard{
 
     public:
         TableCard();
+        void randomTableDeck();
         void setMainDeck();
         AngkaCard infoTableCard(int);
         AngkaCard takeCard();
@@ -45,6 +46,7 @@ class Player: public InventoryHolder{
     public:
         Player(int);
         bool operator==(const Player&);
+        Player& operator=(const Player&);
         void newCard(AngkaCard, AngkaCard);
         int getPoin();
         void display();
