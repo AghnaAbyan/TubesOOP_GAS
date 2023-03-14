@@ -3,6 +3,8 @@
 Player::Player(int _id){
     id = _id;
     poin = 0;
+    Array<AngkaCard> *buff = new Array<AngkaCard>();
+    card = *buff;
 }
 
 int Player::playerSum(){
@@ -30,9 +32,13 @@ bool Player::operator==(const Player &p){
     }
 }
 
-void Player::newCard(){
+void Player::newCard(AngkaCard c1, AngkaCard c2){
     if (InventoryHolder::round == 1){
-        // tambahin 2 kartu awal
+        card+c1;
+        card+c2;
     }
 }
 
+int Player::getPoin(){
+    return poin;
+}

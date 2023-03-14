@@ -22,14 +22,20 @@ int main(){
     return 0;
 
     /* Kira" main nya
-    InventoryHolder *inv = new InventoryHolder();
-    
-    while(InventoryHolder::game <= 6){
-        inv->newGame();
-        while(InventoryHolder::round <= 5){
-            inv->newround();
 
+    int main(){
+        // buat inventori baru
+        InventoryHolder *inv = new InventoryHolder();
+        
+        // loop game
+        while(InventoryHolder::game <= 6){
+            inv->newGame();
+            while(InventoryHolder::round <= 5){
+                inv->newround();
+            }
         }
+
+        return 0;
     }
     
     

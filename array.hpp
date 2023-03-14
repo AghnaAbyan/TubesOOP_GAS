@@ -11,7 +11,9 @@ class Array{
         void addfirst(const T&);
         T get(int);
         int size();
+        
         void operator+ (const T&);
         void operator- (const T&);
         bool operator== (const Array&);
+        T operator-- ();
 };

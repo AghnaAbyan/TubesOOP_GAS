@@ -35,15 +35,19 @@ class Player: public InventoryHolder{
         void newGame();
         void newRound();
         bool operator==(const Player&);
-        void newCard();
+        void newCard(AngkaCard, AngkaCard);
+        int getPoin();
 };
 
-class TableCard: public InventoryHolder{
+class TableCard: public InventoryHolder, AngkaCard{
     protected:
         Array<AngkaCard> mainDeck; /* Kartu mainDeck (pakai array, isinya bakal 5, dibuka per ronde)*/ 
+        Array<AngkaCard> tumpukan;
+
     public:
         TableCard();
-        const Kartu& infoTableCard(int);
+        const AngkaCard& infoTableCard(int);
+        AngkaCard takeCard();
 
         /* void Kartu[] operator+(const Kartu&) (kayaknya ini mending diimplementasi di kartu) */
 };
@@ -77,4 +81,17 @@ class PlayerAction: public Ability{
         void abilityless();
         
 };
+
+class Game: public InventoryHolder{
+    private:
+        Array<Player> players;
+        TableCard table;
+        int currentPlayerId;
+
+    public:
+        Game();
+        void showPoin();
+        void start();
+};
+
 #endif

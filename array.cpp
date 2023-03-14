@@ -13,7 +13,7 @@ Array<T>::~Array(){
 
 template <class T>
 void Array<T>::addfirst(const T &el){
-    data[0] = el;
+    data[0] = T el();
 }
 
 template <class T>
@@ -82,4 +82,11 @@ bool Array<T>::operator== (const Array &arr){
         return same;
     }
     
+}
+
+template <class T>
+T Array<T>::operator-- (){
+    T buf = get(N-1);
+    N--;
+    return buf;
 }
