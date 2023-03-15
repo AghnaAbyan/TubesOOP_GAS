@@ -41,20 +41,25 @@ Kombo::Kombo(vector<AngkaCard> _card, vector<AngkaCard> mainDeck){
 
 
 
-double Kombo::highCard(){
+double Kombo::highCard(double limit){
     // vector<AngkaCard> temp;
     //sort first
     
     // temp.sortArray(false);
-    return this->temp[0].valuecard();
+    for(int i =0; i<temp.size() ; i++){
+        if(temp[i].valuecard()<limit){
+            return temp[i].valuecard();
+        }
+    }
+    return 0;
 }
 
 //Pair adalah keadaan ketika kedua kartu sama
-double Kombo::pair(){ 
+double Kombo::pair(double limit){ 
     //sort first
     // temp.sortArray(false);
     for(int i = 0;i<temp.size()-1;i++){
-        if(temp[i] == temp[i+1]){
+        if(temp[i] == temp[i+1] && (temp[i].valuecard()+ 1.39)<limit){
             return 1.39 + temp[i].valuecard();
         }
     }
@@ -63,7 +68,7 @@ double Kombo::pair(){
 
 
 
-double Kombo::twoPair(){
+double Kombo::twoPair(double limit){
     //Mengembalikan true jika terdapat dua pasang pair pada hand
     //When get a pair, hold the pair and continue the loop until found second pair
     // Array<AngkaCard> temp(card);
@@ -74,7 +79,7 @@ double Kombo::twoPair(){
     for(int i = 0;i<temp.size() -3;i++){
         if(temp[i] == temp[i+1]){
             for(int j = i+2; j<temp.size()-1; j++){
-                if(temp[j] == temp[j+1]){
+                if(temp[j] == temp[j+1] && (temp[i].valuecard()+ 1.39*2)<limit){
                     return temp[i].valuecard() +1.39*2;
                 }
             }
@@ -84,21 +89,21 @@ double Kombo::twoPair(){
     return 0;
 }
 //Three of kind kalo ada 3 yang sama 2 sama di pemain dan 1 ada di table, prioritas two pair terlebih dahulu        
-double Kombo::threeOfAKind(){
+double Kombo::threeOfAKind(double limit){
     //3 consecutive check
     // Array<AngkaCard> temp(card);
     // temp.merge(mainDeck);
     //sort first
     // temp.sortArray(false);
     for(int i =0;i<temp.size()-2;i++){
-        if((temp[i] == temp[i+1]) && (temp[i+1] == temp[i+2])){
+        if((temp[i] == temp[i+1]) && (temp[i+1] == temp[i+2]) && (temp[i].valuecard()+ 1.39*3)<limit){
             return temp[i].valuecard() + 1.39*3;
         }
     }
     return 0;
 }
 
-double Kombo::straight(){
+double Kombo::straight(double limit){//need fix
     //Straight terbentuk apabila terdapat 5 kartu yang berurutan dalam hand milik pemain. 
     //Jika terdapat >1 pemain yang memiliki kombinasi straight, maka urutan akan dilihat 
     //dari angka terbesar yang membentuk straight tersebut.'''
@@ -110,16 +115,29 @@ double Kombo::straight(){
     //sort first
     // temp.sortArray(false);
     for(int i =0; i<3; i++){//there are only 3 possible straight in 7 cards
-        if((temp[i].getAngka() == temp[i+1].getAngka()+1) && (temp[i+1].getAngka() == temp[i+2].getAngka()+1)
-       && (temp[i+2].getAngka() == temp[i+3].getAngka()+1)&& (temp[i+4].getAngka() == temp[i+5].getAngka()+1)){
-        return temp[i].valuecard() + 1.39*4;
-       }
+        int count = 1;
+        int j = i+1;
+        bool exceed = false;
+        while(j<temp.size() && !exceed){
+            if(temp[j].getAngka() - temp[j-1].getAngka() >1){
+                exceed = true;
+            }
+            if(temp[j-1].getAngka()-1 == temp[j].getAngka()){
+                count++;
+            }
+            j++;
+        }
+        if(count>=5 && ((temp[i].valuecard()+ 1.39*4)<limit)){
+            return temp[i].valuecard() + 1.39*4;
+        }
+        
+       
 
     }
 
     return 0;
 }
-double Kombo::flush(){
+double Kombo::flush(double limit){
     //Flush terbentuk apabila terdapat 5 kartu dengan warna yang sama dalam hand milik pemain. 
     //terbesar yang membentuk flush tersebut.
     //Asumsi Sama membandingkan antara meja aja deh jadinya
@@ -128,19 +146,19 @@ double Kombo::flush(){
     //sort first
     // temp.sortArray(false);
     for(int i =0; i<3; i++){
-        int count = 0;
+        int count = 1;
         for(int j = i+1; j<temp.size(); j++){
             if(temp[i].sameColour(temp[j])){
                 count++;
             }
         }
-        if(count>=5){
+        if(count>=5 && ((temp[i].valuecard()+ 1.39*5)<limit)){
             return temp[i].valuecard() + 1.39*5;
         }
     }
     return 0;
 }
-double Kombo::fullHouse(){
+double Kombo::fullHouse(double limit){
     // Array<AngkaCard> temp(card);
     // temp.merge(mainDeck);
     //sort first
@@ -149,7 +167,7 @@ double Kombo::fullHouse(){
         if(temp[i] == temp[i+1] && !(temp[i+1] == temp[i+2])){
             //find three of kind
             for(int j = i+2 ; j<temp.size()-2; j++){
-                if(temp[j] == temp[j+1] && temp[j+1] == temp[j+2]){
+                if(temp[j] == temp[j+1] && temp[j+1] == temp[j+2] && ((temp[j].valuecard()+ 1.39*6)<limit)){
                     return temp[j].valuecard() + 1.39*6;
                 }
             }
@@ -157,7 +175,7 @@ double Kombo::fullHouse(){
         else if(temp[i] == temp[i+1] && temp[i+1] == temp[i+2]){
             //find pair
             for(int j = i+3 ; j<temp.size()-1; j++){
-                if(temp[j] == temp[j+1]){
+                if(temp[j] == temp[j+1] && ((temp[i].valuecard()+ 1.39*6)<limit)){
                     return temp[i].valuecard() + 1.39*6;;
                 }
             }
@@ -166,71 +184,81 @@ double Kombo::fullHouse(){
     }
     return 0;
 }
-double Kombo::fourOfAKind(){
+double Kombo::fourOfAKind(double limit){
     //4 consecutive check
     // Array<AngkaCard> temp(card);
     // temp.merge(mainDeck);
     //sort first
     // temp.sortArray(false);
     for(int i =0;i<temp.size()-3;i++){
-        if((temp[i] == temp[i+1]) && (temp[i+1] == temp[i+2]) && (temp[i+2] == temp[i+3])){
+        if((temp[i] == temp[i+1]) && (temp[i+1] == temp[i+2]) && (temp[i+2] == temp[i+3]) && ((temp[i].valuecard()+ 1.39*7)<limit)){
             return temp[i].valuecard()+1.39*7;
         }
     }
     return 0;
 }
-double Kombo::straightFlush(){
+double Kombo::straightFlush(double limit){//need fix
     // Array<AngkaCard> temp(card);
     // temp.merge(mainDeck);
     //sort first
     // temp.sortArray(false);
+    //8*1.39
     for(int i =0; i<3; i++){//there are only 3 possible straight in 7 cards
-        if((temp[i].getAngka() == temp[i+1].getAngka()+1) && (temp[i+1].getAngka() == temp[i+2].getAngka()+1)
-        && (temp[i+2].getAngka() == temp[i+3].getAngka()+1)&& (temp[i+4].getAngka() == temp[i+5].getAngka()+1)){
-            if(temp[i].sameColour(temp[i+1]) && temp[i+1].sameColour(temp[i+2]) && temp[i+2].sameColour(temp[i+3])
-            && temp[i+3].sameColour(temp[i+4])){
-                return temp[i].valuecard() + 8*1.39;
+        int count = 1;
+        int j = i+1;
+        bool exceed = false;
+        while(j<temp.size() && !exceed){
+            if(temp[j].getAngka() - temp[j-1].getAngka() >1){//check straight
+                exceed = true;
             }
+            if(temp[j-1].getAngka()-1 == temp[j].getAngka() && temp[j].sameColour(temp[j-1])){  
+                count++;
+            }
+            j++;
         }
+        if(count>=5 && ((temp[i].valuecard()+ 1.39*8)<limit)){
+            return temp[i].valuecard() + 1.39*8;
+        }      
 
     }
     return 0;
 }
-double Kombo::value(){
-    if(straightFlush()){
+double Kombo::value(double limit){
+    //start with 1.39*9 + 0.01 limit
+    if(straightFlush(limit)){
         //
-        return straightFlush();
+        return straightFlush(limit);
     }
-    if(fourOfAKind()){
+    if(fourOfAKind(limit)){
         //
-        return fourOfAKind();
+        return fourOfAKind(limit);
     }
-    if(fullHouse()){
+    if(fullHouse(limit)){
         //
-        return fullHouse();
+        return fullHouse(limit);
     }
-    if(flush()){
+    if(flush(limit)){
         //
-        return flush();
+        return flush(limit);
     }
-    if(straight()){
+    if(straight(limit)){
         //
-        return straight();
+        return straight(limit);
     }
-    if(threeOfAKind()){
+    if(threeOfAKind(limit)){
         //
-        return threeOfAKind();
+        return threeOfAKind(limit);
     }
-    if(twoPair()){
+    if(twoPair(limit)){
         //two pair calculation formula
         //2.78 + 
-        return twoPair();
+        return twoPair(limit);
     }
-    if(pair()){
+    if(pair(limit)){
         //pair calculation formula
         //1.39 + card value
         //max 1.39*2
-         return pair();
+         return pair(limit);
     }
-    return highCard();
+    return highCard(limit);
 }
