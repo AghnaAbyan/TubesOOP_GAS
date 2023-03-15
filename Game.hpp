@@ -13,9 +13,6 @@ using namespace std;
 class InventoryHolder{
     public:
         InventoryHolder();
-        virtual void newGame(); 
-        virtual void newRound();
-        void changeDirection();
 };
 
 class TableCard: public InventoryHolder, AngkaCard{

@@ -171,7 +171,11 @@ void Game::start(){
             round++;
         }
         // akumulasikan poin pemain ke poin total
+        for(int i = 0; i < players.size(); i++){
+            poinTotal = poinTotal + players[i].getPoin();
+        }
         // cari pemenang
+        
 
         // berikan poin total pada pemenang
         int id; // .....
