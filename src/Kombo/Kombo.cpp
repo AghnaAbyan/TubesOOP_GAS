@@ -158,7 +158,7 @@ double Kombo::fullHouse(){
             //find pair
             for(int j = i+3 ; j<temp.size()-1; j++){
                 if(temp[j] == temp[j+1]){
-                    return temp[i].valuecard();
+                    return temp[i].valuecard() + 1.39*6;;
                 }
             }
 
@@ -189,7 +189,7 @@ double Kombo::straightFlush(){
         && (temp[i+2].getAngka() == temp[i+3].getAngka()+1)&& (temp[i+4].getAngka() == temp[i+5].getAngka()+1)){
             if(temp[i].sameColour(temp[i+1]) && temp[i+1].sameColour(temp[i+2]) && temp[i+2].sameColour(temp[i+3])
             && temp[i+3].sameColour(temp[i+4])){
-                return temp[i].valuecard();
+                return temp[i].valuecard() + 8*1.39;
             }
         }
 
