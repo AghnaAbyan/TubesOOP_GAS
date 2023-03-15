@@ -65,7 +65,6 @@ class AbilityCard: public Kartu{
         AbilityCard(int id, string name);
         int getIdAbility();
         string getNamaAbility();
-        void virtual action();
         void setAbility(int a);
         void SetNamaAbility(string b);
         

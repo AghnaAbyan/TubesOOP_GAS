@@ -1,5 +1,5 @@
 #include "Kartu.hpp"
-
+#include <vector>
 /***********/
 /*AngkaCard*/
 /***********/
@@ -86,9 +86,11 @@ void AbilityCard::setAbility(int a){
 void AbilityCard::SetNamaAbility(string b){
     this->namaAbility = b;
 }
+
+
 template <class T>
-void randomizeDeck(Array<T> &arr, int size){
-    int index, secondIndex;
+void randomizeDeck(vector<T> &arr, int size){
+   int index, secondIndex;
     T temp;
     srand((unsigned) time(NULL));
     for(index = 0; index<size; index++){

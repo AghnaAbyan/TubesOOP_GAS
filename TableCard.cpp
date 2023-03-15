@@ -4,14 +4,28 @@
 #include <string>
 #include "Game.hpp"
 #include "src\Kartu\Kartu.cpp"
-
+#include "src\Kartu\Kartu.hpp"
+#include "exception.hpp"
+#include <ctime>
+#include "InventoryHolder.cpp"
 TableCard::TableCard(){
     vector<AngkaCard> buf;
     tumpukan = buf;
     vector<AngkaCard> buf1;
     mainDeck = buf1;
 }
-
+template <class T>
+void randomizeDeck(vector<T> &vec, int size){
+    int index, secondIndex;
+    T temp;
+    srand((unsigned) time(NULL));
+    for(index = 0; index<size; index++){
+        secondIndex = rand() % size;
+        temp = vec[index];
+        vec[index] = vec[secondIndex];
+        vec[secondIndex] =  temp;
+    }
+}
 void TableCard::randomTableDeck(){
     while(!mainDeck.empty()){
         mainDeck.pop_back();
@@ -44,12 +58,16 @@ void TableCard::randomTableDeck(){
         c.setWarna("Biru");
         tumpukan.push_back(c);
     }
-    randomizeDeck(tumpukan, 52);
+    randomizeDeck(tumpukan,52);
+    for(int i = 0; i < tumpukan.size();i++){
+        cout << tumpukan[i].getAngka()<<tumpukan[i].getWarna() << endl;
+    }
     setMainDeck();
+
 }
 
 void TableCard::setMainDeck(){
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < 4; i++){
         AngkaCard c = tumpukan[tumpukan.size()-1];
         tumpukan.pop_back();
         mainDeck.push_back(c);
@@ -75,44 +93,33 @@ AngkaCard TableCard::takeCard(){
 // }
 
 void TableCard::readFileTumpukan(string namaFile){
-    ifstream file("namafile.txt");
-    if(file.is_open()){
-        vector<AngkaCard> a;
-        AngkaCard b;
-        string line;
-        while(getline(file,line)){
-
-            size_t pos = line.find(",");
-            b.setAngka(stoi(line.substr(0, pos)));
-            line.erase(0, pos + 1);
-            b.setWarna(line);
-            a.push_back(b);    
+    
+    ifstream file(namaFile);
+    try{
+        if(!file.is_open()){
+        throw TestException();
         }
-        tumpukan = a;
+        
+            vector<AngkaCard> a;
+            AngkaCard b;
+            string line;
+            while(getline(file,line)){
+                cout<<line<<endl;
+                size_t pos = line.find(",");
+                b.setAngka(stoi(line.substr(0, pos)));
+                line.erase(0, pos + 1);
+                b.setWarna(line);
+                a.push_back(b);    
+            }
+            tumpukan = a;
+            
+            setMainDeck();
+        
     }
-    setMainDeck();
-}
+    catch(exception& e){
+        cout<<e.what()<<endl;
 
-void TableCard::resetNewGame(){
-    mainDeck.clear();
-    tumpukan.clear();
-}
-
-void TableCard::showInRound(int r){
-    for(int i = 0; i < r; i++){
-        cout << i << ". " << mainDeck[i].getAngka() << ", " << mainDeck[i].getWarna() << endl;
-    }
-}
-
-template <class T>
-void randomizeDeck(vector<T> &vec, int size){
-    int index, secondIndex;
-    T temp;
-    srand((unsigned) time(NULL));
-    for(index = 0; index<size; index++){
-        secondIndex = rand() % size;
-        temp = vec[index];
-        vec[index] = vec[secondIndex];
-        vec[secondIndex] =  temp;
     }
 }
+    
+        
