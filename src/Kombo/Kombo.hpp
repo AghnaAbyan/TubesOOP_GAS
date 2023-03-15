@@ -12,16 +12,16 @@ class Kombo: public Kartu{
         vector<AngkaCard> card;
     public:
         Kombo(vector<AngkaCard>, vector<AngkaCard>);
-        double highCard();
-        double pair();
-        double twoPair();
-        double threeOfAKind();
-        double straight();
-        double flush();
-        double fullHouse();
-        double fourOfAKind();
-        double straightFlush();
-        double value();
+        double highCard(double);
+        double pair(double);
+        double twoPair(double);
+        double threeOfAKind(double);
+        double straight(double);
+        double flush(double);
+        double fullHouse(double);
+        double fourOfAKind(double);
+        double straightFlush(double);
+        double value(double);
 };
 
 #endif
