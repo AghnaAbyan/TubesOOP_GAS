@@ -6,8 +6,12 @@
 #include "../../array.hpp"
 using namespace std;
 
-class Kombo: public Player, TableCard{
+class Kombo: public Kartu{
+    private:
+        vector<AngkaCard> temp;
     public:
+        Kombo(vector<AngkaCard>, vector<AngkaCard>);
+        bool greater(AngkaCard, AngkaCard);
         double highCard();
         double pair();
         double twoPair();

@@ -94,7 +94,7 @@ class Game: public InventoryHolder{
         Game();
         AngkaCard takeCardTable();
         void newRound();
-        void newGame();
+        void nextGame();
         void showPoin();
         void commandParser(int, string);
         void start();

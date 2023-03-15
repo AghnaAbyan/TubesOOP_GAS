@@ -23,27 +23,35 @@ resolve with gettin second best pick.
 To implement add max value (Not yet implemented)
 */
 
-double Kombo::highCard(){
-    vector<Kartu> temp;
+Kombo::Kombo(vector<AngkaCard> card, vector<AngkaCard> mainDeck){
+    temp.clear();
     for(int i=0; i<card.size(); i++){
-        temp.push_back(card.get(i));
+        temp.push_back(card[i]);
     }
     for(int i=0; i<mainDeck.size(); i++){
-        temp.push_back(mainDeck.get(i));
+        temp.push_back(mainDeck[i]);
     }
+}
+
+bool Kombo::greater(AngkaCard i, AngkaCard j){
+    return i.valuecard() > j.valuecard();
+}
+
+double Kombo::highCard(){
+    // vector<AngkaCard> temp;
     //sort first
-    temp.sortArray(false);
-    return temp.get(0).valuecard();
+    std::sort(temp.begin(), temp.end(), greater);
+    // temp.sortArray(false);
+    return temp[0].valuecard();
 }
 //Pair adalah keadaan ketika kedua kartu sama
 double Kombo::pair(){ 
-    Array<AngkaCard> temp(card);
-    temp.merge(mainDeck);
     //sort first
-    temp.sortArray(false);
+    // temp.sortArray(false);
+    std::sort(temp.begin(), temp.end(), greater);
     for(int i = 0;i<temp.size()-1;i++){
-        if(temp.get(i) == temp.get(i+1)){
-            return 1.39 + temp.get(i).valuecard();
+        if(temp[i] == temp[i+1]){
+            return 1.39 + temp[i].valuecard();
         }
     }
     return 0;
@@ -54,16 +62,17 @@ double Kombo::pair(){
 double Kombo::twoPair(){
     //Mengembalikan true jika terdapat dua pasang pair pada hand
     //When get a pair, hold the pair and continue the loop until found second pair
-    Array<AngkaCard> temp(card);
-    temp.merge(mainDeck);
+    // Array<AngkaCard> temp(card);
+    // temp.merge(mainDeck);
     //sort first
-    temp.sortArray(false);
+    // temp.sortArray(false);
+    std::sort(temp.begin(), temp.end(), greater);
 
     for(int i = 0;i<temp.size() -3;i++){
-        if(temp.get(i) == temp.get(i+1)){
+        if(temp[i] == temp[i+1]){
             for(int j = i+2; j<temp.size()-1; j++){
-                if(temp.get(j) == temp.get(j+1)){
-                    return temp.get(i).valuecard() +1.39*2;
+                if(temp[j] == temp[j+1]){
+                    return temp[i].valuecard() +1.39*2;
                 }
             }
         }
@@ -74,13 +83,14 @@ double Kombo::twoPair(){
 //Three of kind kalo ada 3 yang sama 2 sama di pemain dan 1 ada di table, prioritas two pair terlebih dahulu        
 double Kombo::threeOfAKind(){
     //3 consecutive check
-    Array<AngkaCard> temp(card);
-    temp.merge(mainDeck);
+    // Array<AngkaCard> temp(card);
+    // temp.merge(mainDeck);
     //sort first
-    temp.sortArray(false);
+    // temp.sortArray(false);
+    std::sort(temp.begin(), temp.end(), greater);
     for(int i =0;i<temp.size()-2;i++){
-        if((temp.get(i) == temp.get(i+1)) && (temp.get(i+1) == temp.get(i+2))){
-            return temp.get(i).valuecard() + .39*3;
+        if((temp[i] == temp[i+1]) && (temp[i+1] == temp[i+2])){
+            return temp[i].valuecard() + .39*3;
         }
     }
     return 0;
@@ -93,14 +103,15 @@ double Kombo::straight(){
     //Maaf ini gimana ya di tangan pemain kan ada 2 card
     //Aku asumsiin digabung sama yang table card
     //5 consecutive check
-    Array<AngkaCard> temp(card);
-    temp.merge(mainDeck);
+    // Array<AngkaCard> temp(card);
+    // temp.merge(mainDeck);
     //sort first
-    temp.sortArray(false);
+    // temp.sortArray(false);
+    std::sort(temp.begin(), temp.end(), greater);
     for(int i =0; i<3; i++){//there are only 3 possible straight in 7 cards
-        if((temp.get(i).getAngka() == temp.get(i+1).getAngka()+1) && (temp.get(i+1).getAngka() == temp.get(i+2).getAngka()+1)
-       && (temp.get(i+2).getAngka() == temp.get(i+3).getAngka()+1)&& (temp.get(i+4).getAngka() == temp.get(i+5).getAngka()+1)){
-        return temp.get(i).valuecard() + 1.39*4;
+        if((temp[i].getAngka() == temp[i+1].getAngka()+1) && (temp[i+1].getAngka() == temp[i+2].getAngka()+1)
+       && (temp[i+2].getAngka() == temp[i+3].getAngka()+1)&& (temp[i+4].getAngka() == temp[i+5].getAngka()+1)){
+        return temp[i].valuecard() + 1.39*4;
        }
 
     }
@@ -111,42 +122,44 @@ double Kombo::flush(){
     //Flush terbentuk apabila terdapat 5 kartu dengan warna yang sama dalam hand milik pemain. 
     //terbesar yang membentuk flush tersebut.
     //Asumsi Sama membandingkan antara meja aja deh jadinya
-    Array<AngkaCard> temp(card);
-    temp.merge(mainDeck);
+    // Array<AngkaCard> temp(card);
+    // temp.merge(mainDeck);
     //sort first
-    temp.sortArray(false);
+    // temp.sortArray(false);
+    std::sort(temp.begin(), temp.end(), greater);
     for(int i =0; i<3; i++){
         int count = 0;
         for(int j = i+1; j<temp.size(); j++){
-            if(temp.get(i).sameColour(temp.get(j))){
+            if(temp[i].sameColour(temp[j])){
                 count++;
             }
         }
         if(count>=5){
-            return temp.get(i).valuecard() + 1.39*5;
+            return temp[i].valuecard() + 1.39*5;
         }
     }
     return 0;
 }
 double Kombo::fullHouse(){
-    Array<AngkaCard> temp(card);
-    temp.merge(mainDeck);
+    // Array<AngkaCard> temp(card);
+    // temp.merge(mainDeck);
     //sort first
-    temp.sortArray(false);
+    // temp.sortArray(false);
+    std::sort(temp.begin(), temp.end(), greater);
     for(int i = 0;i<3;i++){
-        if(temp.get(i) == temp.get(i+1) && !(temp.get(i+1) == temp.get(i+2))){
+        if(temp[i] == temp[i+1] && !(temp[i+1] == temp[i+2])){
             //find three of kind
             for(int j = i+2 ; j<temp.size()-2; j++){
-                if(temp.get(j) == temp.get(j+1) && temp.get(j+1) == temp.get(j+2)){
-                    return temp.get(j).valuecard() + 1.39*6;
+                if(temp[j] == temp[j+1] && temp[j+1] == temp[j+2]){
+                    return temp[j].valuecard() + 1.39*6;
                 }
             }
         }
-        else if(temp.get(i) == temp.get(i+1) && temp.get(i+1) == temp.get(i+2)){
+        else if(temp[i] == temp[i+1] && temp[i+1] == temp[i+2]){
             //find pair
             for(int j = i+3 ; j<temp.size()-1; j++){
-                if(temp.get(j) == temp.get(j+1)){
-                    return temp.get(i).valuecard();
+                if(temp[j] == temp[j+1]){
+                    return temp[i].valuecard();
                 }
             }
 
@@ -156,28 +169,29 @@ double Kombo::fullHouse(){
 }
 double Kombo::fourOfAKind(){
     //4 consecutive check
-    Array<AngkaCard> temp(card);
-    temp.merge(mainDeck);
+    // Array<AngkaCard> temp(card);
+    // temp.merge(mainDeck);
     //sort first
-    temp.sortArray(false);
+    // temp.sortArray(false);
+    std::sort(temp.begin(), temp.end(), greater);
     for(int i =0;i<temp.size()-3;i++){
-        if((temp.get(i) == temp.get(i+1)) && (temp.get(i+1) == temp.get(i+2)) && (temp.get(i+2) == temp.get(i+3))){
-            return temp.get(i).valuecard()+1.39*7;
+        if((temp[i] == temp[i+1]) && (temp[i+1] == temp[i+2]) && (temp[i+2] == temp[i+3])){
+            return temp[i].valuecard()+1.39*7;
         }
     }
     return 0;
 }
 double Kombo::straightFlush(){
-    Array<AngkaCard> temp(card);
-    temp.merge(mainDeck);
+    // Array<AngkaCard> temp(card);
+    // temp.merge(mainDeck);
     //sort first
-    temp.sortArray(false);
+    // temp.sortArray(false);
     for(int i =0; i<3; i++){//there are only 3 possible straight in 7 cards
-        if((temp.get(i).getAngka() == temp.get(i+1).getAngka()+1) && (temp.get(i+1).getAngka() == temp.get(i+2).getAngka()+1)
-        && (temp.get(i+2).getAngka() == temp.get(i+3).getAngka()+1)&& (temp.get(i+4).getAngka() == temp.get(i+5).getAngka()+1)){
-            if(temp.get(i).sameColour(temp.get(i+1)) && temp.get(i+1).sameColour(temp.get(i+2)) && temp.get(i+2).sameColour(temp.get(i+3))
-            && temp.get(i+3).sameColour(temp.get(i+4))){
-                return temp.get(i).valuecard();
+        if((temp[i].getAngka() == temp[i+1].getAngka()+1) && (temp[i+1].getAngka() == temp[i+2].getAngka()+1)
+        && (temp[i+2].getAngka() == temp[i+3].getAngka()+1)&& (temp[i+4].getAngka() == temp[i+5].getAngka()+1)){
+            if(temp[i].sameColour(temp[i+1]) && temp[i+1].sameColour(temp[i+2]) && temp[i+2].sameColour(temp[i+3])
+            && temp[i+3].sameColour(temp[i+4])){
+                return temp[i].valuecard();
             }
         }
 

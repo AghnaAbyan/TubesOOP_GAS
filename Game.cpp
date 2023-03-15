@@ -32,6 +32,10 @@ AngkaCard Game::takeCardTable(){
     return table.takeCard();
 }
 
+void Game::nextGame(){
+    
+}
+
 void Game::newRound(){
     if (InventoryHolder::round == 2){
         Array<AbilityCard> L; 
