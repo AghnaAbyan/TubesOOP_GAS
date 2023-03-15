@@ -23,7 +23,7 @@ resolve with gettin second best pick.
 To implement add max value (Not yet implemented)
 */
 
-Kombo::Kombo(vector<AngkaCard> card, vector<AngkaCard> mainDeck){
+Kombo::Kombo(vector<AngkaCard> _card, vector<AngkaCard> mainDeck){
     temp.clear();
     for(int i=0; i<card.size(); i++){
         temp.push_back(card[i]);
@@ -31,6 +31,7 @@ Kombo::Kombo(vector<AngkaCard> card, vector<AngkaCard> mainDeck){
     for(int i=0; i<mainDeck.size(); i++){
         temp.push_back(mainDeck[i]);
     }
+    card = _card;
 }
 
 bool Kombo::greater(AngkaCard i, AngkaCard j){
@@ -201,38 +202,38 @@ double Kombo::straightFlush(){
 double Kombo::value(){
     if(straightFlush()){
         //
-        return 9+card.get(0).valuecard()+card.get(1).valuecard();
+        return 9+card[0].valuecard()+card[1].valuecard();
     }
     else if(fourOfAKind()){
         //
-        return 8+card.get(0).valuecard()+card.get(1).valuecard();
+        return 8+card[0].valuecard()+card[1].valuecard();
     }
     else if(fullHouse()){
         //
-        return 7+card.get(0).valuecard()+card.get(1).valuecard();
+        return 7+card[0].valuecard()+card[1].valuecard();
     }
     else if(flush()){
         //
-        return 6+card.get(0).valuecard()+card.get(1).valuecard();
+        return 6+card[0].valuecard()+card[1].valuecard();
     }
     else if(straight()){
         //
-        return 5+card.get(0).valuecard()+card.get(1).valuecard();
+        return 5+card[0].valuecard()+card[1].valuecard();
     }
     else if(threeOfAKind()){
         //
-        return 4+card.get(0).valuecard()+card.get(1).valuecard();
+        return 4+card[0].valuecard()+card[1].valuecard();
     }
     else if(twoPair()){
         //two pair calculation formula
         //2.78 + 
-        return card.get(0).valuecard()+card.get(1).valuecard();
+        return card[0].valuecard()+card[1].valuecard();
     }
     else if(pair()){
         //pair calculation formula
         //1.39 + card value
         //max 1.39*2
-         return 1.39+card.get(0).valuecard()+card.get(1).valuecard();
+         return 1.39+card[0].valuecard()+card[1].valuecard();
     }
     return highCard();
 }

@@ -9,6 +9,7 @@ using namespace std;
 class Kombo: public Kartu{
     private:
         vector<AngkaCard> temp;
+        vector<AngkaCard> card;
     public:
         Kombo(vector<AngkaCard>, vector<AngkaCard>);
         bool greater(AngkaCard, AngkaCard);

@@ -33,99 +33,99 @@ AngkaCard Game::takeCardTable(){
 }
 
 void Game::nextGame(){
-    
+
 }
 
 void Game::newRound(){
-    if (InventoryHolder::round == 2){
-        Array<AbilityCard> L; 
-        AbilityCard a(1,"Reverse");
-        AbilityCard b(2, "Re-Roll");
-        AbilityCard c(3, "Quarter");
-        AbilityCard d(4, "Reverse Direction");
-        AbilityCard e(5, "Swap Card");
-        AbilityCard f(6, "Switch");
-        AbilityCard g(7, "Abilityless");
+    // if (InventoryHolder::round == 2){
+    //     Array<AbilityCard> L; 
+    //     AbilityCard a(1,"Reverse");
+    //     AbilityCard b(2, "Re-Roll");
+    //     AbilityCard c(3, "Quarter");
+    //     AbilityCard d(4, "Reverse Direction");
+    //     AbilityCard e(5, "Swap Card");
+    //     AbilityCard f(6, "Switch");
+    //     AbilityCard g(7, "Abilityless");
 
-        L.addfirst(a);
-        L.addfirst(b);
-        L.addfirst(c);
-        L.addfirst(d);
-        L.addfirst(e);
-        L.addfirst(f);
-        L.addfirst(g);
+    //     L.addfirst(a);
+    //     L.addfirst(b);
+    //     L.addfirst(c);
+    //     L.addfirst(d);
+    //     L.addfirst(e);
+    //     L.addfirst(f);
+    //     L.addfirst(g);
 
-        int M = rand()%6;
-        players.get(0).setAbility(L.get(M));
-        L.operator-(L.get(M));
-        M = rand()%5;
+    //     int M = rand()%6;
+    //     players.get(0).setAbility(L.get(M));
+    //     L.operator-(L.get(M));
+    //     M = rand()%5;
 
-        players.get(1).setAbility(L.get(M));
-        L.operator-(L.get(M));
-        M = rand()%4;
+    //     players.get(1).setAbility(L.get(M));
+    //     L.operator-(L.get(M));
+    //     M = rand()%4;
 
-        players.get(2).setAbility(L.get(M));
-        L.operator-(L.get(M));
+    //     players.get(2).setAbility(L.get(M));
+    //     L.operator-(L.get(M));
 
-        M = rand()%3;
-        players.get(3).setAbility(L.get(M));
-        L.operator-(L.get(M));
+    //     M = rand()%3;
+    //     players.get(3).setAbility(L.get(M));
+    //     L.operator-(L.get(M));
 
-        M = rand()%2;
-        players.get(4).setAbility(L.get(M));
-        L.operator-(L.get(M));
+    //     M = rand()%2;
+    //     players.get(4).setAbility(L.get(M));
+    //     L.operator-(L.get(M));
 
-        M = rand()%1;
-        players.get(5).setAbility(L.get(M));
-        L.operator-(L.get(M));
+    //     M = rand()%1;
+    //     players.get(5).setAbility(L.get(M));
+    //     L.operator-(L.get(M));
 
-        M = 0;
-        players.get(6).setAbility(L.get(M));
-        L.operator-(L.get(M));
-    }
+    //     M = 0;
+    //     players.get(6).setAbility(L.get(M));
+    //     L.operator-(L.get(M));
+    // }
 }
 
 void Game::showPoin(){
     cout << "Poin pemain saat ini: " << endl;
     for(int i = 0; i < players.size(); i++){
-        cout << i+1 << ". <p" << i+1 << "> memiliki poin " << players.get(i).getPoin() << endl;
+        cout << i+1 << ". <p" << i+1 << "> memiliki poin " << players[i].getPoin() << endl;
     }
 }
 
 void Game::commandParser(int i, string command){
-    if (command == "next"){
-        players.get(i).next();
-    }
-    else if(command == "reroll"){
-        players.get(i).reroll(&table);
-    }
-    else if(command == "double"){
-        players.get(i).doublePoin();
-    }
-    else if(command == "quadruple"){
-        players.get(i).quadruple();
-    }
-    else if(command == "half"){
-        players.get(i).half();
-    }
-    else if(command == "quarter"){
-        players.get(i).quarter();
-    }
-    else if(command == "reverse"){
-        players.get(i).reverse();
-    }
-    else if(command == "swap"){
-        players.get(i).swapCard(&players);
-    }
-    else if (command == "switch"){
-        players.get(i).swapCard(&players);
-    }
-    else if(command == "abilityless"){
-        players.get(i).abilityless();
-    }
-    else{
-        /* exception */
-    }
+    // if (command == "next"){
+    //     players.get(i).next();
+    // }
+    // else if(command == "reroll"){
+    //     players.get(i).reroll(&table);
+    // }
+    // else if(command == "double"){
+    //     players.get(i).doublePoin();
+    // }
+    // else if(command == "quadruple"){
+    //     players.get(i).quadruple();
+    // }
+    // else if(command == "half"){
+    //     players.get(i).half();
+    // }
+    // else if(command == "quarter"){
+    //     players.get(i).quarter();
+    // }
+    // else if(command == "reverse"){
+    //     players.get(i).reverse();
+    // }
+    // else if(command == "swap"){
+    //     players.get(i).swapCard(&players);
+    // }
+    // else if (command == "switch"){
+    //     players.get(i).swapCard(&players);
+    // }
+    // else if(command == "abilityless"){
+    //     players.get(i).abilityless();
+    // }
+    // else{
+    //     /* exception */
+    // }
 }
 
 void Game::start(){
