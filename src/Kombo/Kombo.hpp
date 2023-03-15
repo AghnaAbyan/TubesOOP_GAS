@@ -1,10 +1,10 @@
-#ifndef KOMBO_HPP
-#define KOMBO_HPP
-#include <iostream>
 #include "../../Game.hpp"
 #include "../Kartu/Kartu.hpp"
 #include "../../array.hpp"
 using namespace std;
+#ifndef KOMBO_HPP
+#define KOMBO_HPP
+
 
 class Kombo: public Kartu{
     private:
@@ -12,7 +12,6 @@ class Kombo: public Kartu{
         vector<AngkaCard> card;
     public:
         Kombo(vector<AngkaCard>, vector<AngkaCard>);
-        bool greater(AngkaCard, AngkaCard);
         double highCard();
         double pair();
         double twoPair();

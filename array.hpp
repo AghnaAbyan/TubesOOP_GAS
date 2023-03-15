@@ -21,7 +21,6 @@ class Array{
         bool operator== (const Array&);
         T operator-- ();
         void merge(const Array&);
-        void sortArray(bool asc);
 };
 
 #endif

@@ -106,12 +106,5 @@ T Array<T>::operator-- (){
     N--;
     return buf;
 }
-template <class T>
-void Array<T>::sortArray(bool asc){
-    if(asc){
-    std::sort(data, data + N);
-    }else{
-        std::sort(data, data+N, greater<int>);
-    }
-}
+
 

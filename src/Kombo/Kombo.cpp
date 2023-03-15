@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "../../array.cpp"
 #include <vector>
+#include "../Kartu/Kartu.cpp"
 
 using namespace std;
 /*
@@ -32,24 +33,26 @@ Kombo::Kombo(vector<AngkaCard> _card, vector<AngkaCard> mainDeck){
         temp.push_back(mainDeck[i]);
     }
     card = _card;
+    //sort
+    std::sort(this->temp.begin(), this->temp.end(), [](AngkaCard a, AngkaCard b) {
+            return (a > b);
+            }  );
 }
 
-bool Kombo::greater(AngkaCard i, AngkaCard j){
-    return i.valuecard() > j.valuecard();
-}
+
 
 double Kombo::highCard(){
     // vector<AngkaCard> temp;
     //sort first
-    std::sort(temp.begin(), temp.end(), greater);
+    
     // temp.sortArray(false);
-    return temp[0].valuecard();
+    return this->temp[0].valuecard();
 }
+
 //Pair adalah keadaan ketika kedua kartu sama
 double Kombo::pair(){ 
     //sort first
     // temp.sortArray(false);
-    std::sort(temp.begin(), temp.end(), greater);
     for(int i = 0;i<temp.size()-1;i++){
         if(temp[i] == temp[i+1]){
             return 1.39 + temp[i].valuecard();
@@ -67,7 +70,6 @@ double Kombo::twoPair(){
     // temp.merge(mainDeck);
     //sort first
     // temp.sortArray(false);
-    std::sort(temp.begin(), temp.end(), greater);
 
     for(int i = 0;i<temp.size() -3;i++){
         if(temp[i] == temp[i+1]){
@@ -88,10 +90,9 @@ double Kombo::threeOfAKind(){
     // temp.merge(mainDeck);
     //sort first
     // temp.sortArray(false);
-    std::sort(temp.begin(), temp.end(), greater);
     for(int i =0;i<temp.size()-2;i++){
         if((temp[i] == temp[i+1]) && (temp[i+1] == temp[i+2])){
-            return temp[i].valuecard() + .39*3;
+            return temp[i].valuecard() + 1.39*3;
         }
     }
     return 0;
@@ -108,7 +109,6 @@ double Kombo::straight(){
     // temp.merge(mainDeck);
     //sort first
     // temp.sortArray(false);
-    std::sort(temp.begin(), temp.end(), greater);
     for(int i =0; i<3; i++){//there are only 3 possible straight in 7 cards
         if((temp[i].getAngka() == temp[i+1].getAngka()+1) && (temp[i+1].getAngka() == temp[i+2].getAngka()+1)
        && (temp[i+2].getAngka() == temp[i+3].getAngka()+1)&& (temp[i+4].getAngka() == temp[i+5].getAngka()+1)){
@@ -127,7 +127,6 @@ double Kombo::flush(){
     // temp.merge(mainDeck);
     //sort first
     // temp.sortArray(false);
-    std::sort(temp.begin(), temp.end(), greater);
     for(int i =0; i<3; i++){
         int count = 0;
         for(int j = i+1; j<temp.size(); j++){
@@ -146,7 +145,6 @@ double Kombo::fullHouse(){
     // temp.merge(mainDeck);
     //sort first
     // temp.sortArray(false);
-    std::sort(temp.begin(), temp.end(), greater);
     for(int i = 0;i<3;i++){
         if(temp[i] == temp[i+1] && !(temp[i+1] == temp[i+2])){
             //find three of kind
@@ -174,7 +172,6 @@ double Kombo::fourOfAKind(){
     // temp.merge(mainDeck);
     //sort first
     // temp.sortArray(false);
-    std::sort(temp.begin(), temp.end(), greater);
     for(int i =0;i<temp.size()-3;i++){
         if((temp[i] == temp[i+1]) && (temp[i+1] == temp[i+2]) && (temp[i+2] == temp[i+3])){
             return temp[i].valuecard()+1.39*7;
@@ -202,38 +199,38 @@ double Kombo::straightFlush(){
 double Kombo::value(){
     if(straightFlush()){
         //
-        return 9+card[0].valuecard()+card[1].valuecard();
+        return straightFlush();
     }
-    else if(fourOfAKind()){
+    if(fourOfAKind()){
         //
-        return 8+card[0].valuecard()+card[1].valuecard();
+        return fourOfAKind();
     }
-    else if(fullHouse()){
+    if(fullHouse()){
         //
-        return 7+card[0].valuecard()+card[1].valuecard();
+        return fullHouse();
     }
-    else if(flush()){
+    if(flush()){
         //
-        return 6+card[0].valuecard()+card[1].valuecard();
+        return flush();
     }
-    else if(straight()){
+    if(straight()){
         //
-        return 5+card[0].valuecard()+card[1].valuecard();
+        return straight();
     }
-    else if(threeOfAKind()){
+    if(threeOfAKind()){
         //
-        return 4+card[0].valuecard()+card[1].valuecard();
+        return threeOfAKind();
     }
-    else if(twoPair()){
+    if(twoPair()){
         //two pair calculation formula
         //2.78 + 
-        return card[0].valuecard()+card[1].valuecard();
+        return twoPair();
     }
-    else if(pair()){
+    if(pair()){
         //pair calculation formula
         //1.39 + card value
         //max 1.39*2
-         return 1.39+card[0].valuecard()+card[1].valuecard();
+         return pair();
     }
     return highCard();
 }
