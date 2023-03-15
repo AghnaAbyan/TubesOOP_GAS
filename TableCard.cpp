@@ -93,6 +93,17 @@ void TableCard::readFileTumpukan(string namaFile){
     setMainDeck();
 }
 
+void TableCard::resetNewGame(){
+    mainDeck.clear();
+    tumpukan.clear();
+}
+
+void TableCard::showInRound(int r){
+    for(int i = 0; i < r; i++){
+        cout << i << ". " << mainDeck[i].getAngka() << ", " << mainDeck[i].getWarna() << endl;
+    }
+}
+
 template <class T>
 void randomizeDeck(vector<T> &vec, int size){
     int index, secondIndex;

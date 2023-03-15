@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <math.h>
 #include "src\Kartu\Kartu.hpp"
 #include "array.hpp"
 
@@ -30,6 +31,8 @@ class TableCard: public InventoryHolder, AngkaCard{
         AngkaCard takeCard();
         // AngkaCard Randomize();
         void readFileTumpukan(string namaFile);
+        void resetNewGame();
+        void showInRound(int);
         // vector<AngkaCard> getTumpukan();
         /* void Kartu[] operator+(const Kartu&) (kayaknya ini mending diimplementasi di kartu) */
 };
@@ -49,10 +52,12 @@ class Player: public InventoryHolder{
         Player& operator=(const Player&);
         void newCard(AngkaCard, AngkaCard);
         int getPoin();
-        void display();
+        void addPoin(int);
+        void displayCard();
         void setAbility(AbilityCard);
         AbilityCard getAbility();
         void useAbility();
+        void resetNewGame();
 
         /* PlayerAction */
         void next();
@@ -82,23 +87,27 @@ class Game: public InventoryHolder{
     // friend class Player;
     // friend class TableCard;
     private:
-        int gameDirection; /* 0 clockwise, 1 counter clockwise */
+        int gameDirection; /* 0 maju, 1 mundur */
         int game;
         int round;
         int poinTotal;
         vector<Player> players;
         TableCard table;
-        int currentPlayerId;
+        int firstPlayerId;
+        vector<int> urutan;
 
     public:
         Game();
         AngkaCard takeCardTable();
         void newRound();
-        void nextGame();
         void showPoin();
         void commandParser(int, string);
         void start();
         void showUrutan();
+        bool endGame();
+        void showMain(int);
+        void reverseEffect(int); // untuk di ronde itu saja
+        void setTable();
 };
 
 #endif

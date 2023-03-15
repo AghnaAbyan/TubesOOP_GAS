@@ -37,6 +37,16 @@ int Player::getPoin(){
     return poin;
 }
 
+void Player::addPoin(int p){
+    poin = poin + p;
+}
+
+void Player::displayCard(){
+    for(int i = 0; i < card.size(); i++){
+        cout << i+1 << ". " << card[i].getAngka() << " " << card[i].getWarna() << endl;
+    }
+}
+
 void Player::setAbility(AbilityCard a){
     infoCardAbility = a;
 }
@@ -47,4 +57,9 @@ AbilityCard Player::getAbility(){
 
 void Player::useAbility(){
     usedAbility = true;
+}
+
+void Player::resetNewGame(){
+    card.clear();
+    usedAbility = false;
 }
