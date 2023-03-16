@@ -63,7 +63,7 @@ void TableCard::randomTableDeck(){
 }
 
 void TableCard::setMainDeck(){
-    for(int i = 0; i < 4; i++){
+    for(int i = 0; i < 5; i++){
         AngkaCard c = tumpukan[tumpukan.size()-1];
         tumpukan.pop_back();
         mainDeck.push_back(c);

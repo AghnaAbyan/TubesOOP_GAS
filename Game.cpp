@@ -202,7 +202,7 @@ void Game::start(){
             }
         }
 
-        cout << "Pemenangnya adalah <p" << winner << "> !" << endl;
+        cout << "Pemenang pada game ini adalah adalah <p" << winner << "> !" << endl;
         // berikan poin total pada pemenang
         players[winner-1].addPoin(poinTotal);
         showPoin();
@@ -220,6 +220,18 @@ void Game::start(){
             players[i].newCard(c1,c2);
         }
     }
+
+    int poin[7] = {players[0].getPoin(), players[1].getPoin(), players[2].getPoin(), players[3].getPoin(), players[4].getPoin(), players[5].getPoin(), players[6].getPoin()};
+    bool foundWinner = false;
+    int idWinnerAll;
+    int j = 0;
+    while(j < 7 && !foundWinner){
+        if(*max_element(poin,poin+7) == players[j].getPoin()){
+            foundWinner = true;
+            idWinnerAll = j + 1;
+        }
+    }
+    cout << "Selamat, pemenangnya adalah <p" << idWinnerAll << "> !!" << endl;
 }
 
 void Game::showUrutan(){
