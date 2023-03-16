@@ -73,16 +73,7 @@ int AngkaCard::priorityCardWarna() const{
 int AngkaCard::priorityCardAngka() const{
             return this->angka*10;
 }
-/*Output Operator*/
-std::ostream& operator<<(ostream& os,const AngkaCard& kartu);
-//Not yet, need to discuss output format first
 
-/*Input Operator*/
-/*  (For File)  */
-std::ifstream& operator>>(ifstream& os, AngkaCard& inputan){
-    os >> inputan.warna >> inputan.angka;
-    return os;
-}
 /*************/
 /*AbilityCard*/
 /*************/
