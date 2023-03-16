@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game():InventoryHolder(){
+Game::Game(){
     // inisialissasi atribut
     gameDirection = 0;
     game = 1;
@@ -12,19 +12,11 @@ Game::Game():InventoryHolder(){
     table = *buf;
 
     // inisialisasi player
-    players.clear();
-    for(int i = 0; i < 7; i++){
-        Player p(i);
-        AngkaCard c1 = takeCardTable();
-        AngkaCard c2 = takeCardTable();
-        p.newCard(c1,c2);
-    }
     firstPlayerId = 1;
     urutan.clear();
     for(int i = 1; i <= 7; i++){
         urutan.push_back(i);
     }
-    cout << "tes" << endl;
 }
 
 
@@ -135,14 +127,19 @@ void Game::start(){
     table.resetNewGame();
     setTable();
     vector<double> kombo;
-
+    players.clear();
+    for(int i = 0; i < 7; i++){
+        Player p(i);
+        AngkaCard c1 = takeCardTable();
+        AngkaCard c2 = takeCardTable();
+        p.newCard(c1,c2);
+        players.push_back(p);
+    }
     while (!endGame()){
-        setTable();
         while (round <= 6){
             cout << "Sekarang adalah permainan ke " << game << " ronde ke " << round << "." << endl;
             cout << "Putaran permainan: ";
             showUrutan();
-
             // iterasi command tiap pemain
             int i = 0;
             string inp;
@@ -157,6 +154,7 @@ void Game::start(){
                 cout << "Kartu yang anda miliki: " << endl;
                 players[urutan[i]-1].displayCard();
                 cout << "Masukkan command Anda: ";
+                cin >> inp;
                 // lakukan command, jangan lupa exception
                 // kalau ada efek reverse sekalian panggil reverseEffect(int urutan[i])
                 commandParser(urutan[i]-1, inp);
@@ -196,16 +194,19 @@ void Game::start(){
         // berikan poin total pada pemenang
         players[winner-1].addPoin(poinTotal);
         showPoin();
+        poinTotal = 64;
 
         // reset untuk game berikutnya
-        for(int i = 0; i < players.size(); i++){
-            players[i].resetNewGame();
-        }
-        poinTotal = 64;
         table.resetNewGame();
         round = 1;
         game++;
-        
+        setTable();
+        for(int i = 0; i < players.size(); i++){
+            players[i].resetNewGame();
+            AngkaCard c1 = takeCardTable();
+            AngkaCard c2 = takeCardTable();
+            players[i].newCard(c1,c2);
+        }
     }
 }
 
@@ -219,7 +220,7 @@ void Game::showUrutan(){
 bool Game::endGame(){
     bool end = false;
     int i = 0;
-    while(!end){
+    while(i < players.size() && !end){
         if(players[i].getPoin() >= pow(2,32)){
             end = true;
         }

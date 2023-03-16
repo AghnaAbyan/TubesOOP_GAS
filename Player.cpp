@@ -43,10 +43,12 @@ void Player::addPoin(int p){
 }
 
 void Player::displayCard(){
+    cout << "Jumlah kartu: " << card.size() << endl;
     for(int i = 0; i < card.size(); i++){
         cout << i+1 << ". " << card[i].getAngka() << " " << card[i].getWarna() << endl;
     }
-}
+    cout << "Done display card" << endl;
+    }
 
 void Player::setAbility(AbilityCard a){
     infoCardAbility = a;

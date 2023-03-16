@@ -56,11 +56,10 @@ void TableCard::randomTableDeck(){
         tumpukan.push_back(c);
     }
     randomizeDeck(tumpukan,52);
-    for(int i = 0; i < tumpukan.size();i++){
-        cout << tumpukan[i].getAngka()<<tumpukan[i].getWarna() << endl;
-    }
+    // for(int i = 0; i < tumpukan.size();i++){
+    //     cout << tumpukan[i].getAngka()<<tumpukan[i].getWarna() << endl;
+    // }
     setMainDeck();
-
 }
 
 void TableCard::setMainDeck(){
