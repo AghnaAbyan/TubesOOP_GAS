@@ -32,10 +32,6 @@ void InventoryHolder::clearCards(){
     cards.clear();
 }
 
-void InventoryHolder::importFromFile(string namaFile){
-
-}
-
 InventoryHolder& InventoryHolder::operator=(const InventoryHolder& other){
     cards = other.cards;
 

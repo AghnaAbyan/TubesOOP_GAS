@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include <ctime>
 
 Game::Game(){
     // inisialissasi atribut
@@ -20,9 +21,9 @@ Game::Game(){
 }
 
 
-AngkaCard Game::takeCardTable(){
-    return table.takeCard();
-}
+// AngkaCard Game::takeCardTable(){
+//     return table.takeCard();
+// }
 
 void Game::newRound(){
     // if (InventoryHolder::round == 2){
@@ -128,15 +129,16 @@ void Game::commandParser(int i, string command){
 void Game::start(){
     cout << "START" << endl;
     // isi table
-    table.resetNewGame();
+    resetNewGame();
+
     setTable();
     vector<double> kombo;
     players.clear();
     for(int i = 0; i < 7; i++){
-        Player p(i);
-        AngkaCard c1 = takeCardTable();
-        AngkaCard c2 = takeCardTable();
-        p.newCard(c1,c2);
+        Player *p = new Player(i);
+        AngkaCard c1 = takeCard();
+        AngkaCard c2 = takeCard();
+        (*p).newCard(c1,c2);
         players.push_back(p);
     }
     while (!endGame()){
@@ -157,7 +159,7 @@ void Game::start(){
                 cout << endl;
                 cout << "Giliran pemain <p" << urutan[i] << "> !" << endl;
                 cout << "Kartu yang anda miliki: " << endl;
-                players[urutan[i]-1].displayCard();
+                players[urutan[i]-1]->displayCards();
                 cout << "Masukkan command Anda: ";
                 cin >> inp;
                 // lakukan command, jangan lupa exception
@@ -198,7 +200,7 @@ void Game::start(){
         
 
         for(int i = 0; i < players.size(); i++){
-            Kombo k(players[i].getCard(), table.getMainDeck());
+            Kombo k(players[i]->getCards(), table.getCards());
             kombo.push_back(k.value(limit));
             cout<<i+1<<". "<<k.value(limit) << endl;
         }
@@ -208,7 +210,7 @@ void Game::start(){
             limit = kombo[0];//renew limit
             kombo.clear();
             for(int i = 0; i < players.size(); i++){
-                Kombo k(players[i].getCard(), table.getMainDeck());
+                Kombo k(players[i]->getCards(), table.getCards());
                 kombo.push_back(k.value(limit));
                 cout<<i+1<<". "<<k.value(limit) << endl;
             }
@@ -229,29 +231,29 @@ void Game::start(){
 
         cout << "Pemenang pada game ini adalah adalah <p" << winner << "> !" << endl;
         // berikan poin total pada pemenang
-        players[winner-1].addPoin(poinTotal);
+        players[winner-1]->addPoin(poinTotal);
         showPoin();
         poinTotal = 64;
 
         // reset untuk game berikutnya
-        table.resetNewGame();
+        resetNewGame();
         round = 1;
         game++;
         setTable();
         for(int i = 0; i < players.size(); i++){
-            players[i].resetNewGame();
-            AngkaCard c1 = takeCardTable();
-            AngkaCard c2 = takeCardTable();
-            players[i].newCard(c1,c2);
+            players[i]->clearCards();
+            AngkaCard c1 = takeCard();
+            AngkaCard c2 = takeCard();
+            players[i]->newCard(c1,c2);
         }
     }
 
-    int poin[7] = {players[0].getPoin(), players[1].getPoin(), players[2].getPoin(), players[3].getPoin(), players[4].getPoin(), players[5].getPoin(), players[6].getPoin()};
+    int poin[7] = {players[0]->getPoin(), players[1]->getPoin(), players[2]->getPoin(), players[3]->getPoin(), players[4]->getPoin(), players[5]->getPoin(), players[6]->getPoin()};
     bool foundWinner = false;
     int idWinnerAll;
     int j = 0;
     while(j < 7 && !foundWinner){
-        if(*max_element(poin,poin+7) == players[j].getPoin()){
+        if(*max_element(poin,poin+7) == players[j]->getPoin()){
             foundWinner = true;
             idWinnerAll = j + 1;
         }
@@ -270,7 +272,7 @@ bool Game::endGame(){
     bool end = false;
     int i = 0;
     while(i < players.size() && !end){
-        if(players[i].getPoin() >= pow(2,32)){
+        if(players[i]->getPoin() >= pow(2,32)){
             end = true;
         }
         i++;
@@ -317,13 +319,13 @@ void Game::setTable(){
     }
     cout << endl;
     if (inp == '1'){
-        table.randomTableDeck();
+        randomTableDeck();
     }
     else{
         cout << "Masukkan nama file: " << endl;
         // exception ....
         string filename;
-        table.readFileTumpukan(filename);
+        readFromFile(filename);
     }
 }
 
@@ -336,4 +338,63 @@ void Game::readFromFile(string namaFile){
         cards.pop_back();
     }
     table.setMainDeck(tablecards);
+}
+
+void Game::resetNewGame(){
+    clearCards();
+    table.clearCards();
+}
+
+template <class T>
+void randomizeDeck(vector<T> &vec, int size){
+    int index, secondIndex;
+    T temp;
+    srand((unsigned) time(NULL));
+    for(index = 0; index<size; index++){
+        secondIndex = rand() % size;
+        temp = vec[index];
+        vec[index] = vec[secondIndex];
+        vec[secondIndex] =  temp;
+    }
+}
+
+void Game::randomTableDeck(){
+    this->clearCards();
+    /* Isi tumpukan kartu */
+    for(int i = 1; i <= 13; i++){
+        AngkaCard c;
+        c.setAngka(i);
+        c.setWarna("Merah");
+        pushCard(c);
+    }
+    for(int i = 1; i <= 13; i++){
+        AngkaCard c;
+        c.setAngka(i);
+        c.setWarna("Hijau");
+        pushCard(c);
+    }
+    for(int i = 1; i <= 13; i++){
+        AngkaCard c;
+        c.setAngka(i);
+        c.setWarna("Kuning");
+        pushCard(c);
+    }
+    for(int i = 1; i <= 13; i++){
+        AngkaCard c;
+        c.setAngka(i);
+        c.setWarna("Biru");
+        pushCard(c);
+    }
+    randomizeDeck(cards,52);
+    // for(int i = 0; i < tumpukan.size();i++){
+    //     cout << tumpukan[i].getAngka()<<tumpukan[i].getWarna() << endl;
+    // }
+
+    vector<AngkaCard> tablecards;
+    for(int i = 0; i<5; i++){
+        tablecards.push_back(cards.back());
+        cards.pop_back();
+    }
+
+    table.setMainDeck(cards);
 }

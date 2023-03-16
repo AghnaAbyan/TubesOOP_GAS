@@ -19,7 +19,7 @@ class InventoryHolder{
     public:
         // InventoryHolder();
 
-        vector<AngkaCard> getCards() const {return cards;}
+        vector<AngkaCard> getCards() {return cards;}
 
         AngkaCard& takeCard();
         AngkaCard& takeCard(int);
@@ -44,11 +44,12 @@ class TableCard: public InventoryHolder{
         TableCard();
         void setMainDeck(vector<AngkaCard> cards);
         AngkaCard infoTableCard(int);
-        // AngkaCard takeCard();
+        AngkaCard takeCard();
         // AngkaCard Randomize();
         // void resetNewGame();
         void displayCards();
         void showInRound(int);
+        // vector<AngkaCard> TableCard::getMainDeck();
         // vector<AngkaCard> getTumpukan();
         /* void Kartu[] operator+(const Kartu&) (kayaknya ini mending diimplementasi di kartu) */
 };
@@ -143,6 +144,7 @@ class Game: public InventoryHolder{
         void changeDirection();
 
         void action(string);
+        void resetNewGame();
 
         Game& operator=(const InventoryHolder&);
         void readFromFile(string namaFile);
