@@ -74,6 +74,7 @@ void InventoryHolder::readFromFile(string namaFile){
                 a.push_back(b);    
             }
             cards = a;
+            file.close();
     }
     catch(exception& e){
         cout<<e.what()<<endl;
