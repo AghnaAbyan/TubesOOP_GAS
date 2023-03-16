@@ -7,31 +7,48 @@
 #include <math.h>
 #include "src/Kartu/Kartu.hpp"
 #include "src/Kombo/Kombo.hpp"
-#include "array.hpp"
+// #include "array.hpp"
+#include "src/Commands/Commands.hpp"
 
 using namespace std;
 
 class InventoryHolder{
+    protected:
+        vector<AngkaCard> cards;
+
     public:
-        InventoryHolder();
+        // InventoryHolder();
+
+        vector<AngkaCard> getCards() const {return cards;}
+
+        AngkaCard& takeCard();
+        AngkaCard& takeCard(int);
+        // AngkaCard& takeCard(int, string);
+        void pushCard(const AngkaCard);
+        void clearCards();
+        virtual void readFromFile(string namaFile);
+
+        virtual InventoryHolder& operator=(const InventoryHolder&);
+        virtual InventoryHolder& operator+(const AngkaCard);
+        virtual InventoryHolder& operator-(AngkaCard&);
+
+        virtual void displayCards() = 0;
 };
 
 class TableCard: public InventoryHolder{
     private:
-        vector<AngkaCard> mainDeck; /* Kartu mainDeck (pakai array, isinya bakal 5, dibuka per ronde)*/ 
-        vector<AngkaCard> tumpukan;
+        // vector<AngkaCard> mainDeck; /* Kartu mainDeck (pakai array, isinya bakal 5, dibuka per ronde)*/ 
+        // vector<AngkaCard> tumpukan;
 
     public:
         TableCard();
-        void randomTableDeck();
-        void setMainDeck();
+        void setMainDeck(vector<AngkaCard> cards);
         AngkaCard infoTableCard(int);
-        AngkaCard takeCard();
+        // AngkaCard takeCard();
         // AngkaCard Randomize();
-        void readFileTumpukan(string namaFile);
-        void resetNewGame();
+        // void resetNewGame();
+        void displayCards();
         void showInRound(int);
-        vector<AngkaCard> getMainDeck();
         // vector<AngkaCard> getTumpukan();
         /* void Kartu[] operator+(const Kartu&) (kayaknya ini mending diimplementasi di kartu) */
 };
@@ -42,47 +59,53 @@ class Player: public InventoryHolder{
     private:
         int id;
         int poin;
-        vector<AngkaCard> card; /* Kartu card (pakai array jumlahnya 2)*/
-        AbilityCard infoCardAbility;
-        bool usedAbility;
+        // vector<AngkaCard> card; /* Kartu card (pakai array jumlahnya 2)*/
+        map<string, Commands*> playerActions;
+        // AbilityCard infoCardAbility;
+        // bool usedAbility;
     public:
         Player(int);
         bool operator==(const Player&);
-        Player& operator=(const Player&);
         void newCard(AngkaCard, AngkaCard);
         int getPoin();
         int getId();
         void addPoin(int);
-        void displayCard();
-        void setAbility(AbilityCard);
-        AbilityCard getAbility();
-        void useAbility();
-        void resetNewGame();
-        vector<AngkaCard> getCard();
+        void setPoin(int);
+
+        map<string, Commands*> getPlayerActions();
+        void assignCommand(string, Game&);
+        void insertPlayerAction(pair<string, Commands*>);
+
+        void action(string);
+
+        void displayCards();
+
+        // Player& operator=(const Player&);
+        Player& operator=(const InventoryHolder&);
 
         /* PlayerAction */
-        void next();
-        void reroll(TableCard*);
-        void doublePoin();
-        void quadruple();
-        void half();
-        void quarter();
-        void reverse();
-        void swapCard(Array<Player>*);
-        void switchCard(Array<Player>*);
-        void abilityless();
+        // void next();
+        // void reroll(TableCard*);
+        // void doublePoin();
+        // void quadruple();
+        // void half();
+        // void quarter();
+        // void reverse();
+        // void swapCard(Array<Player>*);
+        // void switchCard(Array<Player>*);
+        // void abilityless();
 };
 
-class Ability{
-    public:
-        void reroll();
-        void quadruple();
-        void quarter();
-        void reverse();
-        void swapCard();
-        void switchCard();
-        void abilityless();
-};
+// class Ability{
+//     public:
+//         void reroll();
+//         void quadruple();
+//         void quarter();
+//         void reverse();
+//         void swapCard();
+//         void switchCard();
+//         void abilityless();
+// };
 
 class Game: public InventoryHolder{
     // friend class Player;
@@ -92,7 +115,8 @@ class Game: public InventoryHolder{
         int game;
         int round;
         int poinTotal;
-        vector<Player> players;
+        vector<Player*> players;
+        Player* currentPlayer;
         TableCard table;
         int firstPlayerId;
         vector<int> urutan;
@@ -100,6 +124,12 @@ class Game: public InventoryHolder{
     public:
         Game();
         AngkaCard takeCardTable();
+
+        vector<Player*> getPlayers() const;
+        Player* getCurrentPlayer();
+
+        void randomTableDeck();
+
         void newRound();
         void showPoin();
         void commandParser(int, string);
@@ -108,7 +138,15 @@ class Game: public InventoryHolder{
         bool endGame();
         void showMain(int);
         void reverseEffect(int); // untuk di ronde itu saja
+        void displayCards();
         void setTable();
+        void changeDirection();
+
+        void action(string);
+
+        Game& operator=(const InventoryHolder&);
+        void readFromFile(string namaFile);
+
 };
 
 #endif

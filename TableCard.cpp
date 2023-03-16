@@ -5,12 +5,8 @@
 #include "Game.hpp"
 #include "exception.hpp"
 #include <ctime>
-TableCard::TableCard(){
-    vector<AngkaCard> buf;
-    tumpukan = buf;
-    vector<AngkaCard> buf1;
-    mainDeck = buf1;
-}
+
+TableCard::TableCard(){}
 template <class T>
 void randomizeDeck(vector<T> &vec, int size){
     int index, secondIndex;
@@ -23,55 +19,53 @@ void randomizeDeck(vector<T> &vec, int size){
         vec[secondIndex] =  temp;
     }
 }
-void TableCard::randomTableDeck(){
-    while(!mainDeck.empty()){
-        mainDeck.pop_back();
-    }
-    while(!tumpukan.empty()){
-        tumpukan.pop_back();
-    }
+void Game::randomTableDeck(){
+    this->clearCards();
     /* Isi tumpukan kartu */
     for(int i = 1; i <= 13; i++){
         AngkaCard c;
         c.setAngka(i);
         c.setWarna("Merah");
-        tumpukan.push_back(c);
+        pushCard(c);
     }
     for(int i = 1; i <= 13; i++){
         AngkaCard c;
         c.setAngka(i);
         c.setWarna("Hijau");
-        tumpukan.push_back(c);
+        pushCard(c);
     }
     for(int i = 1; i <= 13; i++){
         AngkaCard c;
         c.setAngka(i);
         c.setWarna("Kuning");
-        tumpukan.push_back(c);
+        pushCard(c);
     }
     for(int i = 1; i <= 13; i++){
         AngkaCard c;
         c.setAngka(i);
         c.setWarna("Biru");
-        tumpukan.push_back(c);
+        pushCard(c);
     }
-    randomizeDeck(tumpukan,52);
+    randomizeDeck(cards,52);
     // for(int i = 0; i < tumpukan.size();i++){
     //     cout << tumpukan[i].getAngka()<<tumpukan[i].getWarna() << endl;
     // }
-    setMainDeck();
+
+    vector<AngkaCard> tablecards;
+    for(int i = 0; i<5; i++){
+        tablecards.push_back(cards.back());
+        cards.pop_back();
+    }
+
+    table.setMainDeck(cards);
 }
 
-void TableCard::setMainDeck(){
-    for(int i = 0; i < 5; i++){
-        AngkaCard c = tumpukan[tumpukan.size()-1];
-        tumpukan.pop_back();
-        mainDeck.push_back(c);
-    }
+void TableCard::setMainDeck(vector<AngkaCard> _cards){
+    cards = _cards;
 }
 
 AngkaCard TableCard::infoTableCard(int i){
-    return mainDeck.at(i);
+    return cards[i];
 }
 
 AngkaCard TableCard::takeCard(){
@@ -88,35 +82,35 @@ AngkaCard TableCard::takeCard(){
 //     return val;
 // }
 
-void TableCard::readFileTumpukan(string namaFile){
+// void TableCard::readFileTumpukan(string namaFile){
     
-    ifstream file(namaFile);
-    try{
-        if(!file.is_open()){
-        throw TestException();
-        }
+//     ifstream file(namaFile);
+//     try{
+//         if(!file.is_open()){
+//         throw TestException();
+//         }
         
-            vector<AngkaCard> a;
-            AngkaCard b;
-            string line;
-            while(getline(file,line)){
-                cout<<line<<endl;
-                size_t pos = line.find(",");
-                b.setAngka(stoi(line.substr(0, pos)));
-                line.erase(0, pos + 1);
-                b.setWarna(line);
-                a.push_back(b);    
-            }
-            tumpukan = a;
+//             vector<AngkaCard> a;
+//             AngkaCard b;
+//             string line;
+//             while(getline(file,line)){
+//                 cout<<line<<endl;
+//                 size_t pos = line.find(",");
+//                 b.setAngka(stoi(line.substr(0, pos)));
+//                 line.erase(0, pos + 1);
+//                 b.setWarna(line);
+//                 a.push_back(b);    
+//             }
+//             tumpukan = a;
             
-            setMainDeck();
+//             setMainDeck();
         
-    }
-    catch(exception& e){
-        cout<<e.what()<<endl;
+//     }
+//     catch(exception& e){
+//         cout<<e.what()<<endl;
 
-    }
-}
+//     }
+// }
 
 void TableCard::resetNewGame(){
     mainDeck.clear();

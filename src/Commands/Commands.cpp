@@ -37,10 +37,10 @@ void Reroll::action(){
     cout << "Melakukan pembuangan kartu yang sedang dimiliki" << endl;
     cout << "Kamu mendapatkan 2 kartu baru yaitu:" << endl;
 
-    AngkaCard c1, c2;
-    game = game - c1 - c2;
+    AngkaCard c1 = game.takeCard();
+    AngkaCard c2 = game.takeCard();
     (*player).clearCards();
-    *player = *player + c1 + c2;
+    *player + c1 + c2;
 
 
     cout << "1. " << c1.getAngka() << " " << c1.getWarna() << endl;
@@ -93,8 +93,8 @@ void Swap::action(){
     AngkaCard& c1 = chooseCard(playerA);
     AngkaCard& c2 = chooseCard(playerB);
 
-    *playerA = *playerA + c2;
-    *playerB = *playerB + c1;
+    *playerA + c2;
+    *playerB + c1;
 }
 
 AngkaCard& Swap::chooseCard(Player* target){
@@ -116,12 +116,14 @@ void Switch::action(){
     players.erase(find(players.begin(), players.end(), player));
     Player* other = chooseOtherPlayer();
 
-    AngkaCard c1, c2, c3, c4;
-    *other = *other - c1 - c2;
-    *player = *player - c3 - c4;
+    // AngkaCard c1, c2, c3, c4;
+    AngkaCard c1 = other->takeCard();
+    AngkaCard c2 = other->takeCard();
+    AngkaCard c3 = player->takeCard();
+    AngkaCard c4 = player->takeCard();
 
-    *player = *player + c1 + c2;
-    *other = *other + c3 + c4;
+    *player + c1 + c2;
+    *other + c3 + c4;
 
     cout<<"Kedua kartumu berhasil ditukar dengan kartu milik <pemain_"<<other->getId()<<">!"<<endl;
     cout<<"Kartumu sekarang adalah:"<<endl;

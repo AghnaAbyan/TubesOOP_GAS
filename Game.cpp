@@ -80,7 +80,7 @@ void Game::newRound(){
 void Game::showPoin(){
     cout << "Poin pemain saat ini: " << endl;
     for(int i = 0; i < players.size(); i++){
-        cout << i+1 << ". <p" << i+1 << "> memiliki poin " << players[i].getPoin() << endl;
+        cout << i+1 << ". <p" << i+1 << "> memiliki poin " << players[i]->getPoin() << endl;
     }
     cout << "Done showPoin" << endl;
 }
@@ -116,7 +116,7 @@ void Game::commandParser(int i, string command){
     else if(command == "abilityless"){
         cout << "Method abilityless (belum diimplementasi)" << endl;
     }else if(command == "value"){
-        Kombo k(players[i].getCard(), table.getMainDeck());
+        Kombo k(players[i]->getCards(), table.getCards());
         cout <<k.value(100)<<endl;
     }
     else{
@@ -325,4 +325,15 @@ void Game::setTable(){
         string filename;
         table.readFileTumpukan(filename);
     }
+}
+
+void Game::readFromFile(string namaFile){
+    InventoryHolder::readFromFile(namaFile);
+
+    vector<AngkaCard> tablecards;
+    for(int i = 0; i<5; i++){
+        tablecards.push_back(cards.back());
+        cards.pop_back();
+    }
+    table.setMainDeck(tablecards);
 }
