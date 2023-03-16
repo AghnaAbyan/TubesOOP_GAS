@@ -82,6 +82,7 @@ void Game::showPoin(){
     for(int i = 0; i < players.size(); i++){
         cout << i+1 << ". <p" << i+1 << "> memiliki poin " << players[i].getPoin() << endl;
     }
+    cout << "Done showPoin" << endl;
 }
 
 void Game::commandParser(int i, string command){
@@ -150,6 +151,7 @@ void Game::start(){
                 else{
                     showMain(round);
                 }
+                cout << endl;
                 cout << "Giliran pemain <p" << urutan[i] << "> !" << endl;
                 cout << "Kartu yang anda miliki: " << endl;
                 players[urutan[i]-1].displayCard();
@@ -162,15 +164,24 @@ void Game::start(){
             }
             // atur urutan lagi
             urutan.clear();
-            firstPlayerId = (firstPlayerId+1)%7;
+            int idd;
+            firstPlayerId = ((firstPlayerId+1)%7);
             if(gameDirection == 0){
                 for(int i = 0; i < 7; i++){
-                    urutan.push_back((firstPlayerId+i) % 7);
+                    idd = (firstPlayerId+i) % 7;
+                    if(idd == 0){
+                        idd = 7;
+                    }
+                    urutan.push_back(idd);
                 }
             }
             else{
                 for(int i = 7; i <= 0; i--){
-                    urutan.push_back((firstPlayerId+i) % 7);
+                    idd = (firstPlayerId+i) % 7;
+                    if(idd == 0){
+                        idd = 7;
+                    }
+                    urutan.push_back(idd);
                 }
             }
             round++;
@@ -191,6 +202,7 @@ void Game::start(){
             }
         }
 
+        cout << "Pemenangnya adalah <p" << winner << "> !" << endl;
         // berikan poin total pada pemenang
         players[winner-1].addPoin(poinTotal);
         showPoin();
