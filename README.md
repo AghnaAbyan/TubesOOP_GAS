@@ -1,4 +1,5 @@
 # Tugas Besar 1 Pemrograman Berorientasi Objek (OOP): Kompetisi Kartu ala Kerajaan Permen
+Program ini dibuat untuk memenuhi capaian kurikulum Tugas Besar 1 IF2210 Pemrograman Berorientasi Objek 2022/2023, yaitu membuat program C++ dengan implementasi OOP.
 
 ## Informasi Umum
 Program merupakan implementasi sebuah permainan kartu yang menerapkan konsep-konsep OOP, seperti:
@@ -22,6 +23,17 @@ Beberapa perintah (command) yang dapat dilakukan pada program adalah sebagai ber
 | Switch          | Pemain menukar kartu *main deck* miliknya dengan kartu *main deck* pemain lain |
 | Abilityless     | Pemain dapat mematikan kemampuan kartu lawan |
 
+## How to run
+Run perintah berikut di terminal:
+```shell
+g++ -o m main.cpp Game.cpp src/Kartu/Kartu.cpp src/Kombo/Kombo.cpp InventoryHolder.cpp Player.cpp TableCard.cpp
+```
+
+Selanjutnya jalankan:
+```shell
+./m
+```
+
 ## Ucapan Terimakasih
 Kami mengucapkan terimakasih kepada dosen yang telah mengajari kami tentang materi-materi pemrograman berorientasi objek C++ yang sangat penting untuk dipahami dan diimplementasikan pada tugas besar ini. Kami juga mengucapkan terimakasih kepada asisten yang telah membimbing kami selama pengerjaan tugas besar ini.
 
@@ -36,14 +48,3 @@ Kami mengucapkan terimakasih kepada dosen yang telah mengajari kami tentang mate
 | 13521076  | Moh. Aghna Maysan Abyan     | AghnaAbyan    |
 | 13521115  | Shelma Salsabila            | shelmasalsa17 |
 | 13521165  | Reza Pahlevi Ubaidillah     | obediqbal     |
-
-## How to run
-Run perintah berikut di terminal:
-```shell
-g++ -o m main.cpp Game.cpp src/Kartu/Kartu.cpp src/Kombo/Kombo.cpp InventoryHolder.cpp Player.cpp TableCard.cpp
-```
-
-Selanjutnya jalankan:
-```shell
-./m
-```
