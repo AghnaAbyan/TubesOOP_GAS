@@ -36,26 +36,26 @@ class AngkaCard : public Kartu {
         friend std::ostream& operator<<(ostream& os,const AngkaCard&);
         friend std::ifstream& operator>>(ifstream& os, AngkaCard& inputan);
         void printValue();
-        double priorityCardWarna() const{
+        int priorityCardWarna() const{
             if(this->warna == "Merah"){
-                return 0.09;
+                return 9;
             }
             else if(this->warna == "Kuning"){
-                return 0.06;
+                return 6;
             }
             else if(this->warna == "Biru"){
-                return 0.03;
+                return 3;
             }
             else{
                 return 0;
             }
         }
 
-        double priorityCardAngka() const{
-            return this->angka*0.1;
+        int priorityCardAngka() const{
+            return this->angka*10;
         }
 
-        double valuecard() const;        
+        int valuecard() const;        
 
         
 };

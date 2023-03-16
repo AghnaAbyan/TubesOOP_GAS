@@ -8,19 +8,21 @@ using namespace std;
 class Kombo: public Kartu{
     private:
         vector<AngkaCard> temp;
+        vector<AngkaCard> combination;
         vector<AngkaCard> card;
     public:
         Kombo(vector<AngkaCard>, vector<AngkaCard>);
-        double highCard(double);
-        double pair(double);
-        double twoPair(double);
-        double threeOfAKind(double);
-        double straight(double);
-        double flush(double);
-        double fullHouse(double);
-        double fourOfAKind(double);
-        double straightFlush(double);
-        double value(double);
+        AngkaCard get(int);// return combination[i] 
+        int highCard(int);
+        int pair(int);
+        int twoPair(int);
+        int threeOfAKind(int);
+        int straight(int);
+        int flush(int);
+        int fullHouse(int);
+        int fourOfAKind(int);
+        int straightFlush(int);
+        int value(int);
 };
 
 #endif
