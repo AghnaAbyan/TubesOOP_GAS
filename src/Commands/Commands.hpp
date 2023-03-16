@@ -8,22 +8,25 @@ using namespace std;
 
 class Commands{ // ABC
     protected:
-        Game* game;
+        Game& game;
         Player* player;
     public:
+        Commands(Game& _game): game(_game), player(_game.getCurrentPlayer()){}
         ~Commands();
+        Player* chooseOtherPlayer();
+
         virtual void action() = 0;
 };
 
 class Next: public Commands{
     public:
-        Next();
+        Next(Game& _game): Commands(_game){}
         void action();
 };
 
 class Reroll: public Commands{
     public:
-        Reroll(Game*, Player*);
+        Reroll(Game& _game): Commands(_game){}
         void action();
 };
 
@@ -31,41 +34,41 @@ class Multiply: public Commands{
     protected:
         int multiplier;
     public:
-        Multiply(Player*, int);
+        Multiply(Game& _game, int _multiplier): Commands(_game), multiplier(_multiplier){}
         void action();
 };
 
 class Double: public Multiply{
     public:
-        Double(Player*);
+        Double(Game& _game): Multiply(_game, 2){}
 };
 
 class Quadruple: public Multiply{
     public:
-        Quadruple(Player*);
+        Quadruple(Game& _game): Multiply(_game, 4){}
 };
 
 class Divide: public Commands{
     protected:
         int divisor;
     public:
-        Divide(Player*, int);
+        Divide(Game& _game, int _divisor): Commands(_game), divisor(_divisor){}
         void action();
 };
 
 class Half: public Divide{
     public:
-        Half(Player*);
+        Half(Game& _game): Divide(_game, 2){}
 };
 
 class Quarter: public Divide{
     public:
-        Quarter(Player*);
+        Quarter(Game& _game): Divide(_game, 4){}
 };
 
 class Reverse: public Commands{
     public:
-        Reverse(Game*);
+        Reverse(Game& _game): Commands(_game){}
         void action();
 };
 
@@ -74,24 +77,21 @@ class Swap: public Commands{
         AngkaCard* chosenCardA;
         AngkaCard* chosenCardB;
     public:
-        Swap();
+        Swap(Game& _game): Commands(_game){}
         void action();
         AngkaCard* chooseCard();
-        Player* choosePlayer();
 };
 
 class Switch: public Commands{
     public:
-        Switch(Player*);
+        Switch(Game& _game): Commands(_game){}
         void action();
-        Player* choosePlayer();
 };
 
 class Abilityless: public Commands{
     public:
-        Abilityless();
+        Abilityless(Game& _game): Commands(_game){}
         void action();
-        Player* choosePlayer();
 };
 
 #endif
