@@ -36,3 +36,14 @@ Kami mengucapkan terimakasih kepada dosen yang telah mengajari kami tentang mate
 | 13521076  | Moh. Aghna Maysan Abyan     | AghnaAbyan    |
 | 13521115  | Shelma Salsabila            | shelmasalsa17 |
 | 13521165  | Reza Pahlevi Ubaidillah     | obediqbal     |
+
+## How to run
+Run perintah berikut di terminal:
+```shell
+g++ -o m main.cpp Game.cpp src/Kartu/Kartu.cpp src/Kombo/Kombo.cpp InventoryHolder.cpp Player.cpp TableCard.cpp
+```
+
+Selanjutnya jalankan:
+```shell
+./m
+```
