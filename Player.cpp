@@ -52,22 +52,22 @@ map<string, Commands*> Player::getPlayerActions(){
     return playerActions;
 }
 
-void Player::assignCommand(string key, Game& game){
-    Commands* command;
+// void Player::assignCommand(string key, Game& game){
+//     Commands* command;
 
-    if(key == "NEXT") command = new Next(game);
-    if(key == "REROLL") command = new Reroll(game);
-    if(key == "DOUBLE") command = new Double(game);
-    if(key == "QUADRUPLE") command = new Quadruple(game);
-    if(key == "HALF") command = new Half(game);
-    if(key == "QUARTER") command = new Quarter(game);
-    if(key == "REVERSE") command = new Reverse(game);
-    if(key == "SWAP") command = new Swap(game);
-    if(key == "SWITCH") command = new Switch(game);
-    if(key == "ABILITYLESS") command = new Abilityless(game);
+//     if(key == "NEXT") command = new Next(game);
+//     if(key == "REROLL") command = new Reroll(game);
+//     if(key == "DOUBLE") command = new Double(game);
+//     if(key == "QUADRUPLE") command = new Quadruple(game);
+//     if(key == "HALF") command = new Half(game);
+//     if(key == "QUARTER") command = new Quarter(game);
+//     if(key == "REVERSE") command = new Reverse(game);
+//     if(key == "SWAP") command = new Swap(game);
+//     if(key == "SWITCH") command = new Switch(game);
+//     if(key == "ABILITYLESS") command = new Abilityless(game);
     
-    playerActions.insert(pair<string, Commands*>(key, command));
-}
+//     playerActions.insert(pair<string, Commands*>(key, command));
+// }
 
 void Player::action(string key){
     if(playerActions.find(key) == playerActions.end()) throw "Ga punya";
