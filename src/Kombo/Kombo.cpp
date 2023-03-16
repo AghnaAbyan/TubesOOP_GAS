@@ -24,17 +24,25 @@ To implement add max value (Not yet implemented)
 
 Kombo::Kombo(vector<AngkaCard> _card, vector<AngkaCard> mainDeck){
     temp.clear();
+    card = _card;
     for(int i=0; i<card.size(); i++){
         temp.push_back(card[i]);
     }
     for(int i=0; i<mainDeck.size(); i++){
         temp.push_back(mainDeck[i]);
     }
-    card = _card;
+    
     //sort
-    std::sort(this->temp.begin(), this->temp.end(), [](AngkaCard a, AngkaCard b) {
-            return (a > b);
-            }  );
+    
+    std::sort(temp.begin(), temp.end(), greater <>());//[](AngkaCard a, AngkaCard b) {
+           // return (a>b);
+           // }  );
+    cout<<"[";
+    for(int i = 0; i< temp.size();i++){
+        
+        cout<<temp[i].getAngka()<<temp[i].getWarna()<<",";
+    }
+    cout<<"]";
 }
 
 
@@ -223,40 +231,49 @@ double Kombo::straightFlush(double limit){//need fix
 }
 double Kombo::value(double limit){
     //start with 1.39*9 + 0.01 limit
-    if(straightFlush(limit)){
+    if(straightFlush(limit) > 0){
         //
+        cout<<"straightFlush ";
         return straightFlush(limit);
     }
-    if(fourOfAKind(limit)){
+    if(fourOfAKind(limit) > 0){
         //
+        cout<<"four ";
         return fourOfAKind(limit);
     }
-    if(fullHouse(limit)){
+    if(fullHouse(limit) >0){
         //
+        cout<<"full ";
         return fullHouse(limit);
     }
-    if(flush(limit)){
+    if(flush(limit) >0){
         //
+        cout<< "flush ";
         return flush(limit);
     }
-    if(straight(limit)){
+    if(straight(limit) > 0){
         //
+        cout<<"straight ";
         return straight(limit);
     }
-    if(threeOfAKind(limit)){
+    if(threeOfAKind(limit) > 0){
         //
+        cout<< "three ";
         return threeOfAKind(limit);
     }
-    if(twoPair(limit)){
+    if(twoPair(limit) > 0){
         //two pair calculation formula
         //2.78 + 
+        cout<<"two ";
         return twoPair(limit);
     }
-    if(pair(limit)){
+    if(pair(limit) > 0){
         //pair calculation formula
         //1.39 + card value
         //max 1.39*2
+        cout<<"pair ";
          return pair(limit);
     }
+    cout<<"highcard ";
     return highCard(limit);
 }

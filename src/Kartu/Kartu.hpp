@@ -35,6 +35,7 @@ class AngkaCard : public Kartu {
         bool operator>(const AngkaCard&);
         friend std::ostream& operator<<(ostream& os,const AngkaCard&);
         friend std::ifstream& operator>>(ifstream& os, AngkaCard& inputan);
+        void printValue();
         double priorityCardWarna() const{
             if(this->warna == "Merah"){
                 return 0.09;
