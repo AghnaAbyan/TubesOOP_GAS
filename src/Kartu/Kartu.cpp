@@ -56,21 +56,24 @@ void AngkaCard::setWarna(string b){
     this->warna = b;
 }
 
-void AngkaCard::printValue(){
-    cout<<"Nilai angka "<< this->priorityCardAngka()<<endl;
-    cout<<"Nilai warna "<< this->priorityCardWarna()<<endl;
+int AngkaCard::priorityCardWarna() const{
+            if(this->warna == "Merah"){
+                return 9;
+            }
+            else if(this->warna == "Kuning"){
+                return 6;
+            }
+            else if(this->warna == "Biru"){
+                return 3;
+            }
+            else{
+                return 0;
+            }
+}
+int AngkaCard::priorityCardAngka() const{
+            return this->angka*10;
 }
 
-/*Output Operator*/
-std::ostream& operator<<(ostream& os,const AngkaCard& kartu);
-//Not yet, need to discuss output format first
-
-/*Input Operator*/
-/*  (For File)  */
-std::ifstream& operator>>(ifstream& os, AngkaCard& inputan){
-    os >> inputan.warna >> inputan.angka;
-    return os;
-}
 /*************/
 /*AbilityCard*/
 /*************/
