@@ -33,27 +33,9 @@ class AngkaCard : public Kartu {
         bool operator==(const AngkaCard&);
         bool operator<(const AngkaCard&);
         bool operator>(const AngkaCard&);
-        friend std::ostream& operator<<(ostream& os,const AngkaCard&);
-        friend std::ifstream& operator>>(ifstream& os, AngkaCard& inputan);
-        void printValue();
-        int priorityCardWarna() const{
-            if(this->warna == "Merah"){
-                return 9;
-            }
-            else if(this->warna == "Kuning"){
-                return 6;
-            }
-            else if(this->warna == "Biru"){
-                return 3;
-            }
-            else{
-                return 0;
-            }
-        }
+        int priorityCardWarna() const;
 
-        int priorityCardAngka() const{
-            return this->angka*10;
-        }
+        int priorityCardAngka() const;
 
         int valuecard() const;        
 
