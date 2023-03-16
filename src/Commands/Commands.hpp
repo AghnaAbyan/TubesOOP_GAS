@@ -3,6 +3,7 @@
 
 #include "Game.hpp"
 #include "src/Kartu/Kartu.hpp"
+#include <algorithm>
 
 using namespace std;
 
@@ -10,10 +11,19 @@ class Commands{ // ABC
     protected:
         Game& game;
         Player* player;
+        vector<Player*> players;
+
+        bool used;
+        bool disabled;
     public:
-        Commands(Game& _game): game(_game), player(_game.getCurrentPlayer()){}
+        Commands(Game& _game): game(_game), player(_game.getCurrentPlayer()), players(game.getPlayers()), used(false), disabled(false){}
         ~Commands();
         Player* chooseOtherPlayer();
+        void use();
+        void disable();
+
+        bool isUsed(){return used;}
+        bool isDisabled(){return disabled;}
 
         virtual void action() = 0;
 };
@@ -73,13 +83,10 @@ class Reverse: public Commands{
 };
 
 class Swap: public Commands{
-    private:
-        AngkaCard* chosenCardA;
-        AngkaCard* chosenCardB;
     public:
         Swap(Game& _game): Commands(_game){}
         void action();
-        AngkaCard* chooseCard();
+        AngkaCard& chooseCard(Player*);
 };
 
 class Switch: public Commands{

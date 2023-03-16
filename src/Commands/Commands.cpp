@@ -6,6 +6,27 @@ Commands::~Commands(){
     // delete player;
 }
 
+void Commands::use(){
+    used = true;
+}
+
+void Commands::disable(){
+    disabled = true;
+}
+
+Player* Commands::chooseOtherPlayer(){
+    int i = 1;
+    for(Player* j : players){
+        cout<<i<<". <pemain_"<<j->getId()<<">"<<endl;
+    }
+    int temp;
+    
+    cin>>temp;
+    if(temp<=0 || temp>players.size()) throw "Batas";
+
+    return players[temp];
+}
+
 // Next
 void Next::action(){}
 
@@ -24,8 +45,6 @@ void Reroll::action(){
 
     cout << "1. " << c1.getAngka() << " " << c1.getWarna() << endl;
     cout << "2. " << c2.getAngka() << " " << c2.getWarna() << endl;
-
-    delete this;
 }
 
 //Multiply
@@ -34,7 +53,7 @@ void Multiply::action(){
 
     string prompt;
     if(multiplier==2) prompt = "DOUBLE!";
-    else if(multiplier==4) prompt = "QUADRUPLE";
+    else if(multiplier==4)prompt = "QUADRUPLE";
 
     cout << player->getId() << "melakukan "<< prompt <<" Poin hadiah naik  " << " menjadi " << player->getPoin() << "!" << endl;
 }
@@ -46,7 +65,7 @@ void Divide::action(){
     player->setPoin(player->getPoin()/divisor);
     string prompt;
     if(divisor==2) prompt = "HALF!";
-    else if(divisor==4) prompt = "QUARTER";
+    else if(divisor==4)prompt = "QUARTER";
 
     cout << player->getId() << "melakukan "<< prompt <<" Poin hadiah turun  " << " menjadi " << player->getPoin() << "!" << endl;
 }
@@ -63,11 +82,38 @@ void Reverse::action(){
 void Swap::action(){
     cout << player->getId() << "melakukan SWAP!" << endl;
 
-    // TODO
+    players.erase(find(players.begin(), players.end(), player));
+    cout<<"Pilih pemain yang mau kamu tukar kartunya:"<<endl;
+    Player* playerA = chooseOtherPlayer();
+    players.erase(find(players.begin(), players.end(), playerA));
+    cout<<"Pilih pemain lain yang mau kamu tukar kartunya:"<<endl;
+    Player* playerB = chooseOtherPlayer();
+    players.erase(find(players.begin(), players.end(), playerB));
+
+    AngkaCard& c1 = chooseCard(playerA);
+    AngkaCard& c2 = chooseCard(playerB);
+
+    *playerA = *playerA + c2;
+    *playerB = *playerB + c1;
+}
+
+AngkaCard& Swap::chooseCard(Player* target){
+    cout<<"Pilih kartu kanan/kiri milik pemain_"<<target->getId()<<endl;
+    cout<<"1. Kanan"<<endl<<"2. Kiri"<<endl;
+    int temp;
+    cin>>temp;
+
+    return target->takeCard(temp);
 }
 
 //Switch
 void Switch::action(){
+    cout<<"<pemain_"<<player->getId()<<"> melakukan SWITCH!"<<endl;
+    cout<<"Kartumu sekarang adalah:"<<endl;
+    player->displayCards();
+
+    cout<<"Pilih pemain yang mau kamu tukar kartunya"<<endl;
+    players.erase(find(players.begin(), players.end(), player));
     Player* other = chooseOtherPlayer();
 
     AngkaCard c1, c2, c3, c4;
@@ -76,14 +122,23 @@ void Switch::action(){
 
     *player = *player + c1 + c2;
     *other = *other + c3 + c4;
+
+    cout<<"Kedua kartumu berhasil ditukar dengan kartu milik <pemain_"<<other->getId()<<">!"<<endl;
+    cout<<"Kartumu sekarang adalah:"<<endl;
+    player->displayCards();
 }
 
 //Abilityless
 void Abilityless::action(){
+    cout<<"<pemain_"<<player->getId()<<"> melakukan ABILITYLESS!"<<endl;
+    cout<<"Pilih pemain yang abilitynya mau dimatikan"<<endl;
     Player* other = chooseOtherPlayer();
+    map<string, Commands*> actions = other->getPlayerActions();
 
     string keys[] = {"REROLL", "QUADRUPLE", "QUARTER", "REVERSE", "SWAP", "SWITCH"};
     for(string key : keys){
-        other->removePlayerAction(key);
+        if(actions.find(key) != actions.end()){
+            actions[key]->disable();
+        }
     }
 }
