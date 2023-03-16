@@ -6,19 +6,32 @@
 #include "exception.hpp"
 
 TableCard::TableCard(){}
-
+template <class T>
+void randomizeDeck(vector<T> &vec, int size){
+    int index, secondIndex;
+    T temp;
+    srand((unsigned) time(NULL));
+    for(index = 0; index<size; index++){
+        secondIndex = rand() % size;
+        temp = vec[index];
+        vec[index] = vec[secondIndex];
+        vec[secondIndex] =  temp;
+    }
+}
 
 void TableCard::setMainDeck(vector<AngkaCard> _cards){
     cards = _cards;
 }
 
-AngkaCard TableCard::infoTableCard(int i){
-    return cards[i];
-}
+// AngkaCard TableCard::infoTableCard(int i){
+//     return cards[i];
+// }
 
 // AngkaCard TableCard::takeCard(){
 //     AngkaCard c = tumpukan[tumpukan.size()-1];
 //     tumpukan.pop_back();
+//     AngkaCard c = cards[cards.size()-1];
+//     cards.pop_back();
 //     return c;
 // }
 

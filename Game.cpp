@@ -20,10 +20,57 @@ Game::Game(){
     }
 }
 
+void Game::randomTableDeck(){
+    this->clearCards();
+    /* Isi tumpukan kartu */
+    for(int i = 1; i <= 13; i++){
+        AngkaCard c;
+        c.setAngka(i);
+        c.setWarna("Merah");
+        pushCard(c);
+    }
+    for(int i = 1; i <= 13; i++){
+        AngkaCard c;
+        c.setAngka(i);
+        c.setWarna("Hijau");
+        pushCard(c);
+    }
+    for(int i = 1; i <= 13; i++){
+        AngkaCard c;
+        c.setAngka(i);
+        c.setWarna("Kuning");
+        pushCard(c);
+    }
+    for(int i = 1; i <= 13; i++){
+        AngkaCard c;
+        c.setAngka(i);
+        c.setWarna("Biru");
+        pushCard(c);
+    }
+    // for(int i = 0; i < tumpukan.size();i++){
+    //     cout << tumpukan[i].getAngka()<<tumpukan[i].getWarna() << endl;
+    // }
+
+    vector<AngkaCard> tablecards;
+    for(int i = 0; i<5; i++){
+        tablecards.push_back(cards.back());
+        cards.pop_back();
+    }
+
+    table.setMainDeck(cards);
+}
 
 // AngkaCard Game::takeCardTable(){
 //     return table.takeCard();
 // }
+
+vector<Player*> Game::getPlayers() const{
+    return players;
+}
+
+Player* Game::getCurrentPlayer(){
+    return currentPlayer;
+}
 
 void Game::newRound(){
     // if (InventoryHolder::round == 2){
@@ -83,7 +130,6 @@ void Game::showPoin(){
     for(int i = 0; i < players.size(); i++){
         cout << i+1 << ". <p" << i+1 << "> memiliki poin " << players[i]->getPoin() << endl;
     }
-    cout << "Done showPoin" << endl;
 }
 
 void Game::commandParser(int i, string command){
@@ -381,48 +427,6 @@ void randomizeDeck(vector<T> &vec, int size){
         vec[secondIndex] =  temp;
     }
 }
-
-void Game::randomTableDeck(){
-    this->clearCards();
-    /* Isi tumpukan kartu */
-    for(int i = 1; i <= 13; i++){
-        AngkaCard c;
-        c.setAngka(i);
-        c.setWarna("Merah");
-        pushCard(c);
-    }
-    for(int i = 1; i <= 13; i++){
-        AngkaCard c;
-        c.setAngka(i);
-        c.setWarna("Hijau");
-        pushCard(c);
-    }
-    for(int i = 1; i <= 13; i++){
-        AngkaCard c;
-        c.setAngka(i);
-        c.setWarna("Kuning");
-        pushCard(c);
-    }
-    for(int i = 1; i <= 13; i++){
-        AngkaCard c;
-        c.setAngka(i);
-        c.setWarna("Biru");
-        pushCard(c);
-    }
-    randomizeDeck(cards,52);
-    // for(int i = 0; i < tumpukan.size();i++){
-    //     cout << tumpukan[i].getAngka()<<tumpukan[i].getWarna() << endl;
-    // }
-
-    vector<AngkaCard> tablecards;
-    for(int i = 0; i<5; i++){
-        tablecards.push_back(cards.back());
-        cards.pop_back();
-    }
-
-    table.setMainDeck(cards);
-}
-
 
 // void Game::testCom(){
 //     cout << "START" << endl;
