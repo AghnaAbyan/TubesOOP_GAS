@@ -9,6 +9,7 @@
 #include "src/Kartu/Kartu.hpp"
 #include "src/Kombo/Kombo.hpp"
 // #include "array.hpp"
+#include "src/Commands/Commands.hpp"
 
 
 using namespace std;
