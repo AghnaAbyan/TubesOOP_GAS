@@ -1,8 +1,8 @@
 #ifndef COMMANDS_HPP
 #define COMMANDS_HPP
 
-#include "Game.hpp"
-#include "src/Kartu/Kartu.hpp"
+#include "../../Game.hpp"
+#include "../Kartu/Kartu.hpp"
 #include <algorithm>
 
 using namespace std;

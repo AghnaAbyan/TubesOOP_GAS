@@ -4,11 +4,12 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <utility>
 #include <math.h>
 #include "src/Kartu/Kartu.hpp"
 #include "src/Kombo/Kombo.hpp"
 // #include "array.hpp"
-#include "src/Commands/Commands.hpp"
+
 
 using namespace std;
 
@@ -59,7 +60,7 @@ class Player: public InventoryHolder{
     // friend class TableCard;
     private:
         int id;
-        int poin;
+        long long int poin;
         // vector<AngkaCard> card; /* Kartu card (pakai array jumlahnya 2)*/
         map<string, Commands*> playerActions;
         // AbilityCard infoCardAbility;
@@ -141,6 +142,7 @@ class Game: public InventoryHolder{
         void reverseEffect(int); // untuk di ronde itu saja
         void displayCards();
         void setTable();
+        void testCom();
         void changeDirection();
 
         void action(string);

@@ -27,7 +27,7 @@ bool AngkaCard::sameColour(const AngkaCard& other){
     return this->warna == other.getWarna();
 }
 
-double AngkaCard::valuecard() const{
+int AngkaCard::valuecard() const{
     return this->priorityCardAngka()+this->priorityCardWarna();
 }
 
