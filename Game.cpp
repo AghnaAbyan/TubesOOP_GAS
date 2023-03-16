@@ -64,14 +64,6 @@ void Game::randomTableDeck(){
 //     return table.takeCard();
 // }
 
-vector<Player*> Game::getPlayers() const{
-    return players;
-}
-
-Player* Game::getCurrentPlayer(){
-    return currentPlayer;
-}
-
 void Game::newRound(){
     // if (InventoryHolder::round == 2){
     //     Array<AbilityCard> L; 

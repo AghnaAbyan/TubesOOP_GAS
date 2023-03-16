@@ -23,9 +23,9 @@ void TableCard::setMainDeck(vector<AngkaCard> _cards){
     cards = _cards;
 }
 
-// AngkaCard TableCard::infoTableCard(int i){
-//     return cards[i];
-// }
+AngkaCard TableCard::infoTableCard(int i){
+    return cards[i];
+}
 
 // AngkaCard TableCard::takeCard(){
 //     AngkaCard c = tumpukan[tumpukan.size()-1];
