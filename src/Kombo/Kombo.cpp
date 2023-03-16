@@ -1,9 +1,7 @@
 #include "Kombo.hpp"
 #include <math.h>
 #include <algorithm>
-#include "../../array.cpp"
 #include <vector>
-#include "../Kartu/Kartu.cpp"
 
 using namespace std;
 /*

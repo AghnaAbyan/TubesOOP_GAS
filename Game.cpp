@@ -5,7 +5,7 @@ Game::Game():InventoryHolder(){
     gameDirection = 0;
     game = 1;
     round = 1;
-    poinTotal = 0;
+    poinTotal = 64;
 
     // inisialisasi table
     TableCard *buf = new TableCard();
@@ -24,6 +24,7 @@ Game::Game():InventoryHolder(){
     for(int i = 1; i <= 7; i++){
         urutan.push_back(i);
     }
+    cout << "tes" << endl;
 }
 
 
@@ -78,6 +79,10 @@ void Game::newRound(){
     //     players.get(6).setAbility(L.get(M));
     //     L.operator-(L.get(M));
     // }
+    cout << "Method new round" << endl;
+    if(round == 2){
+        cout << "Method membagi ability" << endl;
+    }
 }
 
 void Game::showPoin(){
@@ -88,39 +93,40 @@ void Game::showPoin(){
 }
 
 void Game::commandParser(int i, string command){
-    // if (command == "next"){
-    //     players.get(i).next();
-    // }
-    // else if(command == "reroll"){
-    //     players.get(i).reroll(&table);
-    // }
-    // else if(command == "double"){
-    //     players.get(i).doublePoin();
-    // }
-    // else if(command == "quadruple"){
-    //     players.get(i).quadruple();
-    // }
-    // else if(command == "half"){
-    //     players.get(i).half();
-    // }
-    // else if(command == "quarter"){
-    //     players.get(i).quarter();
-    // }
-    // else if(command == "reverse"){
-    //     players.get(i).reverse();
-    // }
-    // else if(command == "swap"){
-    //     players.get(i).swapCard(&players);
-    // }
-    // else if (command == "switch"){
-    //     players.get(i).swapCard(&players);
-    // }
-    // else if(command == "abilityless"){
-    //     players.get(i).abilityless();
-    // }
-    // else{
-    //     /* exception */
-    // }
+    if (command == "next"){
+        cout << "Method next (belum diimplementasi)" << endl;
+    }
+    else if(command == "reroll"){
+        cout << "Method reroll (belum diimplementasi)" << endl;
+    }
+    else if(command == "double"){
+        cout << "Method double (belum diimplementasi)" << endl;
+    }
+    else if(command == "quadruple"){
+        cout << "Method quadruple (belum diimplementasi)" << endl;
+    }
+    else if(command == "half"){
+        cout << "Method half (belum diimplementasi)" << endl;
+    }
+    else if(command == "quarter"){
+        cout << "Method quarter (belum diimplementasi)" << endl;
+    }
+    else if(command == "reverse"){
+        cout << "Method reverse (belum diimplementasi)" << endl;
+    }
+    else if(command == "swap"){
+        cout << "Method swap (belum diimplementasi)" << endl;
+    }
+    else if (command == "switch"){
+        cout << "Method switch (belum diimplementasi)" << endl;
+    }
+    else if(command == "abilityless"){
+        cout << "Method abilityless (belum diimplementasi)" << endl;
+    }
+    else{
+        /* exception */
+        cout << "salah command mas" << endl;
+    }
 }
 
 void Game::start(){
@@ -128,6 +134,7 @@ void Game::start(){
     // isi table
     table.resetNewGame();
     setTable();
+    vector<double> kombo;
 
     while (!endGame()){
         setTable();
@@ -138,6 +145,7 @@ void Game::start(){
 
             // iterasi command tiap pemain
             int i = 0;
+            string inp;
             while(i < 7){
                 if (round == 6){
                     showMain(5);
@@ -147,12 +155,11 @@ void Game::start(){
                 }
                 cout << "Giliran pemain <p" << urutan[i] << "> !" << endl;
                 cout << "Kartu yang anda miliki: " << endl;
-                players[urutan[i]].displayCard();
+                players[urutan[i]-1].displayCard();
                 cout << "Masukkan command Anda: ";
                 // lakukan command, jangan lupa exception
                 // kalau ada efek reverse sekalian panggil reverseEffect(int urutan[i])
-
-
+                commandParser(urutan[i]-1, inp);
                 i++;
             }
             // atur urutan lagi
@@ -170,22 +177,31 @@ void Game::start(){
             }
             round++;
         }
-        // akumulasikan poin pemain ke poin total
-        for(int i = 0; i < players.size(); i++){
-            poinTotal = poinTotal + players[i].getPoin();
-        }
         // cari pemenang
-        
+        kombo.clear();
+        for(int i = 0; i < players.size(); i++){
+            Kombo k(players[i].getCard(), table.getMainDeck());
+            kombo.push_back(k.value(1.39*9+0.01));
+        }
+        bool found = false;
+        int i = 0;
+        int winner;
+        while(!found){
+            if(*max_element(kombo.begin(), kombo.end()) == kombo[i]){
+                found = true;
+                winner = i+1;
+            }
+        }
 
         // berikan poin total pada pemenang
-        int id; // .....
-        players[id-1].addPoin(poinTotal);
-        
+        players[winner-1].addPoin(poinTotal);
+        showPoin();
+
         // reset untuk game berikutnya
         for(int i = 0; i < players.size(); i++){
             players[i].resetNewGame();
         }
-        poinTotal = 0;
+        poinTotal = 64;
         table.resetNewGame();
         round = 1;
         game++;
@@ -202,12 +218,12 @@ void Game::showUrutan(){
 
 bool Game::endGame(){
     bool end = false;
+    int i = 0;
     while(!end){
-        for(int i = 0; i < players.size(); i++){
-            if(players[i].getPoin() >= pow(2,32)){
-                end = true;
-            }
+        if(players[i].getPoin() >= pow(2,32)){
+            end = true;
         }
+        i++;
     }
     return end;
 }

@@ -3,7 +3,7 @@
 /* Nanti kalo kartu dah diimplementasiin ini hapus aja */
 /* Ini buat implementasi sementara game aja ehehe */
 /* Etapi kalo mau jadiin template hpp sabi */
-#include "../../Game.hpp"
+// #include "../../Game.hpp"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -19,6 +19,8 @@ class AngkaCard : public Kartu {
         int angka;
         string warna;
     public:
+        AngkaCard();
+        AngkaCard(int, string);
         int getAngka() const;
         string getWarna() const;
         AngkaCard& operator=(const AngkaCard& );

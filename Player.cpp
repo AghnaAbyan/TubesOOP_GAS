@@ -26,6 +26,7 @@ Player& Player::operator=(const Player& p){
     card = p.card;
     infoCardAbility = p.infoCardAbility;
     usedAbility = p.usedAbility;
+    return *this;
 }
 
 void Player::newCard(AngkaCard c1, AngkaCard c2){
@@ -62,4 +63,8 @@ void Player::useAbility(){
 void Player::resetNewGame(){
     card.clear();
     usedAbility = false;
+}
+
+vector<AngkaCard> Player::getCard(){
+    return card;
 }

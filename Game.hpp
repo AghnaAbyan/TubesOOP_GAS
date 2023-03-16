@@ -5,7 +5,8 @@
 #include <vector>
 #include <map>
 #include <math.h>
-#include "src\Kartu\Kartu.hpp"
+#include "src/Kartu/Kartu.hpp"
+#include "src/Kombo/Kombo.hpp"
 #include "array.hpp"
 
 using namespace std;
@@ -15,7 +16,7 @@ class InventoryHolder{
         InventoryHolder();
 };
 
-class TableCard: public InventoryHolder, AngkaCard{
+class TableCard: public InventoryHolder{
     private:
         vector<AngkaCard> mainDeck; /* Kartu mainDeck (pakai array, isinya bakal 5, dibuka per ronde)*/ 
         vector<AngkaCard> tumpukan;
@@ -30,6 +31,7 @@ class TableCard: public InventoryHolder, AngkaCard{
         void readFileTumpukan(string namaFile);
         void resetNewGame();
         void showInRound(int);
+        vector<AngkaCard> getMainDeck();
         // vector<AngkaCard> getTumpukan();
         /* void Kartu[] operator+(const Kartu&) (kayaknya ini mending diimplementasi di kartu) */
 };
@@ -49,12 +51,14 @@ class Player: public InventoryHolder{
         Player& operator=(const Player&);
         void newCard(AngkaCard, AngkaCard);
         int getPoin();
+        int getId();
         void addPoin(int);
         void displayCard();
         void setAbility(AbilityCard);
         AbilityCard getAbility();
         void useAbility();
         void resetNewGame();
+        vector<AngkaCard> getCard();
 
         /* PlayerAction */
         void next();

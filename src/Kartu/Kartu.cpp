@@ -4,6 +4,16 @@
 /*AngkaCard*/
 /***********/
 
+AngkaCard::AngkaCard(){
+    angka = 0;
+    warna = "x";
+}
+
+AngkaCard::AngkaCard(int _angka, string _warna){
+    angka = _angka;
+    warna = _warna;
+}
+
 /*Get*/
 int AngkaCard::getAngka() const{
     return this->angka;
@@ -87,16 +97,3 @@ void AbilityCard::SetNamaAbility(string b){
     this->namaAbility = b;
 }
 
-
-template <class T>
-void randomizeDeck(vector<T> &arr, int size){
-   int index, secondIndex;
-    T temp;
-    srand((unsigned) time(NULL));
-    for(index = 0; index<size; index++){
-        secondIndex = rand() % size;
-        temp = arr.get(index);
-        arr.set(index, arr.get(secondIndex));
-        arr.set(secondIndex, temp);
-    }
-}

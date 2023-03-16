@@ -1,6 +1,5 @@
 #include "../../Game.hpp"
 #include "../Kartu/Kartu.hpp"
-#include "../../array.hpp"
 using namespace std;
 #ifndef KOMBO_HPP
 #define KOMBO_HPP

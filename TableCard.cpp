@@ -3,11 +3,8 @@
 #include <fstream>
 #include <string>
 #include "Game.hpp"
-#include "src\Kartu\Kartu.cpp"
-#include "src\Kartu\Kartu.hpp"
 #include "exception.hpp"
 #include <ctime>
-#include "InventoryHolder.cpp"
 TableCard::TableCard(){
     vector<AngkaCard> buf;
     tumpukan = buf;
@@ -121,5 +118,18 @@ void TableCard::readFileTumpukan(string namaFile){
 
     }
 }
+
+void TableCard::resetNewGame(){
+    mainDeck.clear();
+    tumpukan.clear();
+}
+
+void TableCard::showInRound(int N){
+    for(int i = 0; i < N; i++){
+        cout << i+1 << ". " << infoTableCard(i).getAngka() << " " << infoTableCard(i).getWarna() << endl;
+    }
+}
     
-        
+vector<AngkaCard> TableCard::getMainDeck(){
+    return mainDeck;
+}
