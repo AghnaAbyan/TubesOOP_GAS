@@ -115,6 +115,9 @@ void Game::commandParser(int i, string command){
     }
     else if(command == "abilityless"){
         cout << "Method abilityless (belum diimplementasi)" << endl;
+    }else if(command == "value"){
+        Kombo k(players[i].getCard(), table.getMainDeck());
+        cout <<k.value(100)<<endl;
     }
     else{
         /* exception */
@@ -188,10 +191,29 @@ void Game::start(){
         }
         // cari pemenang
         kombo.clear();
+        double limit = 1.39*9 + 0.01;
+        
+
+
+        
+
         for(int i = 0; i < players.size(); i++){
             Kombo k(players[i].getCard(), table.getMainDeck());
-            kombo.push_back(k.value(1.39*9+0.01));
+            kombo.push_back(k.value(limit));
+            cout<<i+1<<". "<<k.value(limit) << endl;
         }
+        
+        while((kombo[0] == kombo[1])&& (kombo[1] == kombo[2])&&(kombo[2] == kombo[3]) && (kombo[3] == kombo[4]) && (kombo[4] == kombo[5]) && (kombo[5] == kombo[6])){
+            //kasus table card tertinggi
+            limit = kombo[0];//renew limit
+            kombo.clear();
+            for(int i = 0; i < players.size(); i++){
+                Kombo k(players[i].getCard(), table.getMainDeck());
+                kombo.push_back(k.value(limit));
+                cout<<i+1<<". "<<k.value(limit) << endl;
+            }
+        }
+
         bool found = false;
         int i = 0;
         int winner;
@@ -199,7 +221,10 @@ void Game::start(){
             if(*max_element(kombo.begin(), kombo.end()) == kombo[i]){
                 found = true;
                 winner = i+1;
+            }else{
+                i++;
             }
+            
         }
 
         cout << "Pemenang pada game ini adalah adalah <p" << winner << "> !" << endl;

@@ -47,13 +47,18 @@ bool AngkaCard::operator<(const AngkaCard& other){
     return this->valuecard() < other.valuecard();
 }
 bool AngkaCard::operator>(const AngkaCard& other){
-    return this->valuecard() < other.valuecard();
+    return this->valuecard() > other.valuecard();
 }
 void AngkaCard::setAngka(int a){
     this->angka = a;
 }
 void AngkaCard::setWarna(string b){
     this->warna = b;
+}
+
+void AngkaCard::printValue(){
+    cout<<"Nilai angka "<< this->priorityCardAngka()<<endl;
+    cout<<"Nilai warna "<< this->priorityCardWarna()<<endl;
 }
 
 /*Output Operator*/
