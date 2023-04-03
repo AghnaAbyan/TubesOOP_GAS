@@ -59,6 +59,8 @@ Game::Game(){
 
         urutan.push_back(i);
     }
+
+    Utils::shuffle(abilities);
 }
 
 void Game::randomTableDeck(){
@@ -88,6 +90,8 @@ void Game::randomTableDeck(){
         c.setWarna("Biru");
         pushCard(c);
     }
+
+    Utils::shuffle(cards);
     // for(int i = 0; i < tumpukan.size();i++){
     //     cout << tumpukan[i].getAngka()<<tumpukan[i].getWarna() << endl;
     // }
@@ -98,7 +102,7 @@ void Game::randomTableDeck(){
         cards.pop_back();
     }
 
-    table.setMainDeck(cards);
+    table.setMainDeck(tablecards);
 }
 
 // AngkaCard Game::takeCardTable(){
@@ -212,6 +216,9 @@ void Game::start(){
                 }
                 else{
                     showMain(round);
+                }
+                if(round == 2){
+
                 }
                 cout << endl;
                 cout << "Giliran pemain <p" << urutan[i] << "> !" << endl;

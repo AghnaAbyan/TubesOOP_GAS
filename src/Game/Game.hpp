@@ -16,6 +16,7 @@
 #include "../Player/Player.hpp"
 #include "../InventoryHolder/InventoryHolder.hpp"
 #include "../TableCard/TableCard.hpp"
+#include "../Utils/Utils.hpp"
 
 using namespace std;
 
@@ -106,6 +107,7 @@ class Game: public InventoryHolder{
         TableCard table;
         int firstPlayerId;
         vector<int> urutan;
+        vector<string> abilities {"REROLL", "QUADRUPLE", "QUARTER", "REVERSE", "SWAP", "SWITCH", "ABILITYLESS"};
 
     public:
         Game();
