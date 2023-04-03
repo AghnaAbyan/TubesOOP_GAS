@@ -1,4 +1,23 @@
-// #include "Game.hpp"
+#include "../Game/Game.hpp"
+
+Next::Next(Game* _game): Commands(_game): player{
+    player = game->getCurrentPlayer();
+    players = game->getPlayers();
+}
+
+Multiply::Multiply(Game* _game, int _multiplier): Commands(_game), multiplier(_multiplier){}
+void Multiply::action(){
+    player->setPoin(player->getPoin()*multiplier);
+
+    string prompt;
+    if(multiplier==2) prompt = "DOUBLE!";
+    else if(multiplier==4)prompt = "QUADRUPLE";
+
+    cout << player->getId() << "melakukan "<< prompt <<" Poin hadiah naik  " << " menjadi " << player->getPoin() << "!" << endl;
+}
+Double::Double(Game* _game): Multiply(_game, 2){}
+Quadruple::Quadruple(Game* _game): Multiply(_game, 4){}
+
 // #include <iostream>
 
 // //Commands

@@ -2,11 +2,14 @@
 #define PLAYER_HPP
 
 #include "../InventoryHolder/InventoryHolder.hpp"
-#include "../Commands/Command.hpp"
+#include "../Game/Game.hpp"
+// #include "../Commands/Commands.hpp"
 #include <map>
 #include <algorithm>
 
 using namespace std;
+
+class Commands;
 
 class Player: public InventoryHolder{
     // friend class Game;
@@ -22,10 +25,10 @@ class Player: public InventoryHolder{
         Player(int);
         bool operator==(const Player&);
         void newCard(AngkaCard, AngkaCard);
-        int getPoin();
+        long long getPoin();
         int getId();
-        void addPoin(int);
-        void setPoin(int);
+        void addPoin(long long);
+        void setPoin(long long int);
 
         map<string, Commands*> getPlayerActions();
         void insertPlayerAction(pair<string, Commands*> action){

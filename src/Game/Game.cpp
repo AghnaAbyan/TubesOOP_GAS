@@ -1,6 +1,29 @@
 #include "Game.hpp"
 
-class Next;
+Commands::Commands(Game* _game){
+    game = _game;
+    used = false;
+    disabled = false;
+    player = game->getCurrentPlayer();
+    players = game->getPlayers();
+}
+
+Next::Next(Game* _game): Commands(_game){}
+
+Multiply::Multiply(Game* _game, long long _multiplier): Commands(_game), multiplier(_multiplier){}
+void Multiply::action(){
+    long long newPoin = multiplier*game->getPoinTotal();
+    game->setPoinTotal(newPoin);
+
+    string prompt;
+    if(multiplier==2) prompt = "DOUBLE!";
+    else if(multiplier==4)prompt = "QUADRUPLE";
+
+    cout << "<p"<< player->getId()+1 << "> melakukan "<< prompt <<" Poin hadiah naik menjadi " << game->getPoinTotal() << "!" << endl;
+}
+Double::Double(Game* _game): Multiply(_game, 2){}
+Quadruple::Quadruple(Game* _game): Multiply(_game, 4){}
+
 
 Game::Game(){
     // inisialissasi atribut
@@ -16,10 +39,9 @@ Game::Game(){
     // inisialisasi player
     firstPlayerId = 1;
     urutan.clear();
-    Commands* temp;
     for(int i = 1; i <= 7; i++){
         // temp = getCommand("NEXT", *this);
-        players[i]->insertPlayerAction(pair<string, Commands*>("NEXT", temp));
+
         urutan.push_back(i);
     }
 }
@@ -89,59 +111,6 @@ Player* Game::chooseOtherPlayer(){
     return players[temp];
 }
 
-// void Game::newRound(){
-//     // if (InventoryHolder::round == 2){
-//     //     Array<AbilityCard> L; 
-//     //     AbilityCard a(1,"Reverse");
-//     //     AbilityCard b(2, "Re-Roll");
-//     //     AbilityCard c(3, "Quarter");
-//     //     AbilityCard d(4, "Reverse Direction");
-//     //     AbilityCard e(5, "Swap Card");
-//     //     AbilityCard f(6, "Switch");
-//     //     AbilityCard g(7, "Abilityless");
-
-//     //     L.addfirst(a);
-//     //     L.addfirst(b);
-//     //     L.addfirst(c);
-//     //     L.addfirst(d);
-//     //     L.addfirst(e);
-//     //     L.addfirst(f);
-//     //     L.addfirst(g);
-
-//     //     int M = rand()%6;
-//     //     players.get(0).setAbility(L.get(M));
-//     //     L.operator-(L.get(M));
-//     //     M = rand()%5;
-
-//     //     players.get(1).setAbility(L.get(M));
-//     //     L.operator-(L.get(M));
-//     //     M = rand()%4;
-
-//     //     players.get(2).setAbility(L.get(M));
-//     //     L.operator-(L.get(M));
-
-//     //     M = rand()%3;
-//     //     players.get(3).setAbility(L.get(M));
-//     //     L.operator-(L.get(M));
-
-//     //     M = rand()%2;
-//     //     players.get(4).setAbility(L.get(M));
-//     //     L.operator-(L.get(M));
-
-//     //     M = rand()%1;
-//     //     players.get(5).setAbility(L.get(M));
-//     //     L.operator-(L.get(M));
-
-//     //     M = 0;
-//     //     players.get(6).setAbility(L.get(M));
-//     //     L.operator-(L.get(M));
-//     // }
-//     cout << "Method new round" << endl;
-//     if(round == 2){
-//         cout << "Method membagi ability" << endl;
-//     }
-// }
-
 void Game::showPoin(){
     cout << "Poin pemain saat ini: " << endl;
     for(int i = 0; i < players.size(); i++){
@@ -151,11 +120,10 @@ void Game::showPoin(){
 
 void Game::commandParser(int i, string command){
     currentPlayer = players[i];
-    currentPlayer->action(command);
-    // if (command == "next"){
-        
-    //     cout << "Method next (belum diimplementasi)" << endl;
-    // }
+    vector<string> availableCommands = {"NEXT", "HALF", "DOUBLE", "REROLL", "QUADRUPLE", "QUARTER", "REVERSE", "SWAP", "SWITCH", "ABILITYLESS"};
+    if (find(availableCommands.begin(), availableCommands.end(), command) != availableCommands.end()){
+        currentPlayer->action(command);
+    }
     // else if(command == "reroll"){
     //     cout << "Method reroll (belum diimplementasi)" << endl;
     // }
@@ -205,7 +173,15 @@ void Game::start(){
         AngkaCard c1 = takeCard();
         AngkaCard c2 = takeCard();
         (*p).newCard(c1,c2);
+
         players.push_back(p);
+    }
+    for(int i=0; i<7; i++){
+        currentPlayer = players[i];
+
+        currentPlayer->insertPlayerAction(pair<string, Commands*>("NEXT", new Next(this)));
+        // p->insertPlayerAction(pair<string, Commands*>("HALF", new (this)));
+        currentPlayer->insertPlayerAction(pair<string, Commands*>("DOUBLE", new Double(this)));
     }
     while (!endGame()){
         while (round <= 6){
@@ -226,11 +202,20 @@ void Game::start(){
                 cout << "Giliran pemain <p" << urutan[i] << "> !" << endl;
                 cout << "Kartu yang anda miliki: " << endl;
                 players[urutan[i]-1]->displayCards();
-                cout << "Masukkan command Anda: ";
-                cin >> inp;
-                // lakukan command, jangan lupa exception
-                // kalau ada efek reverse sekalian panggil reverseEffect(int urutan[i])
-                commandParser(urutan[i]-1, inp);
+
+                // try{
+                    cout << "Masukkan command Anda: ";
+                    cin >> inp;
+                    // lakukan command, jangan lupa exception
+                    // kalau ada efek reverse sekalian panggil reverseEffect(int urutan[i])
+                    commandParser(urutan[i]-1, inp);
+                // }
+                // catch(char const* e){
+                //     cout << e << endl;
+                // }
+                // catch(const exception& e){
+                //     cout<<e.what()<<endl;
+                // }
                 i++;
             }
             // atur urutan lagi
@@ -337,7 +322,7 @@ void Game::start(){
         }
     }
 
-    int poin[7] = {players[0]->getPoin(), players[1]->getPoin(), players[2]->getPoin(), players[3]->getPoin(), players[4]->getPoin(), players[5]->getPoin(), players[6]->getPoin()};
+    long long poin[7] = {players[0]->getPoin(), players[1]->getPoin(), players[2]->getPoin(), players[3]->getPoin(), players[4]->getPoin(), players[5]->getPoin(), players[6]->getPoin()};
     bool foundWinner = false;
     int idWinnerAll;
     int j = 0;

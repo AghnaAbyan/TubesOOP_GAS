@@ -11,6 +11,7 @@
 #include "../Kartu/Kartu.hpp"
 #include "../Kombo/Kombo.hpp"
 #include <algorithm>
+// #include "../Commands/Command.hpp"
 // #include "../Commands/Commands.hpp"
 #include "../Player/Player.hpp"
 #include "../InventoryHolder/InventoryHolder.hpp"
@@ -19,7 +20,60 @@
 using namespace std;
 
 class Player;
-class Next;
+class Game;
+
+class Commands{ // ABC
+    protected:
+        Game* game;
+        Player* player;
+        vector<Player*> players;
+
+        bool used;
+        bool disabled;
+    public:
+        Commands(Game* _game);
+        ~Commands(){    
+            players.clear();
+        };
+
+        void use(){
+            used = true;
+        }
+        void disable(){
+            disabled = true;
+        }
+
+        bool isUsed(){return used;}
+        bool isDisabled(){return disabled;}
+
+        virtual void action()=0;
+};
+
+class Next: public Commands{
+    public:
+        Next(Game* _game);
+        void action(){}
+        static void a(){cout<<"a";}
+};
+
+
+class Multiply: public Commands{
+    protected:
+        long long multiplier;
+    public:
+        Multiply(Game* _game, long long _multiplier);
+        void action();
+};
+
+class Double: public Multiply{
+    public:
+        Double(Game* _game);
+};
+
+class Quadruple: public Multiply{
+    public:
+        Quadruple(Game* _game);
+};
 
 class Game: public InventoryHolder{
     // friend class Player;
@@ -28,7 +82,7 @@ class Game: public InventoryHolder{
         int gameDirection; /* 0 maju, 1 mundur */
         int game;
         int round;
-        int poinTotal;
+        long long poinTotal;
         vector<Player*> players;
         Player* currentPlayer;
         TableCard table;
@@ -44,7 +98,10 @@ class Game: public InventoryHolder{
         Player* getCurrentPlayer();
         Player* chooseOtherPlayer();
 
-        Commands* getCommand(string comamndType, Game& game);
+        // Commands* getCommand(string comamndType, Game& game);
+
+        long long getPoinTotal(){return poinTotal;}
+        void setPoinTotal(long long _poinTotal){poinTotal = _poinTotal;}
 
         void randomTableDeck();
 

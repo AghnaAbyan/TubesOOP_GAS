@@ -32,7 +32,8 @@ void Player::newCard(AngkaCard c1, AngkaCard c2){
     pushCard(c2);
 }
 
-int Player::getPoin(){
+long long Player::getPoin(){
+    cout<<"getting"<<endl;
     return poin;
 }
 
@@ -40,11 +41,11 @@ int Player::getId(){
     return id;
 }
 
-void Player::addPoin(int p){
+void Player::addPoin(long long p){
     poin = poin + p;
 }
 
-void Player::setPoin(int p){
+void Player::setPoin(long long int p){
     poin = p;
 }
 
