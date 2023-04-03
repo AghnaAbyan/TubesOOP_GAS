@@ -1,5 +1,5 @@
-#ifndef KARTU_H
-#define KARTU_H
+#ifndef KARTU_HPP
+#define KARTU_HPP
 /* Nanti kalo kartu dah diimplementasiin ini hapus aja */
 /* Ini buat implementasi sementara game aja ehehe */
 /* Etapi kalo mau jadiin template hpp sabi */

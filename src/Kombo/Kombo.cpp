@@ -1,7 +1,4 @@
 #include "Kombo.hpp"
-#include <math.h>
-#include <algorithm>
-#include <vector>
 
 using namespace std;
 /*

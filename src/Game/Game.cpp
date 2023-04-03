@@ -1,5 +1,6 @@
 #include "Game.hpp"
-#include <ctime>
+
+class Next;
 
 Game::Game(){
     // inisialissasi atribut
@@ -15,7 +16,10 @@ Game::Game(){
     // inisialisasi player
     firstPlayerId = 1;
     urutan.clear();
+    Commands* temp;
     for(int i = 1; i <= 7; i++){
+        // temp = getCommand("NEXT", *this);
+        players[i]->insertPlayerAction(pair<string, Commands*>("NEXT", temp));
         urutan.push_back(i);
     }
 }
@@ -64,58 +68,79 @@ void Game::randomTableDeck(){
 //     return table.takeCard();
 // }
 
-void Game::newRound(){
-    // if (InventoryHolder::round == 2){
-    //     Array<AbilityCard> L; 
-    //     AbilityCard a(1,"Reverse");
-    //     AbilityCard b(2, "Re-Roll");
-    //     AbilityCard c(3, "Quarter");
-    //     AbilityCard d(4, "Reverse Direction");
-    //     AbilityCard e(5, "Swap Card");
-    //     AbilityCard f(6, "Switch");
-    //     AbilityCard g(7, "Abilityless");
-
-    //     L.addfirst(a);
-    //     L.addfirst(b);
-    //     L.addfirst(c);
-    //     L.addfirst(d);
-    //     L.addfirst(e);
-    //     L.addfirst(f);
-    //     L.addfirst(g);
-
-    //     int M = rand()%6;
-    //     players.get(0).setAbility(L.get(M));
-    //     L.operator-(L.get(M));
-    //     M = rand()%5;
-
-    //     players.get(1).setAbility(L.get(M));
-    //     L.operator-(L.get(M));
-    //     M = rand()%4;
-
-    //     players.get(2).setAbility(L.get(M));
-    //     L.operator-(L.get(M));
-
-    //     M = rand()%3;
-    //     players.get(3).setAbility(L.get(M));
-    //     L.operator-(L.get(M));
-
-    //     M = rand()%2;
-    //     players.get(4).setAbility(L.get(M));
-    //     L.operator-(L.get(M));
-
-    //     M = rand()%1;
-    //     players.get(5).setAbility(L.get(M));
-    //     L.operator-(L.get(M));
-
-    //     M = 0;
-    //     players.get(6).setAbility(L.get(M));
-    //     L.operator-(L.get(M));
-    // }
-    cout << "Method new round" << endl;
-    if(round == 2){
-        cout << "Method membagi ability" << endl;
-    }
+vector<Player*> Game::getPlayers(){
+    return players;
 }
+
+Player* Game::getCurrentPlayer(){
+    return currentPlayer;
+}
+
+Player* Game::chooseOtherPlayer(){
+    int i = 1;
+    for(Player* j : players){
+        cout<<i<<". <pemain_"<<j->getId()<<">"<<endl;
+    }
+    int temp;
+    
+    cin>>temp;
+    if(temp<=0 || temp>players.size()) throw "Batas";
+
+    return players[temp];
+}
+
+// void Game::newRound(){
+//     // if (InventoryHolder::round == 2){
+//     //     Array<AbilityCard> L; 
+//     //     AbilityCard a(1,"Reverse");
+//     //     AbilityCard b(2, "Re-Roll");
+//     //     AbilityCard c(3, "Quarter");
+//     //     AbilityCard d(4, "Reverse Direction");
+//     //     AbilityCard e(5, "Swap Card");
+//     //     AbilityCard f(6, "Switch");
+//     //     AbilityCard g(7, "Abilityless");
+
+//     //     L.addfirst(a);
+//     //     L.addfirst(b);
+//     //     L.addfirst(c);
+//     //     L.addfirst(d);
+//     //     L.addfirst(e);
+//     //     L.addfirst(f);
+//     //     L.addfirst(g);
+
+//     //     int M = rand()%6;
+//     //     players.get(0).setAbility(L.get(M));
+//     //     L.operator-(L.get(M));
+//     //     M = rand()%5;
+
+//     //     players.get(1).setAbility(L.get(M));
+//     //     L.operator-(L.get(M));
+//     //     M = rand()%4;
+
+//     //     players.get(2).setAbility(L.get(M));
+//     //     L.operator-(L.get(M));
+
+//     //     M = rand()%3;
+//     //     players.get(3).setAbility(L.get(M));
+//     //     L.operator-(L.get(M));
+
+//     //     M = rand()%2;
+//     //     players.get(4).setAbility(L.get(M));
+//     //     L.operator-(L.get(M));
+
+//     //     M = rand()%1;
+//     //     players.get(5).setAbility(L.get(M));
+//     //     L.operator-(L.get(M));
+
+//     //     M = 0;
+//     //     players.get(6).setAbility(L.get(M));
+//     //     L.operator-(L.get(M));
+//     // }
+//     cout << "Method new round" << endl;
+//     if(round == 2){
+//         cout << "Method membagi ability" << endl;
+//     }
+// }
 
 void Game::showPoin(){
     cout << "Poin pemain saat ini: " << endl;
@@ -125,43 +150,46 @@ void Game::showPoin(){
 }
 
 void Game::commandParser(int i, string command){
-    if (command == "next"){
-        cout << "Method next (belum diimplementasi)" << endl;
-    }
-    else if(command == "reroll"){
-        cout << "Method reroll (belum diimplementasi)" << endl;
-    }
-    else if(command == "double"){
-        cout << "Method double (belum diimplementasi)" << endl;
-    }
-    else if(command == "quadruple"){
-        cout << "Method quadruple (belum diimplementasi)" << endl;
-    }
-    else if(command == "half"){
-        cout << "Method half (belum diimplementasi)" << endl;
-    }
-    else if(command == "quarter"){
-        cout << "Method quarter (belum diimplementasi)" << endl;
-    }
-    else if(command == "reverse"){
-        cout << "Method reverse (belum diimplementasi)" << endl;
-    }
-    else if(command == "swap"){
-        cout << "Method swap (belum diimplementasi)" << endl;
-    }
-    else if (command == "switch"){
-        cout << "Method switch (belum diimplementasi)" << endl;
-    }
-    else if(command == "abilityless"){
-        cout << "Method abilityless (belum diimplementasi)" << endl;
-    }else if(command == "value"){
-        Kombo k(players[i]->getCards(), table.getCards());
-        cout <<k.value(100)<<endl;
-    }
-    else{
-        /* exception */
-        cout << "salah command mas" << endl;
-    }
+    currentPlayer = players[i];
+    currentPlayer->action(command);
+    // if (command == "next"){
+        
+    //     cout << "Method next (belum diimplementasi)" << endl;
+    // }
+    // else if(command == "reroll"){
+    //     cout << "Method reroll (belum diimplementasi)" << endl;
+    // }
+    // else if(command == "double"){
+    //     cout << "Method double (belum diimplementasi)" << endl;
+    // }
+    // else if(command == "quadruple"){
+    //     cout << "Method quadruple (belum diimplementasi)" << endl;
+    // }
+    // else if(command == "half"){
+    //     cout << "Method half (belum diimplementasi)" << endl;
+    // }
+    // else if(command == "quarter"){
+    //     cout << "Method quarter (belum diimplementasi)" << endl;
+    // }
+    // else if(command == "reverse"){
+    //     cout << "Method reverse (belum diimplementasi)" << endl;
+    // }
+    // else if(command == "swap"){
+    //     cout << "Method swap (belum diimplementasi)" << endl;
+    // }
+    // else if (command == "switch"){
+    //     cout << "Method switch (belum diimplementasi)" << endl;
+    // }
+    // else if(command == "abilityless"){
+    //     cout << "Method abilityless (belum diimplementasi)" << endl;
+    // }else if(command == "value"){
+    //     Kombo k(players[i]->getCards(), table.getCards());
+    //     cout <<k.value(100)<<endl;
+    // }
+    // else{
+    //     /* exception */
+    //     cout << "salah command mas" << endl;
+    // }
 }
 
 void Game::start(){
@@ -419,6 +447,24 @@ void randomizeDeck(vector<T> &vec, int size){
         vec[secondIndex] =  temp;
     }
 }
+
+// void Game::assignCommand(string key, Player* player){
+//     Commands* command;
+
+//     if(key == "NEXT") command = new Next(*this);
+//     if(key == "REROLL") command = new Reroll(*this);
+//     if(key == "DOUBLE") command = new Double(*this);
+//     if(key == "QUADRUPLE") command = new Quadruple(*this);
+//     if(key == "HALF") command = new Half(*this);
+//     if(key == "QUARTER") command = new Quarter(*this);
+//     if(key == "REVERSE") command = new Reverse(*this);
+//     if(key == "SWAP") command = new Swap(*this);
+//     if(key == "SWITCH") command = new Switch(*this);
+//     if(key == "ABILITYLESS") command = new Abilityless(*this);
+    
+//     player->insertPlayerAction(pair<string, Commands*>(key, command));
+// }
+
 
 // void Game::testCom(){
 //     cout << "START" << endl;

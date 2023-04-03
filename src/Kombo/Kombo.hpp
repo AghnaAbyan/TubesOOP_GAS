@@ -1,8 +1,10 @@
-#include "../../Game.hpp"
-#include "../Kartu/Kartu.hpp"
-using namespace std;
 #ifndef KOMBO_HPP
 #define KOMBO_HPP
+#include "../Kartu/Kartu.hpp"
+#include <math.h>
+#include <algorithm>
+#include <vector>
+using namespace std;
 
 
 class Kombo: public Kartu{

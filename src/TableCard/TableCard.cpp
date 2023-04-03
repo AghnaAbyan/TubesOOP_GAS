@@ -2,8 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "Game.hpp"
-#include "exception.hpp"
+#include "TableCard.hpp"
+#include "../exception.hpp"
 
 TableCard::TableCard(){}
 template <class T>

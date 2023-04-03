@@ -1,5 +1,4 @@
-#include "Game.hpp"
-#include "exception.hpp"
+#include "InventoryHolder.hpp"
 
 AngkaCard& InventoryHolder::takeCard(){
     AngkaCard& temp = cards.back();
