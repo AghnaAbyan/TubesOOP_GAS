@@ -53,7 +53,6 @@ class Next: public Commands{
     public:
         Next(Game* _game);
         void action(){}
-        static void a(){cout<<"a";}
 };
 
 
@@ -73,6 +72,25 @@ class Double: public Multiply{
 class Quadruple: public Multiply{
     public:
         Quadruple(Game* _game);
+};
+
+
+class Divide: public Commands{
+    protected:
+        int divisor;
+    public:
+        Divide(Game* _game, int _divisor): Commands(_game), divisor(_divisor){}
+        void action();
+};
+
+class Half: public Divide{
+    public:
+        Half(Game* _game);
+};
+
+class Quarter: public Divide{
+    public:
+        Quarter(Game* _game);
 };
 
 class Game: public InventoryHolder{

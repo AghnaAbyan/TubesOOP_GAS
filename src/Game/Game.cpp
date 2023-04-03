@@ -24,6 +24,21 @@ void Multiply::action(){
 Double::Double(Game* _game): Multiply(_game, 2){}
 Quadruple::Quadruple(Game* _game): Multiply(_game, 4){}
 
+// Divide::Divide(Game* _game, int _divisor): Commands(_game), divisor(_divisor){}
+void Divide::action(){
+    if(game->getPoinTotal() == 1) throw "Poin hadiah sudah bernilai 1. Poin hadiah tidak berubah. Giliran berlanjut!";
+
+    game->setPoinTotal(game->getPoinTotal()/divisor);
+    if(game->getPoinTotal()==0) game->setPoinTotal(1);
+
+    string prompt;
+    if(divisor==2) prompt = "HALF!";
+    else if(divisor==4)prompt = "QUARTER";
+
+    cout << "<p" << player->getId()+1 << "> melakukan "<< prompt <<" Poin hadiah turun menjadi " << game->getPoinTotal() << "!" << endl;
+}
+Half::Half(Game* _game): Divide(_game, 2){}
+Quarter::Quarter(Game* _game): Divide(_game, 4){}
 
 Game::Game(){
     // inisialissasi atribut
@@ -180,7 +195,7 @@ void Game::start(){
         currentPlayer = players[i];
 
         currentPlayer->insertPlayerAction(pair<string, Commands*>("NEXT", new Next(this)));
-        // p->insertPlayerAction(pair<string, Commands*>("HALF", new (this)));
+        currentPlayer->insertPlayerAction(pair<string, Commands*>("HALF", new Half(this)));
         currentPlayer->insertPlayerAction(pair<string, Commands*>("DOUBLE", new Double(this)));
     }
     while (!endGame()){
@@ -203,19 +218,19 @@ void Game::start(){
                 cout << "Kartu yang anda miliki: " << endl;
                 players[urutan[i]-1]->displayCards();
 
-                // try{
+                try{
                     cout << "Masukkan command Anda: ";
                     cin >> inp;
                     // lakukan command, jangan lupa exception
                     // kalau ada efek reverse sekalian panggil reverseEffect(int urutan[i])
                     commandParser(urutan[i]-1, inp);
-                // }
-                // catch(char const* e){
-                //     cout << e << endl;
-                // }
-                // catch(const exception& e){
-                //     cout<<e.what()<<endl;
-                // }
+                }
+                catch(char const* e){
+                    cout << e << endl;
+                }
+                catch(const exception& e){
+                    cout<<e.what()<<endl;
+                }
                 i++;
             }
             // atur urutan lagi
