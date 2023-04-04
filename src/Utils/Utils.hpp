@@ -17,4 +17,10 @@ class Utils{
             rng_seed();
             random_shuffle(v.begin(), v.end());
         }
+        static string toupper(string s){
+            for(char& c : s){
+                c = std::toupper(c);
+            }
+            return s;
+        }
 };
