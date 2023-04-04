@@ -7,6 +7,7 @@ Player::Player(int _id){
     id = _id;
     poin = 0;
     doneTurn = false;
+    ability="";
     // vector<AngkaCard> buff;
     // cards = buff;
 }

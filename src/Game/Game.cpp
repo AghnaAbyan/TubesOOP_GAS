@@ -112,41 +112,63 @@ AngkaCard& Swap::chooseCard(Player* target){
 
 Switch::Switch(Game* _game): Commands(_game){}
 void Switch::action(){
-    // cout<<"<pemain_"<<player->getId()<<"> melakukan SWITCH!"<<endl;
-    // cout<<"Kartumu sekarang adalah:"<<endl;
-    // player->displayCards();
+    cout<<"<pemain_"<<player->getId()<<"> melakukan SWITCH!"<<endl;
+    cout<<"Kartumu sekarang adalah:"<<endl;
+    player->displayCards();
 
-    // cout<<"Pilih pemain yang mau kamu tukar kartunya"<<endl;
-    // players.erase(find(players.begin(), players.end(), player));
-    // Player* other = chooseOtherPlayer();
+    cout<<"Pilih pemain yang mau kamu tukar kartunya"<<endl;
+    Player* other = game->chooseOtherPlayer();
 
-    // // AngkaCard c1, c2, c3, c4;
-    // AngkaCard c1 = other->takeCard();
-    // AngkaCard c2 = other->takeCard();
-    // AngkaCard c3 = player->takeCard();
-    // AngkaCard c4 = player->takeCard();
+    // AngkaCard c1, c2, c3, c4;
+    AngkaCard c1 = other->takeCard();
+    AngkaCard c2 = other->takeCard();
+    AngkaCard c3 = player->takeCard();
+    AngkaCard c4 = player->takeCard();
+
+    player->pushCard(c1);
+    player->pushCard(c2);
+    other->pushCard(c3);
+    other->pushCard(c4);
 
     // *player + c1 + c2;
     // *other + c3 + c4;
 
-    // cout<<"Kedua kartumu berhasil ditukar dengan kartu milik <pemain_"<<other->getId()<<">!"<<endl;
-    // cout<<"Kartumu sekarang adalah:"<<endl;
-    // player->displayCards();
+    cout<<"Kedua kartumu berhasil ditukar dengan kartu milik <pemain_"<<other->getId()<<">!"<<endl;
+    cout<<"Kartumu sekarang adalah:"<<endl;
+    player->displayCards();
 }
 
 Abilityless::Abilityless(Game* _game): Commands(_game){}
 void Abilityless::action(){
     cout<<"<pemain_"<<player->getId()<<"> melakukan ABILITYLESS!"<<endl;
     cout<<"Pilih pemain yang abilitynya mau dimatikan"<<endl;
-    Player* other = game->chooseOtherPlayer();
-    map<string, Commands*> actions = other->getPlayerActions();
 
-    string keys[] = {"REROLL", "QUADRUPLE", "QUARTER", "REVERSE", "SWAP", "SWITCH"};
-    for(string key : keys){
-        if(actions.find(key) != actions.end()){
-            actions[key]->disable();
+    for(Player* p: game->getPlayers()){
+        if(p->getAbility().empty()) break;
+        if(p->getPlayerActions()[p->getAbility()]->isUsed()){
+            cout<<"Waduh ternyata semua pemain telah menggunakan abilitynya. Penggunaan ability ini sia-sia deh."<<endl;
+            return;
         }
     }
+
+    Player* other = game->chooseOtherPlayer();
+    map<string, Commands*> actions = other->getPlayerActions();
+    
+
+    if(other->getAbility().empty()) throw "Pemain tersebut tidak punya ability!";
+    if(actions[other->getAbility()]->isUsed()){
+        cout<<"Sayang sekalii, <pemain_"<<other->getId()<<"> sudah menggunakan abilitynya. Penggunaan kartu ini sia-sia. T_T"<<endl;
+    }
+    else{
+        actions[other->getAbility()]->disable();
+        cout<<"Berhasil mematikan ability "<<other->getAbility()<<" <pemain_"<<other->getId()<<">"<<endl;
+    }
+    // string keys[] = {"REROLL", "QUADRUPLE", "QUARTER", "REVERSE", "SWAP", "SWITCH"};
+    // for(string key : keys){
+    //     if(actions.find(key) != actions.end()){
+    //         actions[key]->disable();
+    //     }
+    // }
 }
 Game::Game(){
     // inisialissasi atribut
@@ -239,7 +261,6 @@ Player* Game::chooseOtherPlayer(vector<Player*> _players){
     cout<<"Pemain pilihan: ";
     cin>>temp;
     if(temp<=0 || temp>_players.size()) throw "Batas";
-    cout<<"chosen "<<tempPlayers[temp-1]->getId()<<endl;
     return tempPlayers[temp-1];
 }
 
@@ -329,6 +350,7 @@ void Game::start(){
                     currentTurn++;
                 }
 
+                cout<<endl<<"+++"<<endl;
                 if (round == 6){
                     showMain(5);
                 }
