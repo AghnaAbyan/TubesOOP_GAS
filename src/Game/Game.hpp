@@ -94,11 +94,17 @@ class Quarter: public Divide{
         Quarter(Game* _game);
 };
 
+class Reverse: public Commands{
+    public:
+        Reverse(Game* _game);
+        void action();
+};
+
 class Game: public InventoryHolder{
     // friend class Player;
     // friend class TableCard;
     private:
-        int gameDirection; /* 0 maju, 1 mundur */
+        int gameDirection; /* 1 maju, -1 mundur */
         int game;
         int round;
         long long poinTotal;
@@ -107,7 +113,7 @@ class Game: public InventoryHolder{
         TableCard table;
         int firstPlayerId;
         vector<int> urutan;
-        vector<string> abilities {"QUADRUPLE", "QUARTER"};
+        vector<string> abilities {"QUADRUPLE", "QUARTER", "REVERSE"};
         // vector<string> abilities {"REROLL", "QUADRUPLE", "QUARTER", "REVERSE", "SWAP", "SWITCH", "ABILITYLESS"};
 
         void assignAbility(Player&);
@@ -120,6 +126,21 @@ class Game: public InventoryHolder{
 
         Player* getCurrentPlayer();
         Player* chooseOtherPlayer();
+
+        /**
+        * @brief Mendapatkan index pada vector<Player*> players untuk turn ke-i
+        * 
+        * @param i Turn saat ini
+        * @return Index vector<Player*> players
+        */
+        int getIdxOfTurn(int i);
+        /**
+        * @brief Mendapatkan Player pada turn ke-i
+        * 
+        * @param i Turn saat ini
+        * @return Player pada turn ke-i
+        */
+        Player* getPlayerAtTurn(int i);
 
         // Commands* getCommand(string comamndType, Game& game);
 
@@ -137,7 +158,7 @@ class Game: public InventoryHolder{
         void showUrutan();
         bool endGame();
         void showMain(int);
-        void reverseEffect(int); // untuk di ronde itu saja
+        // void reverseEffect(int); // untuk di ronde itu saja
         // void displayCards(){}
         void setTable();
         // void testCom();

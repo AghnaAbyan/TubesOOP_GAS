@@ -40,9 +40,16 @@ void Divide::action(){
 Half::Half(Game* _game): Divide(_game, 2){}
 Quarter::Quarter(Game* _game): Divide(_game, 4){}
 
+Reverse::Reverse(Game* _game): Commands(_game){}
+void Reverse::action(){
+    cout << player->getId() << "melakukan REVERSE!" << endl;
+    cout << "(sisa) urutan eksekusi giliran ini : " /* Urutannya */ << endl;
+    game->changeDirection();
+    cout << "urutan eksekusi giliran selanjutnya : " /* Urutan baru */ << endl;
+}
 Game::Game(){
     // inisialissasi atribut
-    gameDirection = 0;
+    gameDirection = 1;
     game = 1;
     round = 1;
     poinTotal = 64;
@@ -52,11 +59,11 @@ Game::Game(){
     table = *buf;
 
     // inisialisasi player
-    firstPlayerId = 1;
-    urutan.clear();
-    for(int i = 1; i <= 7; i++){
-        urutan.push_back(i);
-    }
+    firstPlayerId = 0;
+    // urutan.clear();
+    // for(int i = 1; i <= 7; i++){
+    //     urutan.push_back(i);
+    // }
 
     Utils::shuffle(abilities);
 }
@@ -209,7 +216,7 @@ void Game::start(){
             int i = 0;
             string inp;
             while(i < 7){
-                currentPlayer = players[urutan[i]-1];
+                currentPlayer = getPlayerAtTurn(i);
                 if (round == 6){
                     showMain(5);
                 }
@@ -248,27 +255,27 @@ void Game::start(){
                 i++;
             }
             // atur urutan lagi
-            urutan.clear();
-            int idd;
-            firstPlayerId = ((firstPlayerId+1)%7);
-            if(gameDirection == 0){
-                for(int i = 0; i < 7; i++){
-                    idd = (firstPlayerId+i) % 7;
-                    if(idd == 0){
-                        idd = 7;
-                    }
-                    urutan.push_back(idd);
-                }
-            }
-            else{
-                for(int i = 7; i <= 0; i--){
-                    idd = (firstPlayerId+i) % 7;
-                    if(idd == 0){
-                        idd = 7;
-                    }
-                    urutan.push_back(idd);
-                }
-            }
+            // urutan.clear();
+            // int idd;
+            firstPlayerId = ((firstPlayerId+gameDirection+7)%7);
+            // if(gameDirection == 1){
+            //     for(int i = 0; i < 7; i++){
+            //         idd = (firstPlayerId+i) % 7;
+            //         if(idd == 0){
+            //             idd = 7;
+            //         }
+            //         urutan.push_back(idd);
+            //     }
+            // }
+            // else{
+            //     for(int i = 7; i <= 0; i--){
+            //         idd = (firstPlayerId+i) % 7;
+            //         if(idd == 0){
+            //             idd = 7;
+            //         }
+            //         urutan.push_back(idd);
+            //     }
+            // }
             round++;
         }
         // cari pemenang
@@ -364,11 +371,23 @@ void Game::start(){
     cout << "Selamat, pemenangnya adalah <p" << idWinnerAll << "> !!" << endl;
 }
 
+int Game::getIdxOfTurn(int i){
+    return (firstPlayerId+i*gameDirection+7)%7;
+}
+
+Player* Game::getPlayerAtTurn(int i){
+    return players[getIdxOfTurn(i)];
+}
 
 void Game::showUrutan(){
-    for(int i = 0; i < urutan.size(); i++){
-        cout << "<p" << urutan[i] << "> ";
+    int i = 0;
+    while(i<7){
+        cout << "<p" << getIdxOfTurn(i)+1 << ">";
+        i++;
     }
+    // for(int i = 0; i < urutan.size(); i++){
+    //     cout << "<p" << urutan[i] << "> ";
+    // }
     cout << endl;
 }
 
@@ -389,17 +408,17 @@ void Game::showMain(int N){
     table.showInRound(N);
 }
 
-void Game::reverseEffect(int currPlayer){
-    vector<int> buff;
-    for(int i = 0; i < currPlayer; i++){
-        buff.push_back(urutan[i]);
-        urutan.erase(urutan.begin());
-    }
-    while(!urutan.empty()){
-        buff.push_back(urutan.size()-1);
-        urutan.pop_back();
-    }
-}
+// void Game::reverseEffect(int currPlayer){
+//     vector<int> buff;
+//     for(int i = 0; i < currPlayer; i++){
+//         buff.push_back(urutan[i]);
+//         urutan.erase(urutan.begin());
+//     }
+//     while(!urutan.empty()){
+//         buff.push_back(urutan.size()-1);
+//         urutan.pop_back();
+//     }
+// }
 
 void Game::setTable(){
     cout << "Tumpukan kartu pakai randomizer atau file?" << endl;
@@ -487,6 +506,10 @@ void Game::assignAbility(Player& player){
     assignCommand(ability, player);
 }
 
+void Game::changeDirection(){
+    if(gameDirection==1) gameDirection=-1;
+    else if(gameDirection==-1) gameDirection=1;
+}
 
 // void Game::testCom(){
 //     cout << "START" << endl;
