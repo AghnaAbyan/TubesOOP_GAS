@@ -330,6 +330,7 @@ void Game::start(){
     }
     while (!endGame()){
         while (round <= 6){
+            cout<<endl<<"==="<<endl;
             cout << "Sekarang adalah permainan ke " << game << " ronde ke " << round << "." << endl;
             cout << "Putaran permainan: ";
             showUrutan();
