@@ -56,6 +56,11 @@ class Next: public Commands{
         void action(){}
 };
 
+class Reroll: public Commands{
+    public:
+        Reroll(Game* _game);
+        void action();
+};
 
 class Multiply: public Commands{
     protected:
@@ -100,6 +105,28 @@ class Reverse: public Commands{
         void action();
 };
 
+
+class Swap: public Commands{
+    public:
+        Swap(Game* _game);
+        void action();
+        AngkaCard& chooseCard(Player* target);
+};
+
+class Switch: public Commands{
+    public:
+        Switch(Game* _game);
+        void action();
+};
+
+
+class Abilityless: public Commands{
+    public:
+        Abilityless(Game* _game);
+        void action();
+};
+
+
 class Game: public InventoryHolder{
     // friend class Player;
     // friend class TableCard;
@@ -107,14 +134,15 @@ class Game: public InventoryHolder{
         int gameDirection; /* 1 maju, -1 mundur */
         int game;
         int round;
+        int currentTurn;
         long long poinTotal;
         vector<Player*> players;
         Player* currentPlayer;
         TableCard table;
         int firstPlayerId;
         vector<int> urutan;
-        vector<string> abilities {"QUADRUPLE", "QUARTER", "REVERSE"};
-        // vector<string> abilities {"REROLL", "QUADRUPLE", "QUARTER", "REVERSE", "SWAP", "SWITCH", "ABILITYLESS"};
+        // vector<string> abilities {"QUADRUPLE", "QUARTER", "REVERSE"};
+        vector<string> abilities {"REROLL", "QUADRUPLE", "QUARTER", "REVERSE", "SWAP", "SWITCH", "ABILITYLESS"};
 
         void assignAbility(Player&);
 
@@ -128,12 +156,34 @@ class Game: public InventoryHolder{
         Player* chooseOtherPlayer();
 
         /**
+         * @brief Mendapatkan currentTurn
+         * 
+         * @return int currentTurn
+         */
+        int getCurrentTurn(){
+            return currentTurn;
+        }
+        /**
+         * @brief Mengatur ulang currentTurn
+         * 
+         */
+       void resetCurrentTurn(){
+            currentTurn = 0;
+       }
+        /**
         * @brief Mendapatkan index pada vector<Player*> players untuk turn ke-i
         * 
         * @param i Turn saat ini
         * @return Index vector<Player*> players
         */
         int getIdxOfTurn(int i);
+
+        /**
+         * @brief Mendapatkan index dari turn selanjutnya
+         * 
+         * @return index turn selanjutnya
+         */
+        void nextTurn();
         /**
         * @brief Mendapatkan Player pada turn ke-i
         * 
@@ -153,8 +203,24 @@ class Game: public InventoryHolder{
 
         void newRound();
         void showPoin();
-        void commandParser(int, string);
+
+        /*
+        * @brief Men-invoke action untuk command sesuai masukan pada Player saat ini
+        * @param command Command yang ingin di-invoke
+        */
+        void commandParser(string command);
         void start();
+
+        /**
+         * @brief Menampilkan urutan turn dari start
+         * 
+         * @param start mulainya pencetakan
+         */
+        void showUrutan(int start);
+        /**
+         * @brief Menampilkan urutan turn dari 0
+         * 
+         */
         void showUrutan();
         bool endGame();
         void showMain(int);

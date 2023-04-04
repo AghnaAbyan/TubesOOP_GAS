@@ -10,6 +10,27 @@ Commands::Commands(Game* _game){
 
 Next::Next(Game* _game): Commands(_game){}
 
+Reroll::Reroll(Game* _game): Commands(_game){}
+void Reroll::action(){
+    /* Buang 2 kartu dari tangan */
+    /* Ambil 2 kartu baru dari deck*/
+    cout << "Melakukan pembuangan kartu yang sedang dimiliki" << endl;
+    cout << "Kamu mendapatkan 2 kartu baru yaitu:" << endl;
+
+    AngkaCard c1 = game->takeCard();
+    AngkaCard c2 = game->takeCard();
+
+    player->clearCards();
+
+    player->pushCard(c1);
+    player->pushCard(c2);
+    // *player + c1 + c2;
+
+
+    cout << "1. " << c1.getAngka() << " " << c1.getWarna() << endl;
+    cout << "2. " << c2.getAngka() << " " << c2.getWarna() << endl;
+}
+
 Multiply::Multiply(Game* _game, long long _multiplier): Commands(_game), multiplier(_multiplier){}
 void Multiply::action(){
     long long newPoin = multiplier*game->getPoinTotal();
@@ -19,7 +40,7 @@ void Multiply::action(){
     if(multiplier==2) prompt = "DOUBLE!";
     else if(multiplier==4)prompt = "QUADRUPLE";
 
-    cout << "<p"<< player->getId()+1 << "> melakukan "<< prompt <<" Poin hadiah naik menjadi " << game->getPoinTotal() << "!" << endl;
+    cout << "<p"<< player->getId() << "> melakukan "<< prompt <<" Poin hadiah naik menjadi " << game->getPoinTotal() << "!" << endl;
 }
 Double::Double(Game* _game): Multiply(_game, 2){}
 Quadruple::Quadruple(Game* _game): Multiply(_game, 4){}
@@ -35,7 +56,7 @@ void Divide::action(){
     if(divisor==2) prompt = "HALF!";
     else if(divisor==4)prompt = "QUARTER";
 
-    cout << "<p" << player->getId()+1 << "> melakukan "<< prompt <<" Poin hadiah turun menjadi " << game->getPoinTotal() << "!" << endl;
+    cout << "<p" << player->getId() << "> melakukan "<< prompt <<" Poin hadiah turun menjadi " << game->getPoinTotal() << "!" << endl;
 }
 Half::Half(Game* _game): Divide(_game, 2){}
 Quarter::Quarter(Game* _game): Divide(_game, 4){}
@@ -43,9 +64,79 @@ Quarter::Quarter(Game* _game): Divide(_game, 4){}
 Reverse::Reverse(Game* _game): Commands(_game){}
 void Reverse::action(){
     cout << player->getId() << "melakukan REVERSE!" << endl;
-    cout << "(sisa) urutan eksekusi giliran ini : " /* Urutannya */ << endl;
+    cout << "(sisa) urutan eksekusi giliran ini : "; /* Urutannya */ 
+    game->showUrutan(game->getCurrentTurn());
+
     game->changeDirection();
-    cout << "urutan eksekusi giliran selanjutnya : " /* Urutan baru */ << endl;
+    game->resetCurrentTurn();
+    cout << "urutan eksekusi giliran selanjutnya : "; /* Urutan baru */
+    game->showUrutan();
+}
+
+Swap::Swap(Game* _game): Commands(_game){}
+void Swap::action(){
+    // cout << player->getId() << "melakukan SWAP!" << endl;
+
+    // players.erase(find(players.begin(), players.end(), player));
+    // cout<<"Pilih pemain yang mau kamu tukar kartunya:"<<endl;
+    // Player* playerA = chooseOtherPlayer();
+    // players.erase(find(players.begin(), players.end(), playerA));
+    // cout<<"Pilih pemain lain yang mau kamu tukar kartunya:"<<endl;
+    // Player* playerB = chooseOtherPlayer();
+    // players.erase(find(players.begin(), players.end(), playerB));
+
+    // AngkaCard& c1 = chooseCard(playerA);
+    // AngkaCard& c2 = chooseCard(playerB);
+
+    // *playerA + c2;
+    // *playerB + c1;
+}
+AngkaCard& Swap::chooseCard(Player* target){
+    cout<<"Pilih kartu kanan/kiri milik pemain_"<<target->getId()<<endl;
+    cout<<"1. Kanan"<<endl<<"2. Kiri"<<endl;
+    int temp;
+    cin>>temp;
+
+    return target->takeCard(temp);
+}
+
+Switch::Switch(Game* _game): Commands(_game){}
+void Switch::action(){
+    // cout<<"<pemain_"<<player->getId()<<"> melakukan SWITCH!"<<endl;
+    // cout<<"Kartumu sekarang adalah:"<<endl;
+    // player->displayCards();
+
+    // cout<<"Pilih pemain yang mau kamu tukar kartunya"<<endl;
+    // players.erase(find(players.begin(), players.end(), player));
+    // Player* other = chooseOtherPlayer();
+
+    // // AngkaCard c1, c2, c3, c4;
+    // AngkaCard c1 = other->takeCard();
+    // AngkaCard c2 = other->takeCard();
+    // AngkaCard c3 = player->takeCard();
+    // AngkaCard c4 = player->takeCard();
+
+    // *player + c1 + c2;
+    // *other + c3 + c4;
+
+    // cout<<"Kedua kartumu berhasil ditukar dengan kartu milik <pemain_"<<other->getId()<<">!"<<endl;
+    // cout<<"Kartumu sekarang adalah:"<<endl;
+    // player->displayCards();
+}
+
+Abilityless::Abilityless(Game* _game): Commands(_game){}
+void Abilityless::action(){
+    cout<<"<pemain_"<<player->getId()<<"> melakukan ABILITYLESS!"<<endl;
+    cout<<"Pilih pemain yang abilitynya mau dimatikan"<<endl;
+    Player* other = game->chooseOtherPlayer();
+    map<string, Commands*> actions = other->getPlayerActions();
+
+    string keys[] = {"REROLL", "QUADRUPLE", "QUARTER", "REVERSE", "SWAP", "SWITCH"};
+    for(string key : keys){
+        if(actions.find(key) != actions.end()){
+            actions[key]->disable();
+        }
+    }
 }
 Game::Game(){
     // inisialissasi atribut
@@ -53,6 +144,7 @@ Game::Game(){
     game = 1;
     round = 1;
     poinTotal = 64;
+    currentTurn = 0;
 
     // inisialisasi table
     TableCard *buf = new TableCard();
@@ -124,15 +216,20 @@ Player* Game::getCurrentPlayer(){
 
 Player* Game::chooseOtherPlayer(){
     int i = 1;
-    for(Player* j : players){
-        cout<<i<<". <pemain_"<<j->getId()<<">"<<endl;
+    vector<Player*> tempPlayers;
+
+    for(Player* player : players){
+        if(player->getId() == currentPlayer->getId()) continue;
+        else tempPlayers.push_back(player);
+        cout<<i<<". <pemain_"<<player->getId()<<">"<<endl;
+        i++;
     }
     int temp;
     
     cin>>temp;
     if(temp<=0 || temp>players.size()) throw "Batas";
 
-    return players[temp];
+    return tempPlayers[temp-1];
 }
 
 void Game::showPoin(){
@@ -142,38 +239,12 @@ void Game::showPoin(){
     }
 }
 
-void Game::commandParser(int i, string command){
-    currentPlayer = players[i];
+void Game::commandParser(string command){
+    command = Utils::toupper(command);
     vector<string> availableCommands = {"NEXT", "HALF", "DOUBLE", "REROLL", "QUADRUPLE", "QUARTER", "REVERSE", "SWAP", "SWITCH", "ABILITYLESS"};
     if (find(availableCommands.begin(), availableCommands.end(), command) != availableCommands.end()){
         currentPlayer->action(command);
     }
-    // else if(command == "reroll"){
-    //     cout << "Method reroll (belum diimplementasi)" << endl;
-    // }
-    // else if(command == "double"){
-    //     cout << "Method double (belum diimplementasi)" << endl;
-    // }
-    // else if(command == "quadruple"){
-    //     cout << "Method quadruple (belum diimplementasi)" << endl;
-    // }
-    // else if(command == "half"){
-    //     cout << "Method half (belum diimplementasi)" << endl;
-    // }
-    // else if(command == "quarter"){
-    //     cout << "Method quarter (belum diimplementasi)" << endl;
-    // }
-    // else if(command == "reverse"){
-    //     cout << "Method reverse (belum diimplementasi)" << endl;
-    // }
-    // else if(command == "swap"){
-    //     cout << "Method swap (belum diimplementasi)" << endl;
-    // }
-    // else if (command == "switch"){
-    //     cout << "Method switch (belum diimplementasi)" << endl;
-    // }
-    // else if(command == "abilityless"){
-    //     cout << "Method abilityless (belum diimplementasi)" << endl;
     // }else if(command == "value"){
     //     Kombo k(players[i]->getCards(), table.getCards());
     //     cout <<k.value(100)<<endl;
@@ -192,7 +263,7 @@ void Game::start(){
     setTable();
     vector<pair<int, Kombo>> kombo;
     players.clear();
-    for(int i = 0; i < 7; i++){
+    for(int i = 1; i <= 7; i++){
         Player *p = new Player(i);
         AngkaCard c1 = takeCard();
         AngkaCard c2 = takeCard();
@@ -213,10 +284,22 @@ void Game::start(){
             cout << "Putaran permainan: ";
             showUrutan();
             // iterasi command tiap pemain
-            int i = 0;
+            int i = 0;            
             string inp;
+
+            while(i<7){
+                players[i]->newTurn();
+                i++;
+            }
+            i = 0;
+            resetCurrentTurn();
             while(i < 7){
-                currentPlayer = getPlayerAtTurn(i);
+                currentPlayer = getPlayerAtTurn(currentTurn);
+                while(currentPlayer->hasDoneTurn()){
+                    currentPlayer = getPlayerAtTurn(currentTurn);
+                    currentTurn++;
+                }
+
                 if (round == 6){
                     showMain(5);
                 }
@@ -224,7 +307,7 @@ void Game::start(){
                     showMain(round);
                 }
                 cout << endl;
-                cout << "Giliran pemain <p" << currentPlayer->getId()+1 << "> !" << endl;
+                cout << "Giliran pemain <p" << currentPlayer->getId() << "> !" << endl;
                 cout << "Kartu yang anda miliki: " << endl;
                 currentPlayer->displayCards();
                 if(round == 2){
@@ -244,7 +327,7 @@ void Game::start(){
                     cin >> inp;
                     // lakukan command, jangan lupa exception
                     // kalau ada efek reverse sekalian panggil reverseEffect(int urutan[i])
-                    commandParser(currentPlayer->getId(), inp);
+                    commandParser(inp);
                 }
                 catch(char const* e){
                     cout << e << endl;
@@ -252,30 +335,13 @@ void Game::start(){
                 catch(const exception& e){
                     cout<<e.what()<<endl;
                 }
+
+                currentPlayer->endTurn();
                 i++;
             }
             // atur urutan lagi
-            // urutan.clear();
-            // int idd;
             firstPlayerId = ((firstPlayerId+gameDirection+7)%7);
-            // if(gameDirection == 1){
-            //     for(int i = 0; i < 7; i++){
-            //         idd = (firstPlayerId+i) % 7;
-            //         if(idd == 0){
-            //             idd = 7;
-            //         }
-            //         urutan.push_back(idd);
-            //     }
-            // }
-            // else{
-            //     for(int i = 7; i <= 0; i--){
-            //         idd = (firstPlayerId+i) % 7;
-            //         if(idd == 0){
-            //             idd = 7;
-            //         }
-            //         urutan.push_back(idd);
-            //     }
-            // }
+            
             round++;
         }
         // cari pemenang
@@ -379,15 +445,21 @@ Player* Game::getPlayerAtTurn(int i){
     return players[getIdxOfTurn(i)];
 }
 
+void Game::nextTurn(){
+    currentTurn = (currentTurn+gameDirection+7)%7;
+    currentPlayer = getPlayerAtTurn(currentTurn);
+}
+
 void Game::showUrutan(){
-    int i = 0;
+    showUrutan(0);
+}
+
+void Game::showUrutan(int start){
+    int i = start;
     while(i<7){
         cout << "<p" << getIdxOfTurn(i)+1 << ">";
         i++;
     }
-    // for(int i = 0; i < urutan.size(); i++){
-    //     cout << "<p" << urutan[i] << "> ";
-    // }
     cout << endl;
 }
 
@@ -468,32 +540,19 @@ void Game::resetNewGame(){
     table.clearCards();
 }
 
-template <class T>
-void randomizeDeck(vector<T> &vec, int size){
-    int index, secondIndex;
-    T temp;
-    srand((unsigned) time(NULL));
-    for(index = 0; index<size; index++){
-        secondIndex = rand() % size;
-        temp = vec[index];
-        vec[index] = vec[secondIndex];
-        vec[secondIndex] =  temp;
-    }
-}
-
 void Game::assignCommand(string key, Player& player){
     Commands* command;
 
     if(key == "NEXT") command = new Next(this);
-    // if(key == "REROLL") command = new Reroll(this);
+    if(key == "REROLL") command = new Reroll(this);
     if(key == "DOUBLE") command = new Double(this);
     if(key == "QUADRUPLE") command = new Quadruple(this);
     if(key == "HALF") command = new Half(this);
     if(key == "QUARTER") command = new Quarter(this);
-    // if(key == "REVERSE") command = new Reverse(this);
-    // if(key == "SWAP") command = new Swap(this);
-    // if(key == "SWITCH") command = new Switch(this);
-    // if(key == "ABILITYLESS") command = new Abilityless(this);
+    if(key == "REVERSE") command = new Reverse(this);
+    if(key == "SWAP") command = new Swap(this);
+    if(key == "SWITCH") command = new Switch(this);
+    if(key == "ABILITYLESS") command = new Abilityless(this);
 
     player.insertPlayerAction(pair<string, Commands*>(key, command));
 }
@@ -511,151 +570,3 @@ void Game::changeDirection(){
     else if(gameDirection==-1) gameDirection=1;
 }
 
-// void Game::testCom(){
-//     cout << "START" << endl;
-//     // isi table
-//     table.resetNewGame();
-//     setTable();
-//     vector<pair<int,Kombo>> kombo;
-//     players.clear();
-//     for(int i = 0; i < 7; i++){
-//         Player p(i);
-//         AngkaCard c1 = takeCardTable();
-//         AngkaCard c2 = takeCardTable();
-//         p.newCard(c1,c2);
-//         players.push_back(p);
-//     }
-//     while (!endGame()){
-//         while (round <= 6){
-//             cout << "Sekarang adalah permainan ke " << game << " ronde ke " << round << "." << endl;
-//             cout << "Putaran permainan: ";
-//             showUrutan();
-//             // iterasi command tiap pemain
-//             int i = 0;
-//             string inp;
-//             while(i < 7){
-//                 if (round == 6){
-//                     showMain(5);
-//                 }
-//                 else{
-//                     showMain(round);
-//                 }
-//                 cout << endl;
-//                 i++;
-//             }
-//             // atur urutan lagi
-//             urutan.clear();
-//             int idd;
-//             firstPlayerId = ((firstPlayerId+1)%7);
-//             if(gameDirection == 0){
-//                 for(int i = 0; i < 7; i++){
-//                     idd = (firstPlayerId+i) % 7;
-//                     if(idd == 0){
-//                         idd = 7;
-//                     }
-//                     urutan.push_back(idd);
-//                 }
-//             }
-//             else{
-//                 for(int i = 7; i <= 0; i--){
-//                     idd = (firstPlayerId+i) % 7;
-//                     if(idd == 0){
-//                         idd = 7;
-//                     }
-//                     urutan.push_back(idd);
-//                 }
-//             }
-//             round++;
-//         }
-//         // cari pemenang
-//         kombo.clear();
-//         int limit = 139*9 + 1;
-        
-        
-
-        
-
-//         for(int i = 0; i < players.size(); i++){
-//             Kombo k(players[i].getCard(), table.getMainDeck());
-//             pair<int,Kombo> t(k.value(limit), k);
-//             kombo.push_back(t);
-//             cout<<i+1<<". "<<k.value(limit) << endl;
-//         }
-        
-//         while((kombo[0].first == kombo[1].first)&& (kombo[1].first == kombo[2].first)&&(kombo[2].first == kombo[3].first) && (kombo[3].first == kombo[4].first) && (kombo[4].first == kombo[5].first) && (kombo[5].first == kombo[6].first)){
-//             //kasus table card tertinggi
-//             limit = kombo[0].first;//renew limit
-//             kombo.clear();
-//             for(int i = 0; i < players.size(); i++){
-//                 Kombo k(players[i].getCard(), table.getMainDeck());
-//                 pair<int,Kombo> t(k.value(limit), k);
-//                 kombo.push_back(t);
-//                 cout<<i+1<<". "<<k.value(limit) << endl;
-//             }
-//         }
-//         ;
-        
-
-//         bool found = false;
-//         int i = 0;
-//         vector<int> winner;
-
-//         for(i = 0;i< 7;i++){
-//             if(kombo[i].first == max_element(kombo.begin(), kombo.end(), [](const auto& left, const auto& right){return left.first<right.first;})->first){
-//                 winner.push_back(i);
-//             }
-//         }
-//         i=0;
-//         int index=0;
-//         if(winner.size()>1){
-//             bool same = true;
-//             while(i<5 && same){
-//                 cout<<i;
-//                 for(int j = 1;j<winner.size();j++){
-//                     if(kombo[winner[index]].second.get(i) > kombo[winner[j]].second.get(i)){
-//                         same = false;
-//                         cout<<" "<<kombo[winner[index]].second.get(i).valuecard() <<" "<<kombo[winner[j]].second.get(i).valuecard();
-//                         cout<<"Exit"<<endl;
-                        
-//                     }else if(kombo[winner[index]].second.get(i) < kombo[winner[j]].second.get(i)){
-//                         same = false;
-//                         index = j;
-//                         cout<<"Shift"<<endl;
-//                     }
-//                 }
-                    
-//                 i++;
-//             }
-//         }
-        
-//         cout << "Pemenang pada game ini adalah adalah <p" << winner[index]+1 << "> !" << endl;
-//         // berikan poin total pada pemenang
-//         players[winner[index]].addPoin(poinTotal);
-//         showPoin();
-//         poinTotal = 64;
-        
-//         // reset untuk game berikutnya
-//         table.resetNewGame();
-//         round = 1;
-//         game++;
-//         setTable();
-//         for(int i = 0; i < players.size(); i++){
-//             players[i].resetNewGame();
-//             AngkaCard c1 = takeCardTable();
-//             AngkaCard c2 = takeCardTable();
-//             players[i].newCard(c1,c2);
-//         }
-//     }
-
-//     int poin[7] = {players[0].getPoin(), players[1].getPoin(), players[2].getPoin(), players[3].getPoin(), players[4].getPoin(), players[5].getPoin(), players[6].getPoin()};
-//     bool foundWinner = false;
-//     int idWinnerAll;
-//     int j = 0;
-//     while(j < 7 && !foundWinner){
-//         if(*max_element(poin,poin+7) == players[j].getPoin()){
-//             foundWinner = true;
-//             idWinnerAll = j + 1;
-//         }
-//     }
-//     cout << "Selamat, pemenangnya adalah <p" << idWinnerAll << "> !!" << endl;
-// }

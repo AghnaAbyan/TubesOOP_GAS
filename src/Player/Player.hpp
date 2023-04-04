@@ -18,6 +18,7 @@ class Player: public InventoryHolder{
         int id;
         long long int poin;
         string ability;
+        bool doneTurn;
         // vector<AngkaCard> card; /* Kartu card (pakai array jumlahnya 2)*/
         map<string, Commands*> playerActions;
         // AbilityCard infoCardAbility;
@@ -37,6 +38,20 @@ class Player: public InventoryHolder{
         void insertPlayerAction(pair<string, Commands*> action){
             playerActions.insert(action);
         }
+
+        /* 
+        * @brief Membuat turn baru
+        */
+        void newTurn();
+        /*
+        * @brief Mengakhiri turn
+        */
+       void endTurn();
+       /*
+        * @brief Mengembalikan apakah player telah melakukan turn pada round ini
+        * @return player sudah/belum melakukan turn
+        */
+       bool hasDoneTurn();
 
         void action(string);
 

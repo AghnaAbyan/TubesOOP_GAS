@@ -6,6 +6,7 @@ using namespace std;
 Player::Player(int _id){
     id = _id;
     poin = 0;
+    doneTurn = false;
     // vector<AngkaCard> buff;
     // cards = buff;
 }
@@ -60,22 +61,17 @@ map<string, Commands*> Player::getPlayerActions(){
     return playerActions;
 }
 
-// void Player::assignCommand(string key, Game& game){
-//     Commands* command;
+void Player::newTurn(){
+    doneTurn = false;
+}
 
-//     if(key == "NEXT") command = new Next(game);
-//     if(key == "REROLL") command = new Reroll(game);
-//     if(key == "DOUBLE") command = new Double(game);
-//     if(key == "QUADRUPLE") command = new Quadruple(game);
-//     if(key == "HALF") command = new Half(game);
-//     if(key == "QUARTER") command = new Quarter(game);
-//     if(key == "REVERSE") command = new Reverse(game);
-//     if(key == "SWAP") command = new Swap(game);
-//     if(key == "SWITCH") command = new Switch(game);
-//     if(key == "ABILITYLESS") command = new Abilityless(game);
-    
-//     playerActions.insert(pair<string, Commands*>(key, command));
-// }
+void Player::endTurn(){
+    doneTurn = true;
+}
+
+bool Player::hasDoneTurn(){
+    return doneTurn;
+}
 
 void Player::action(string key){
     if(playerActions.find(key) == playerActions.end()) throw "Ga punya";
@@ -84,10 +80,12 @@ void Player::action(string key){
 
     playerActions[key]->action();
     
-    string abilities[] = {"REROLL", "QUADRUPLE", "QUARTER", "REVERSE", "SWAP", "SWITCH"};
+    string abilities[] = {"REROLL", "QUADRUPLE", "QUARTER", "REVERSE", "SWAP", "SWITCH", "ABILITYLESS"};
     for(string ability : abilities){
         if(key == ability) playerActions[key]->use();
     }
+
+
 }
 
 void Player::displayCards(){
