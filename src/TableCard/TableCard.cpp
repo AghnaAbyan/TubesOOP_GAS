@@ -6,18 +6,6 @@
 #include "../exception.hpp"
 
 TableCard::TableCard(){}
-template <class T>
-void randomizeDeck(vector<T> &vec, int size){
-    int index, secondIndex;
-    T temp;
-    srand((unsigned) time(NULL));
-    for(index = 0; index<size; index++){
-        secondIndex = rand() % size;
-        temp = vec[index];
-        vec[index] = vec[secondIndex];
-        vec[secondIndex] =  temp;
-    }
-}
 
 void TableCard::setMainDeck(vector<AngkaCard> _cards){
     cards = _cards;
