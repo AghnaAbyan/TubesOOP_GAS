@@ -17,6 +17,7 @@ class Player: public InventoryHolder{
     private:
         int id;
         long long int poin;
+        string ability;
         // vector<AngkaCard> card; /* Kartu card (pakai array jumlahnya 2)*/
         map<string, Commands*> playerActions;
         // AbilityCard infoCardAbility;
@@ -29,6 +30,8 @@ class Player: public InventoryHolder{
         int getId();
         void addPoin(long long);
         void setPoin(long long int);
+        string getAbility();
+        void setAbility(string _ability);
 
         map<string, Commands*> getPlayerActions();
         void insertPlayerAction(pair<string, Commands*> action){

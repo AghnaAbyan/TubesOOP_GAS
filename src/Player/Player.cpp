@@ -49,6 +49,14 @@ void Player::setPoin(long long int p){
     poin = p;
 }
 
+string Player::getAbility(){
+    return ability;
+}
+
+void Player::setAbility(string _ability){
+    ability = _ability;
+}
+
 map<string, Commands*> Player::getPlayerActions(){
     return playerActions;
 }

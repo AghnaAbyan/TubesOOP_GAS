@@ -55,8 +55,6 @@ Game::Game(){
     firstPlayerId = 1;
     urutan.clear();
     for(int i = 1; i <= 7; i++){
-        // temp = getCommand("NEXT", *this);
-
         urutan.push_back(i);
     }
 
@@ -198,9 +196,9 @@ void Game::start(){
     for(int i=0; i<7; i++){
         currentPlayer = players[i];
 
-        currentPlayer->insertPlayerAction(pair<string, Commands*>("NEXT", new Next(this)));
-        currentPlayer->insertPlayerAction(pair<string, Commands*>("HALF", new Half(this)));
-        currentPlayer->insertPlayerAction(pair<string, Commands*>("DOUBLE", new Double(this)));
+        assignCommand("NEXT", *currentPlayer);
+        assignCommand("HALF", *currentPlayer);
+        assignCommand("DOUBLE", *currentPlayer);
     }
     while (!endGame()){
         while (round <= 6){
@@ -211,26 +209,35 @@ void Game::start(){
             int i = 0;
             string inp;
             while(i < 7){
+                currentPlayer = players[urutan[i]-1];
                 if (round == 6){
                     showMain(5);
                 }
                 else{
                     showMain(round);
                 }
-                if(round == 2){
-
-                }
                 cout << endl;
-                cout << "Giliran pemain <p" << urutan[i] << "> !" << endl;
+                cout << "Giliran pemain <p" << currentPlayer->getId()+1 << "> !" << endl;
                 cout << "Kartu yang anda miliki: " << endl;
-                players[urutan[i]-1]->displayCards();
+                currentPlayer->displayCards();
+                if(round == 2){
+                    assignAbility(*currentPlayer);
+                    cout << "Kamu mendapatkan ability "<<currentPlayer->getAbility()<<endl;
+                }
+                if(round >2){
+                    cout<<"Ability: "<<currentPlayer->getAbility();
+                    if(currentPlayer->getPlayerActions()[currentPlayer->getAbility()]->isUsed()){
+                        cout<<" (USED)";
+                    }
+                    cout<<endl;
+                }
 
                 try{
                     cout << "Masukkan command Anda: ";
                     cin >> inp;
                     // lakukan command, jangan lupa exception
                     // kalau ada efek reverse sekalian panggil reverseEffect(int urutan[i])
-                    commandParser(urutan[i]-1, inp);
+                    commandParser(currentPlayer->getId(), inp);
                 }
                 catch(char const* e){
                     cout << e << endl;
@@ -455,22 +462,30 @@ void randomizeDeck(vector<T> &vec, int size){
     }
 }
 
-// void Game::assignCommand(string key, Player* player){
-//     Commands* command;
+void Game::assignCommand(string key, Player& player){
+    Commands* command;
 
-//     if(key == "NEXT") command = new Next(*this);
-//     if(key == "REROLL") command = new Reroll(*this);
-//     if(key == "DOUBLE") command = new Double(*this);
-//     if(key == "QUADRUPLE") command = new Quadruple(*this);
-//     if(key == "HALF") command = new Half(*this);
-//     if(key == "QUARTER") command = new Quarter(*this);
-//     if(key == "REVERSE") command = new Reverse(*this);
-//     if(key == "SWAP") command = new Swap(*this);
-//     if(key == "SWITCH") command = new Switch(*this);
-//     if(key == "ABILITYLESS") command = new Abilityless(*this);
-    
-//     player->insertPlayerAction(pair<string, Commands*>(key, command));
-// }
+    if(key == "NEXT") command = new Next(this);
+    // if(key == "REROLL") command = new Reroll(this);
+    if(key == "DOUBLE") command = new Double(this);
+    if(key == "QUADRUPLE") command = new Quadruple(this);
+    if(key == "HALF") command = new Half(this);
+    if(key == "QUARTER") command = new Quarter(this);
+    // if(key == "REVERSE") command = new Reverse(this);
+    // if(key == "SWAP") command = new Swap(this);
+    // if(key == "SWITCH") command = new Switch(this);
+    // if(key == "ABILITYLESS") command = new Abilityless(this);
+
+    player.insertPlayerAction(pair<string, Commands*>(key, command));
+}
+
+void Game::assignAbility(Player& player){
+    string ability = abilities.back();
+    abilities.pop_back();
+
+    player.setAbility(ability);
+    assignCommand(ability, player);
+}
 
 
 // void Game::testCom(){

@@ -107,7 +107,10 @@ class Game: public InventoryHolder{
         TableCard table;
         int firstPlayerId;
         vector<int> urutan;
-        vector<string> abilities {"REROLL", "QUADRUPLE", "QUARTER", "REVERSE", "SWAP", "SWITCH", "ABILITYLESS"};
+        vector<string> abilities {"QUADRUPLE", "QUARTER"};
+        // vector<string> abilities {"REROLL", "QUADRUPLE", "QUARTER", "REVERSE", "SWAP", "SWITCH", "ABILITYLESS"};
+
+        void assignAbility(Player&);
 
     public:
         Game();
@@ -125,7 +128,7 @@ class Game: public InventoryHolder{
 
         void randomTableDeck();
 
-        void assignCommand(string, Player*);
+        void assignCommand(string, Player&);
 
         void newRound();
         void showPoin();
