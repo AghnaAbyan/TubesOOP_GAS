@@ -288,15 +288,15 @@ void Game::commandParser(string command){
         currentPlayer->endTurn();
     }
     else if(command=="VALUE"){
-        //ini command value
+        Kombo k(players[currentTurn]->getCards(), table.getCards());
+        cout <<k.value(100)<<endl;
     }
     else{
         throw "Command-mu tidak valid >:(";
     }
 
     // }else if(command == "value"){
-    //     Kombo k(players[i]->getCards(), table.getCards());
-    //     cout <<k.value(100)<<endl;
+    //     
     // }
     // else{
     //     /* exception */

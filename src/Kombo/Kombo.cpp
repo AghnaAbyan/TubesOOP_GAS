@@ -37,7 +37,11 @@ Kombo::Kombo(vector<AngkaCard> _card, vector<AngkaCard> mainDeck){
            // }  );
     cout<<"[";
     for(int i = 0; i< temp.size();i++){
+        if(i != temp.size()-1){
         cout<<temp[i].getAngka()<<temp[i].getWarna()<<",";
+        }else{
+            cout<<temp[i].getAngka()<<temp[i].getWarna();
+        }
     }
     cout<<"]";
 }
@@ -304,4 +308,8 @@ int Kombo::value(int limit){
     }
     cout<<"highcard ";
     return highCard(limit);
+}
+
+int Kombo::getMax(){
+    return maxVal;
 }
