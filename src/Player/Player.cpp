@@ -93,7 +93,7 @@ void Player::displayCards(){
     for(int i = 0; i < cards.size(); i++){
         cout << i+1 << ". " << cards[i].getAngka() << " " << cards[i].getWarna() << endl;
     }
-    cout << "Done display card" << endl;
+    // cout << "Done display card" << endl;
     }
 
 
