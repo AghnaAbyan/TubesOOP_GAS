@@ -31,28 +31,28 @@ void InventoryHolder::clearCards(){
     cards.clear();
 }
 
-InventoryHolder& InventoryHolder::operator=(const InventoryHolder& other){
-    cards = other.cards;
+// InventoryHolder& InventoryHolder::operator=(const InventoryHolder& other){
+//     cards = other.cards;
 
-    return *this;
-}
+//     return *this;
+// }
 
-InventoryHolder& InventoryHolder::operator+(const AngkaCard c){
-    pushCard(c);
-    return *this;
-}
+// InventoryHolder InventoryHolder::operator+(const AngkaCard c){
+//     pushCard(c);
+//     return *this;
+// }
 
-InventoryHolder& InventoryHolder::operator-(AngkaCard& c){
-    vector<AngkaCard>::iterator itr = cards.begin();
-    while(itr!=cards.end()){
-        if(c == *itr){
-            AngkaCard& temp = takeCard(itr-cards.begin());
-            break;
-        }
-        itr++;
-    }
-    return *this;
-}
+// InventoryHolder InventoryHolder::operator-(AngkaCard& c){
+    // vector<AngkaCard>::iterator itr = cards.begin();
+    // while(itr!=cards.end()){
+    //     if(c == *itr){
+    //         AngkaCard& temp = takeCard(itr-cards.begin());
+    //         break;
+    //     }
+    //     itr++;
+    // }
+    // return *this;
+// }
 
 void InventoryHolder::readFromFile(string namaFile){
     ifstream file(namaFile);

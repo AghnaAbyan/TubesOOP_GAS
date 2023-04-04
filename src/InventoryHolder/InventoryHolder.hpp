@@ -23,9 +23,9 @@ class InventoryHolder{
         void clearCards();
         virtual void readFromFile(string namaFile);
 
-        virtual InventoryHolder& operator=(const InventoryHolder&);
-        virtual InventoryHolder& operator+(const AngkaCard);
-        virtual InventoryHolder& operator-(AngkaCard&);
+        // virtual InventoryHolder& operator=(const InventoryHolder&);
+        // virtual InventoryHolder operator+(const AngkaCard);
+        // virtual InventoryHolder operator-(AngkaCard&);
 
         // virtual void displayCards();
 };

@@ -26,6 +26,10 @@ class Player: public InventoryHolder{
     public:
         Player(int);
         bool operator==(const Player&);
+        Player& operator+(const AngkaCard);
+        Player& operator-(AngkaCard&);
+
+
         void newCard(AngkaCard, AngkaCard);
         long long getPoin();
         int getId();

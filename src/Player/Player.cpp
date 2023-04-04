@@ -97,4 +97,20 @@ void Player::displayCards(){
     // cout << "Done display card" << endl;
     }
 
+Player& Player::operator+(const AngkaCard c){
+    pushCard(c);
+    return *this;
+}
+
+Player& Player::operator-(AngkaCard& c){
+    vector<AngkaCard>::iterator itr = cards.begin();
+    while(itr!=cards.end()){
+        if(c == *itr){
+            AngkaCard& temp = takeCard(itr-cards.begin());
+            break;
+        }
+        itr++;
+    }
+    return *this;
+}
 

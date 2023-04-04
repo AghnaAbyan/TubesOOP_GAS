@@ -19,11 +19,13 @@ void Reroll::action(){
 
     AngkaCard c1 = game->takeCard();
     AngkaCard c2 = game->takeCard();
+    
 
     player->clearCards();
 
-    player->pushCard(c1);
-    player->pushCard(c2);
+    *player + c1 + c2;
+    // player->pushCard(c1);
+    // player->pushCard(c2);
     // *player + c1 + c2;
 
 
@@ -93,10 +95,10 @@ void Swap::action(){
     AngkaCard& c2 = chooseCard(playerB);
     // cout<<c2.getAngka()<<c2.getWarna()<<endl;;
 
-    playerA->pushCard(c2);
-    playerB->pushCard(c1);
-    // *playerA + c2;
-    // *playerB + c1;
+    // playerA->pushCard(c2);
+    // playerB->pushCard(c1);
+    *playerA + c2;
+    *playerB + c1;
 }
 AngkaCard& Swap::chooseCard(Player* target){
     cout<<"Pilih kartu kanan/kiri milik pemain_"<<target->getId()<<endl;
@@ -125,10 +127,12 @@ void Switch::action(){
     AngkaCard c3 = player->takeCard();
     AngkaCard c4 = player->takeCard();
 
-    player->pushCard(c1);
-    player->pushCard(c2);
-    other->pushCard(c3);
-    other->pushCard(c4);
+    *player + c1 + c2;
+    *other + c3 + c4;
+    // player->pushCard(c1);
+    // player->pushCard(c2);
+    // other->pushCard(c3);
+    // other->pushCard(c4);
 
     // *player + c1 + c2;
     // *other + c3 + c4;
