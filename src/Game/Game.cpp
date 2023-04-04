@@ -290,15 +290,15 @@ void Game::commandParser(string command){
         currentPlayer->endTurn();
     }
     else if(command=="VALUE"){
-        //ini command value
+        Kombo k(players[currentTurn]->getCards(), table.getCards());
+        k.print(k.getMax());
     }
     else{
         throw "Command-mu tidak valid >:(";
     }
 
     // }else if(command == "value"){
-    //     Kombo k(players[i]->getCards(), table.getCards());
-    //     cout <<k.value(100)<<endl;
+    //     
     // }
     // else{
     //     /* exception */
@@ -415,7 +415,6 @@ void Game::start(){
             Kombo k(players[i]->getCards(), table.getCards());
             pair<int,Kombo> t(k.value(limit), k);
             kombo.push_back(t);
-            cout<<i+1<<". "<<k.value(limit) << endl;
         }
         
         while((kombo[0].first == kombo[1].first)&& (kombo[1].first == kombo[2].first)&&(kombo[2].first == kombo[3].first) && (kombo[3].first == kombo[4].first) && (kombo[4].first == kombo[5].first) && (kombo[5].first == kombo[6].first)){
@@ -426,10 +425,12 @@ void Game::start(){
                 Kombo k(players[i]->getCards(), table.getCards());
                 pair<int,Kombo> t(k.value(limit), k);
                 kombo.push_back(t);
-                cout<<i+1<<". "<<k.value(limit) << endl;
             }
         }
-        ;
+        for(int i=0;i<7;i++){
+            cout<<"Player: "<<i+1<<": ";
+            kombo[i].second.print(limit);
+        }
         
 
         bool found = false;
@@ -444,19 +445,17 @@ void Game::start(){
         i=0;
         int index=0;
         if(winner.size()>1){
+            //kasus tiebreaker flush pair three dan two
             bool same = true;
             while(i<5 && same){
                 cout<<i;
                 for(int j = 1;j<winner.size();j++){
                     if(kombo[winner[index]].second.get(i) > kombo[winner[j]].second.get(i)){
                         same = false;
-                        cout<<" "<<kombo[winner[index]].second.get(i).valuecard() <<" "<<kombo[winner[j]].second.get(i).valuecard();
-                        cout<<"Exit"<<endl;
                         
                     }else if(kombo[winner[index]].second.get(i) < kombo[winner[j]].second.get(i)){
                         same = false;
                         index = j;
-                        cout<<"Shift"<<endl;
                     }
                 }
                     

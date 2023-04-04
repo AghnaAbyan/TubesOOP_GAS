@@ -12,13 +12,13 @@ Min List
 7. Full House: 139*6 + 1
 8. Four of kind: 139*7 + 1
 9. Straight Flush: 139*8 + 1
-10. Max value: 139*9
+10. Max value: 139*9 + 1
 
 If for all players best card is table card (All players has same score),
 resolve with gettin second best pick.
 To implement add max value (Not yet implemented)
 */
-
+const int Kombo::maxVal = 139*9+1;
 Kombo::Kombo(vector<AngkaCard> _card, vector<AngkaCard> mainDeck){
     temp.clear();
     combination.clear();
@@ -35,11 +35,7 @@ Kombo::Kombo(vector<AngkaCard> _card, vector<AngkaCard> mainDeck){
     std::sort(temp.begin(), temp.end(), greater <>());//[](AngkaCard a, AngkaCard b) {
            // return (a>b);
            // }  );
-    cout<<"[";
-    for(int i = 0; i< temp.size();i++){
-        cout<<temp[i].getAngka()<<temp[i].getWarna()<<",";
-    }
-    cout<<"]";
+    
 }
 AngkaCard Kombo::get(int i){
     return combination[i];
@@ -261,47 +257,63 @@ int Kombo::value(int limit){
     //start with 139*9 + 1 limit
     if(straightFlush(limit) > 0){
         //
-        cout<<"straightFlush ";
+        kind = "straightFlush";
         return straightFlush(limit);
     }
     if(fourOfAKind(limit) > 0){
         //
-        cout<<"four ";
+        kind = "four";
         return fourOfAKind(limit);
     }
     if(fullHouse(limit) >0){
         //
-        cout<<"full ";
+        kind = "full";
         return fullHouse(limit);
     }
     if(flush(limit) >0){
         //
-        cout<< "flush ";
+        cout<< "flush";
         return flush(limit);
     }
     if(straight(limit) > 0){
         //
-        cout<<"straight ";
+        kind = "straight";
         return straight(limit);
     }
     if(threeOfAKind(limit) > 0){
         //
-        cout<< "three ";
+        kind = "three";
         return threeOfAKind(limit);
     }
     if(twoPair(limit) > 0){
         //two pair calculation formula
         //2.78 + 
-        cout<<"two ";
+        kind = "two";
         return twoPair(limit);
     }
     if(pair(limit) > 0){
         //pair calculation formula
         //139 + card value
         //max 139*2
-        cout<<"pair ";
+        kind = "pair";
          return pair(limit);
     }
-    cout<<"highcard ";
+    kind = "highcard";
     return highCard(limit);
+}
+void Kombo::print(int limit){
+    cout<<"[";
+    for(int i = 0; i< temp.size();i++){
+        if(i != temp.size()-1){
+        cout<<temp[i].getAngka()<<temp[i].getWarna()<<",";
+        }else{
+            cout<<temp[i].getAngka()<<temp[i].getWarna();
+        }
+    }
+    cout<<"] ";
+    int val = value(maxVal);
+    cout<<kind<<" "<<val<<endl;
+}
+int Kombo::getMax(){
+    return maxVal;
 }

@@ -12,6 +12,8 @@ class Kombo: public Kartu{
         vector<AngkaCard> temp;
         vector<AngkaCard> combination;
         vector<AngkaCard> card;
+        static const int maxVal;
+        string kind;
     public:
         Kombo(vector<AngkaCard>, vector<AngkaCard>);
         AngkaCard get(int);// return combination[i] 
@@ -25,6 +27,8 @@ class Kombo: public Kartu{
         int fourOfAKind(int);
         int straightFlush(int);
         int value(int);
+        int getMax();
+        void print(int);
 };
 
 #endif
