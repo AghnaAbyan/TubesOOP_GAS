@@ -260,7 +260,15 @@ void Game::commandParser(string command){
     vector<string> availableCommands = {"NEXT", "HALF", "DOUBLE", "REROLL", "QUADRUPLE", "QUARTER", "REVERSE", "SWAP", "SWITCH", "ABILITYLESS"};
     if (find(availableCommands.begin(), availableCommands.end(), command) != availableCommands.end()){
         currentPlayer->action(command);
+        currentPlayer->endTurn();
     }
+    else if(command=="VALUE"){
+        //ini command value
+    }
+    else{
+        throw "Command-mu tidak valid >:(";
+    }
+
     // }else if(command == "value"){
     //     Kombo k(players[i]->getCards(), table.getCards());
     //     cout <<k.value(100)<<endl;
@@ -343,21 +351,22 @@ void Game::start(){
                     cout<<endl;
                 }
 
-                try{
-                    cout << "Masukkan command Anda: ";
-                    cin >> inp;
-                    // lakukan command, jangan lupa exception
-                    // kalau ada efek reverse sekalian panggil reverseEffect(int urutan[i])
-                    commandParser(inp);
-                }
-                catch(char const* e){
-                    cout << e << endl;
-                }
-                catch(const exception& e){
-                    cout<<e.what()<<endl;
+                while(!currentPlayer->hasDoneTurn()){
+                    try{
+                            cout << "Masukkan command Anda: ";
+                            cin >> inp;
+                            // lakukan command, jangan lupa exception
+                            // kalau ada efek reverse sekalian panggil reverseEffect(int urutan[i])
+                            commandParser(inp);
+                    }
+                    catch(char const* e){
+                        cout << e << endl;
+                    }
+                    catch(const exception& e){
+                        cout<<e.what()<<endl;
+                    }
                 }
 
-                currentPlayer->endTurn();
                 i++;
             }
             // atur urutan lagi
