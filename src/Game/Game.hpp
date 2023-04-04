@@ -85,7 +85,7 @@ class Divide: public Commands{
     protected:
         int divisor;
     public:
-        Divide(Game* _game, int _divisor): Commands(_game), divisor(_divisor){}
+        Divide(Game* _game, int _divisor);
         void action();
 };
 
@@ -153,6 +153,7 @@ class Game: public InventoryHolder{
         vector<Player*> getPlayers();
 
         Player* getCurrentPlayer();
+        Player* chooseOtherPlayer(vector<Player*> _players);
         Player* chooseOtherPlayer();
 
         /**

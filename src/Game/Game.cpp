@@ -45,7 +45,7 @@ void Multiply::action(){
 Double::Double(Game* _game): Multiply(_game, 2){}
 Quadruple::Quadruple(Game* _game): Multiply(_game, 4){}
 
-// Divide::Divide(Game* _game, int _divisor): Commands(_game), divisor(_divisor){}
+Divide::Divide(Game* _game, int _divisor): Commands(_game), divisor(_divisor){}
 void Divide::action(){
     if(game->getPoinTotal() == 1) throw "Poin hadiah sudah bernilai 1. Poin hadiah tidak berubah. Giliran berlanjut!";
 
@@ -75,19 +75,26 @@ void Reverse::action(){
 
 Swap::Swap(Game* _game): Commands(_game){}
 void Swap::action(){
-    // cout << player->getId() << "melakukan SWAP!" << endl;
+    cout << player->getId() << "melakukan SWAP!" << endl;
 
-    // players.erase(find(players.begin(), players.end(), player));
-    // cout<<"Pilih pemain yang mau kamu tukar kartunya:"<<endl;
-    // Player* playerA = chooseOtherPlayer();
-    // players.erase(find(players.begin(), players.end(), playerA));
-    // cout<<"Pilih pemain lain yang mau kamu tukar kartunya:"<<endl;
-    // Player* playerB = chooseOtherPlayer();
-    // players.erase(find(players.begin(), players.end(), playerB));
+    cout<<"Pilih pemain yang mau kamu tukar kartunya:"<<endl;
+    Player* playerA = game->chooseOtherPlayer();
 
-    // AngkaCard& c1 = chooseCard(playerA);
-    // AngkaCard& c2 = chooseCard(playerB);
+    vector<Player*> tempPlayers;
+    for(Player* player:players){
+        if(player->getId() != playerA->getId())tempPlayers.push_back(player);
+    }
 
+    cout<<"Pilih pemain lain yang mau kamu tukar kartunya:"<<endl;
+    Player* playerB = game->chooseOtherPlayer(tempPlayers);
+
+    AngkaCard& c1 = chooseCard(playerA);
+    // cout<<c1.getAngka()<<c1.getWarna()<<endl;;
+    AngkaCard& c2 = chooseCard(playerB);
+    // cout<<c2.getAngka()<<c2.getWarna()<<endl;;
+
+    playerA->pushCard(c2);
+    playerB->pushCard(c1);
     // *playerA + c2;
     // *playerB + c1;
 }
@@ -95,9 +102,12 @@ AngkaCard& Swap::chooseCard(Player* target){
     cout<<"Pilih kartu kanan/kiri milik pemain_"<<target->getId()<<endl;
     cout<<"1. Kanan"<<endl<<"2. Kiri"<<endl;
     int temp;
+    cout<<"Kartu pilihan: ";
     cin>>temp;
 
-    return target->takeCard(temp);
+    if(temp!=1 && temp!=2) throw "Masukan tidak valid";
+
+    return target->takeCard(temp-1);
 }
 
 Switch::Switch(Game* _game): Commands(_game){}
@@ -214,11 +224,11 @@ Player* Game::getCurrentPlayer(){
     return currentPlayer;
 }
 
-Player* Game::chooseOtherPlayer(){
+Player* Game::chooseOtherPlayer(vector<Player*> _players){
     int i = 1;
     vector<Player*> tempPlayers;
 
-    for(Player* player : players){
+    for(Player* player : _players){
         if(player->getId() == currentPlayer->getId()) continue;
         else tempPlayers.push_back(player);
         cout<<i<<". <pemain_"<<player->getId()<<">"<<endl;
@@ -226,10 +236,16 @@ Player* Game::chooseOtherPlayer(){
     }
     int temp;
     
+    cout<<"Pemain pilihan: ";
     cin>>temp;
-    if(temp<=0 || temp>players.size()) throw "Batas";
-
+    if(temp<=0 || temp>_players.size()) throw "Batas";
+    cout<<"chosen "<<tempPlayers[temp-1]->getId()<<endl;
     return tempPlayers[temp-1];
+}
+
+
+Player* Game::chooseOtherPlayer(){
+    return chooseOtherPlayer(players);
 }
 
 void Game::showPoin(){
