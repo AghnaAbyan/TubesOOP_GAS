@@ -272,6 +272,11 @@ void Game::commandParser(string command){
 }
 
 void Game::start(){
+    cout<<" \033[36m  ____                        _  __          _"<<endl;         
+    cout<<" \033[36m / ___| __ _ _ __ ___   ___  | |/ /__ _ _ __| |_ _   _"<<endl; 
+    cout<<" \033[36m| |  _ / _` | '_ ` _ | / _ / | ' // _` | '__| __| | | |"<<endl;
+    cout<<" \033[36m| |_| | (_| | | | | | |  __/ | . | (_| | |  | |_| |_| |"<<endl;
+    cout<<" \033[36m |____||__,_|_| |_| |_||___| |_||_|__,_|_|   |__||__,_|"<<endl;
     cout << "START" << endl;
     // isi table
     resetNewGame();
