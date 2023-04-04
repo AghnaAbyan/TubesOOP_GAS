@@ -215,9 +215,9 @@ class Game: public InventoryHolder{
         /**
          * @brief Menampilkan urutan turn dari start
          * 
-         * @param start mulainya pencetakan
+         * @param skip melewati player yang sudah melakukan turn
          */
-        void showUrutan(int start);
+        void showUrutan(bool skip);
         /**
          * @brief Menampilkan urutan turn dari 0
          * 

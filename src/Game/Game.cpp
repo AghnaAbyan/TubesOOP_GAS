@@ -65,11 +65,13 @@ Quarter::Quarter(Game* _game): Divide(_game, 4){}
 
 Reverse::Reverse(Game* _game): Commands(_game){}
 void Reverse::action(){
-    cout << player->getId() << "melakukan REVERSE!" << endl;
-    cout << "(sisa) urutan eksekusi giliran ini : "; /* Urutannya */ 
-    game->showUrutan(game->getCurrentTurn());
+    player->endTurn();
+    cout <<"<player_"<< player->getId() << "> melakukan REVERSE!" << endl;
 
     game->changeDirection();
+    cout << "(sisa) urutan eksekusi giliran ini : "; /* Urutannya */ 
+    game->showUrutan(true);
+
     game->resetCurrentTurn();
     cout << "urutan eksekusi giliran selanjutnya : "; /* Urutan baru */
     game->showUrutan();
@@ -508,13 +510,15 @@ void Game::nextTurn(){
 }
 
 void Game::showUrutan(){
-    showUrutan(0);
+    showUrutan(false);
 }
 
-void Game::showUrutan(int start){
-    int i = start;
+void Game::showUrutan(bool skip){
+    int i = 0;
     while(i<7){
-        cout << "<p" << getIdxOfTurn(i)+1 << ">";
+        if(!(skip && getPlayerAtTurn(i)->hasDoneTurn())){
+            cout << "<p" << getIdxOfTurn(i)+1 << ">";
+        }
         i++;
     }
     cout << endl;
