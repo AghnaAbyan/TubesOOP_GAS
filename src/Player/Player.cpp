@@ -33,7 +33,6 @@ void Player::newCard(AngkaCard c1, AngkaCard c2){
 }
 
 long long Player::getPoin(){
-    cout<<"getting"<<endl;
     return poin;
 }
 
